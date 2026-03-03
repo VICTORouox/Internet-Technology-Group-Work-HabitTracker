@@ -1,0 +1,37 @@
+/* --- 注册页组件分离 (严格保持原有视觉) --- */
+
+/* 注册页专用的圆角输入框 */
+.input-field-aura {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* bg-white/50 */
+    border: 1px solid #F3F4F6; /* border-gray-100 */
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1rem 1.25rem; /* px-5 py-4 */
+    margin-top: 0.5rem; /* mt-2 */
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-field-aura:focus {
+    border-color: #2D5A27; /* focus:border-[#2D5A27] */
+}
+
+/* 注册页底部链接文字 */
+.register-footer-text {
+    font-size: 10px;
+    color: #9CA3AF; /* text-gray-400 */
+    text-align: center;
+    margin-top: 1.5rem; /* mt-6 */
+    text-transform: uppercase;
+    letter-spacing: 0.1em; /* tracking-widest */
+}
+
+.register-footer-text a {
+    color: #2D5A27;
+    text-decoration: none;
+}
+
+.register-footer-text a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="aura-page-wrapper">
+    
+    <header class="aura-header">
+        <a href="{% url 'logout' %}" class="nav-logout-link">
+            <i data-lucide="arrow-left"></i>
+            <span>Log out</span>
+        </a>
+
+        {% include 'partials/navbar.html' %}
+    </header>
+
+    <section class="recommend-banner">
+        <div class="recommend-text-block">
+            <div class="problem-lines">
+                <p class="recommend-word">Don't know which exercise is best for you?</p>
+                <p class="recommend-word">Don't know how to schedule your self-discipline plan?</p>
+            </div>
+            <p class="recommend-solution">Let me solve it for you!</p>
+        </div>
+        <a href="{% url 'recommend' %}" class="recommend-btn">
+            Recommend for me
+        </a>
+    </section>
+
+    <section class="habit-section">
+        <h2 class="habit-title serif">Habit Types</h2>
+        
+        <div class="habit-slider-wrapper">
+            <button class="slider-arrow left-arrow" onclick="scrollHabits('left')">
+                <i data-lucide="chevron-left"></i>
+            </button>
+
+            <div class="habit-cards-container" id="habitContainer">
+                <div class="habit-card">
+                    <div class="habit-image-placeholder">
+                        <span>Yoga & Zen</span>
+                    </div>
+                </div>
+                
+                <div class="habit-card">
+                    <div class="habit-image-placeholder">
+                        <span>Strength</span>
+                    </div>
+                </div>
+                
+                <div class="habit-card">
+                    <div class="habit-image-placeholder">
+                        <span>Cardio</span>
+                    </div>
+                </div>
+
+                <div class="habit-card">
+                    <div class="habit-image-placeholder">
+                        <span>Meditation</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="slider-arrow right-arrow" onclick="scrollHabits('right')">
+                <i data-lucide="chevron-right"></i>
+            </button>
+        </div>
+    </section>
+</div>
+
+<script>
+    function scrollHabits(direction) {
+        const container = document.getElementById('habitContainer');
+        const scrollAmount = 400; 
+        if (direction === 'left') {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+</script>
+{% endblock %}

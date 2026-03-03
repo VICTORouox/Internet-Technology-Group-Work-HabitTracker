@@ -1,0 +1,25 @@
+/* --- Global layout container --- */
+.aura-page-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Fixed header with glassmorphism effect --- */
+.aura-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    /* Glassmorphism - blurs the content behind the element */
+    backdrop-filter: blur(15px);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}

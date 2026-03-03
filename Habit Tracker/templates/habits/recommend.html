@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/recommend.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="recommend-container">
+    <div class="stepper-wrapper">
+        <div class="step-item active" id="step-dot-1">1<span class="step-title">Direction</span></div>
+        <div class="step-line"></div>
+        <div class="step-item" id="step-dot-2">2<span class="step-title">Time</span></div>
+        <div class="step-line"></div>
+        <div class="step-item" id="step-dot-3">3<span class="step-title">Condition</span></div>
+    </div>
+
+    <form id="recommendForm" method="POST" action="{% url 'generate_plan' %}">
+        {% csrf_token %}
+        
+        <div class="step-content active" id="step-1">
+            <h2 class="section-title">Step 1: Understand your direction</h2>
+            <div class="question-group">
+                <label>Q1: What is your goal?</label>
+                <div class="option-grid">
+                    <input type="radio" name="goal" value="Improve physical fitness" id="g1" required><label for="g1">Improve physical fitness</label>
+                    <input type="radio" name="goal" value="Fat loss and body shaping" id="g2"><label for="g2">Fat loss and body shaping</label>
+                    <input type="radio" name="goal" value="Relieve stress" id="g3"><label for="g3">Relieve stress</label>
+                    <input type="radio" name="goal" value="Develop long-term interests" id="g4"><label for="g4">Develop long-term interests</label>
+                </div>
+            </div>
+            <div class="preference-group">
+                <label>Q2: What type of exercise do you prefer?</label>
+                <div class="option-grid">
+                    <input type="radio" name="preference" value="cardio" id="p1" required>
+                    <label for="p1">Cardio & Endurance</label>
+
+                    <input type="radio" name="preference" value="strength" id="p2">
+                    <label for="p2">Strength Training</label>
+
+                    <input type="radio" name="preference" value="flexibility" id="p3">
+                    <label for="p3">Flexibility & Relaxation</label>
+
+                    <input type="radio" name="preference" value="outdoor" id="p4">
+                    <label for="p4">Outdoor Sports</label>
+
+                    <input type="radio" name="preference" value="none" id="p5">
+                    <label for="p5">No specific preference</label>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="next-btn" onclick="nextStep(2)">Next</button>
+            </div>
+        </div>
+
+        <div class="step-content" id="step-2">
+            <h2 class="section-title">Step 2: Tell us about your body</h2>
+
+            <div class="question-group">
+                <label>Q1: Enter your height (cm)</label>
+                <input 
+                    type="number" 
+                    name="height" 
+                    class="input-field"
+                    placeholder="e.g. 170"
+                    min="100" 
+                    max="250" 
+                    required>
+            </div>
+
+            <div class="question-group">
+                <label>Q2: Enter your weight (kg)</label>
+                <input 
+                    type="number" 
+                    name="weight" 
+                    class="input-field"
+                    placeholder="e.g. 65"
+                    min="30" 
+                    max="200" 
+                    required>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="back-btn" onclick="nextStep(1)">Back</button>
+                <button type="button" class="next-btn" onclick="nextStep(3)">Next</button>
+            </div>
+        </div>
+
+        <div class="step-content" id="step-3">
+            <h2 class="section-title">Step 3: Do you have any health problems?</h2>
+            <div class="option-grid">
+                <input type="checkbox" name="conditions" value="Weak knees" id="c1"><label for="c1">Weak knees</label>
+                <input type="checkbox" name="conditions" value="Weak heart and lungs" id="c2"><label for="c2">Weak heart and lungs</label>
+                <input type="checkbox" name="conditions" value="No adverse conditions" id="c3"><label for="c3">No adverse conditions</label>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="back-btn" onclick="nextStep(2)">Back</button>
+                <button type="submit" class="submit-btn">Generate Recommendation</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function nextStep(stepNum) {
+
+        // 1️⃣ 先隐藏所有步骤内容
+        var contents = document.getElementsByClassName("step-content");
+        for (var i = 0; i < contents.length; i++) {
+            contents[i].classList.remove("active");
+        }
+
+        // 2️⃣ 更新上面的步骤圆点状态
+        var steps = document.getElementsByClassName("step-item");
+        for (var j = 0; j < steps.length; j++) {
+
+            // 先清除状态
+            steps[j].classList.remove("active");
+            steps[j].classList.remove("completed");
+
+            // 如果在当前步骤之前 → 标记完成
+            if (j + 1 < stepNum) {
+                steps[j].classList.add("completed");
+            }
+
+            // 如果是当前步骤 → 标记为 active
+            if (j + 1 === stepNum) {
+                steps[j].classList.add("active");
+            }
+        }
+
+        // 3️⃣ 显示当前步骤内容
+        var currentStep = document.getElementById("step-" + stepNum);
+        currentStep.classList.add("active");
+    }
+</script>
+{% endblock %}

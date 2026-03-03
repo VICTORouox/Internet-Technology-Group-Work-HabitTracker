@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/my_habits.css' %}">
+<link rel="stylesheet" href="{% static 'css/calendar_modal.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="aura-page-wrapper">
+    
+    <header class="aura-header">
+        <a href="{% url 'logout' %}" class="nav-logout-link">
+            <i data-lucide="arrow-left"></i>
+            <span>Log out</span>
+        </a>
+
+        {% include 'partials/navbar.html' %}
+    </header>
+
+<div class="page-wrapper">
+
+    <h1 class="page-title">My Active Habits</h1>
+
+    <div class="habits-grid">
+
+        {% for habit in habits %}
+
+        <div class="habit-card">
+
+            <div class="habit-title">
+                {{ habit.sport_name }}
+            </div>
+
+            <div class="habit-stats">
+                Level {{ habit.level }} <br>
+                XP: {{ habit.experience_points }} / {{ habit.required_xp }} <br>
+                Intensity Level: {{ habit.intensity_level }} <br>
+                Duration: {{ habit.duration_each_time }} minutes <br>
+                Current Streak: {{ habit.streak }} days
+            </div>
+
+            <div class="xp-bar">
+                <div class="xp-fill"
+                     style="width: {{ habit.xp_percentage }}%;">
+                </div>
+            </div>
+
+            <div class="button-group">
+
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="openCalendar({{ habit.id }});">
+                    Check In
+                </button>
+
+                <a href="{% url 'adjust_intensity' habit.id 'increase' %}" class="btn btn-secondary">
+                    Increase
+                </a>
+
+                <a href="{% url 'adjust_intensity' habit.id 'decrease' %}" class="btn btn-secondary">
+                    Decrease
+                </a>
+
+                <form action="{% url 'delete_habit' habit.id %}" 
+                      method="POST" 
+                      style="flex:1;"
+                      onsubmit="return confirm('Are you sure you want to delete this habit?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" style="width:100%;">
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>You have no active habits yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<div id="calendarOverlay" class="calendar-overlay">
+
+    <div class="calendar-modal">
+
+        <span class="calendar-close" onclick="closeCalendar()">×</span>
+
+        <h3>Check In Calendar</h3>
+
+        <div id="calendarGrid" class="calendar-grid"></div>
+
+    </div>
+
+</div>
+
+<script>
+let currentHabitId = null;
+let checkinSet = new Set();
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function openCalendar(habitId) {
+
+    currentHabitId = habitId;
+
+    const res = await fetch(`/calendar/${habitId}/`);
+    const data = await res.json();
+
+    checkinSet = new Set(data.checkins);
+
+    renderCalendar();
+
+    document.getElementById("calendarOverlay").style.display = "flex";
+}
+
+function closeCalendar() {
+    document.getElementById("calendarOverlay").style.display = "none";
+}
+
+function renderCalendar() {
+
+    const grid = document.getElementById("calendarGrid");
+    grid.innerHTML = "";
+
+    const today = new Date();
+
+    for (let i = 1; i <= 30; i++) {
+
+        const dateStr = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            i
+        ).toISOString().split("T")[0];
+
+        const div = document.createElement("div");
+        div.className = "calendar-day";
+
+        if (checkinSet.has(dateStr)) {
+            div.classList.add("checked");
+        }
+
+        div.innerText = i;
+
+        div.onclick = () => checkInDate(dateStr);
+
+        grid.appendChild(div);
+    }
+}
+
+async function checkInDate(dateStr) {
+
+    const res = await fetch(`/checkin/${currentHabitId}/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({
+            date: dateStr
+        })
+    });
+
+    const data = await res.json();
+
+    if (data.status === "success") {
+        checkinSet.add(dateStr);
+        renderCalendar();
+    }
+}
+</script>
+
+{% endblock %}

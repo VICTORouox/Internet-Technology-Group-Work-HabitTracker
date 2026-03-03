@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/recommend_result.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="result-hero">
+
+    <!-- 左侧沉浸视觉区 -->
+    <div class="hero-left">
+
+        <div class="match-badge">
+            <span id="matchPercent">0</span>% Match
+        </div>
+
+        <div id="sportIcon" class="sport-icon"></div>
+
+        <h1 id="sportName" class="display-title"></h1>
+
+        <span id="typeTag" class="category-tag"></span>
+
+        <p class="encourage-quote">
+            Build discipline. Build identity.
+        </p>
+
+    </div>
+
+
+    <!-- 右侧内容区 -->
+    <div class="hero-right">
+
+    <div class="content-wrapper">
+
+        <div class="info-card">
+            <h3 class="card-title">Why it fits you</h3>
+            <p id="reasonText" class="card-text"></p>
+        </div>
+
+        <div class="info-card">
+            <h3 class="card-title">Your weekly structure</h3>
+            <p id="sessionTime" class="card-text emphasis-text"></p>
+        </div>
+
+        <div class="info-card">
+            <h3 class="card-title">Growth path</h3>
+            <p id="upgradeDesc" class="card-text"></p>
+        </div>
+
+        <div class="action-group">
+            <form action="{% url 'save_habit' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="habit_name" id="hiddenHabitName">
+                <input type="hidden" name="duration" id="hiddenDuration">
+                <button type="submit" class="btn-primary">
+                    Start This Habit
+                </button>
+            </form>
+
+            <button type="button" class="btn-secondary" onclick="switchHabit()">
+                Explore Another Option
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<script>
+    const candidates = {{ candidates|safe }};
+    let currentIndex = 0;
+
+    function renderHabit(index) {
+        if (!candidates || candidates.length === 0) return;
+
+        const data = candidates[index];
+
+        document.getElementById('matchPercent').innerText = data.match;
+        document.getElementById('sportIcon').innerText = data.icon;
+        document.getElementById('sportName').innerText = data.name;
+        document.getElementById('typeTag').innerText = data.type;
+        document.getElementById('reasonText').innerText = data.reason;
+        document.getElementById('sessionTime').innerText = data.plan;
+        document.getElementById('upgradeDesc').innerText = data.upgrade;
+        document.getElementById('hiddenHabitName').value = data.name;
+        document.getElementById('hiddenDuration').value = data.plan;
+    }
+
+    function switchHabit() {
+        if (!candidates || candidates.length === 0) return;
+
+        currentIndex = (currentIndex + 1) % candidates.length;
+        renderHabit(currentIndex);
+    }
+
+    if (candidates && candidates.length > 0) {
+        renderHabit(0);
+    }
+</script>
+
+{% endblock %}

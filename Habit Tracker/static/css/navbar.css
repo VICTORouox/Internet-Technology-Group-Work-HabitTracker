@@ -1,0 +1,45 @@
+/* --- Pill-shaped container for the navigation bar --- */
+.nav-bar-pill {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    background-color: #f3f4f6;
+    border-radius: 9999px;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    /* Inset shadow creates a "sunken" or "carved" depth effect within the element */
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    /* Ensures the container only expands to fit its content, not the full width */
+    width: fit-content;
+}
+
+/* --- Base style for navigation links --- */
+.nav-link {
+    padding: 8px 24px;
+    border-radius: 9999px;
+    font-size: 11px;
+    text-transform: uppercase;
+    /* Increases space between letters for a clean look */
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* --- State for the currently selected link --- */
+.nav-link.active {
+    color: #ef4444;
+    background-color: #ffffff;
+    /* Small shadow creates a "raised" effect, making the active button pop out */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* --- State for links that are not selected --- */
+.nav-link.inactive {
+    color: #9ca3af;
+}
+
+/* --- Feedback when hovering over an inactive link --- */
+.nav-link.inactive:hover {
+    color: #4b5563;
+}

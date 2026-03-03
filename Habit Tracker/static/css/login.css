@@ -1,0 +1,81 @@
+/* --- 登录页组件分离 (不改变现有视觉) --- */
+
+/* 品牌图标包装器 */
+.brand-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: white;
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+}
+
+.brand-icon-wrapper i {
+    width: 32px;
+    height: 32px;
+}
+
+/* 输入框容器 */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* 标签样式 */
+.input-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9CA3AF; /* gray-400 */
+    font-weight: 500;
+}
+
+/* 输入框组合：底部边线效果 */
+.input-group-aura {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E5E7EB; /* border-gray-200 */
+    transition: all 0.3s ease;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.input-group-aura:focus-within {
+    border-color: #2D5A27; /* 聚焦时的深绿 */
+}
+
+.input-group-aura input {
+    background: transparent;
+    width: 100%;
+    font-size: 0.875rem; /* text-sm */
+    outline: none;
+    border: none;
+}
+
+/* 次级按钮 (注册按钮) */
+.btn-secondary-aura {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem; /* rounded-2xl */
+    border: 1px solid #E5E7EB;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: #4B5563; /* gray-600 */
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-secondary-aura:hover {
+    background-color: #F9FAFB; /* gray-50 */
+    border-color: #D1D5DB; /* gray-300 */
+}

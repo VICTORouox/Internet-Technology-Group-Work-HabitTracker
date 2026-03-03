@@ -1,0 +1,247 @@
+/* --- Global layout container --- */
+.aura-page-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Fixed header with glassmorphism effect --- */
+.aura-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    /* Glassmorphism - blurs the content behind the element */
+    backdrop-filter: blur(15px);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* --- Hero banner base styles --- */
+.recommend-banner {
+    position: relative;
+    width: 100%;
+    min-height: 750px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    overflow: hidden; 
+    background-color: #000;
+}
+
+/* --- Pseudo-element as the background layer to allow independent zooming --- */
+.recommend-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Keep the background at the bottom layer */
+    z-index: 0; 
+    
+    /* Background properties moved here */
+    background-image: url('https://cdn.stocksnap.io/img-thumbs/960w/man-ready_LUUN7W5K8P.jpg');
+    background-size: cover;
+    background-position: 45% 68%;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.4); 
+    
+    transition: transform 0.8s ease-out, filter 0.8s ease-out;
+    transform: scale(1);
+    filter: brightness(1);
+}
+
+/* --- Inner background zoom on hover --- */
+.recommend-banner:hover::before {
+    /* Only the background layer zooms in, the container stays the same size */
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* --- Banner hover interaction --- */
+.recommend-banner:hover {
+    /* \Visual Filter - dynamically adjusts brightness on interaction */
+    filter: brightness(1.1);
+}
+
+/* --- Banner text and button (Ensured to stay on top and static) --- */
+.recommend-text-block, 
+.recommend-btn {
+    position: relative;
+    z-index: 1; /* Lifted above the zooming background layer */
+    transform: none !important;
+}
+
+/* --- Banner text container --- */
+.recommend-text-block {
+    text-align: center;
+    max-width: 600px;
+    z-index: 1;
+    position: relative;
+
+    transition: transform 0.6s ease-out;
+    transform: scale(1);
+}
+
+.recommend-banner:hover .recommend-text-block {
+    transform: scale(1.05);
+}
+
+/* --- Top spacing for banner text --- */
+.problem-lines {
+    margin-top: 30px; 
+}
+
+/* --- Banner subtitle typography --- */
+.recommend-word {
+    font-size: 1.1rem;
+    color: #e5e7eb;
+    font-weight: 400;
+    line-height: 2;
+    margin-bottom: 0.5rem;
+}
+
+/* --- Banner main heading typography --- */
+.recommend-solution {
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+}
+
+/* --- Primary action button --- */
+.recommend-btn {
+    position: relative;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    background-color: #4ade80;
+    color: #111827;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s ease-out; 
+    display: inline-block;
+}
+
+/* --- Button hover state --- */
+.recommend-btn:hover {
+    transform: scale(1.1); 
+    background-color: #22c55e;
+    /* Layered Box Shadow - creates a "floating" lift effect */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Main content section padding --- */
+.habit-section {
+    padding: 80px 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- Section title typography --- */
+.habit-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
+    color: #1a1c19;
+    margin-bottom: 40px;
+    text-align: left;
+    font-weight: 500;
+    padding-left: 8px;
+}
+
+/* --- Slider positioning context --- */
+.habit-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Horizontal scroll container --- */
+.habit-cards-container {
+    display: flex;
+    gap: 2rem;
+    overflow-x: hidden;
+    /* Smooth Scrolling - ensures JS-triggered scrolling is fluid */
+    scroll-behavior: smooth;
+    padding: 10px 5px;
+    width: 100%;
+}
+
+/* --- Individual habit card base --- */
+.habit-card {
+    min-width: calc(33.333% - 1.4rem);
+    /* Aspect Ratio - maintains card proportions regardless of screen width */
+    aspect-ratio: 4 / 5;
+    background: #e5e7eb;
+    border-radius: 2rem;
+    overflow: hidden;
+    /* Cubic Bezier - a custom timing function for a more smooth feeling */
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+/* --- Card hover animation --- */
+.habit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background: #d1d5db;
+}
+
+/* --- Placeholder for card content --- */
+.habit-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eeeeee;
+    color: #9ca3af;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* --- Circular slider arrow buttons --- */
+.slider-arrow {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    color: #111;
+}
+
+/* --- Arrow hover state --- */
+.slider-arrow:hover {
+    background: #111;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* --- Arrow offset positioning --- */
+.left-arrow { left: -25px; }
+.right-arrow { right: -25px; }
