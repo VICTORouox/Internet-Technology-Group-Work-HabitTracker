@@ -309,7 +309,8 @@ def save_habit(request):
         # 正常创建
         UserHabit.objects.create(
             user=request.user,
-            sport_name=habit_name,
+            sport_name=custom_name,
+            sport_type=sport_type,
             duration_each_time=duration_minutes,
             intensity_level=1
         )
