@@ -28,6 +28,32 @@ def register_page(request):
         
     return render(request, 'auth/register.html')
 
+
+def password_reset_page(request):
+    """Simple student-style password reset.
+
+    Users submit their email along with a new password. If the account
+    exists we overwrite its password and log them in.  The frontend already
+    verifies that the two passwords match.
+    """
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=email)
+        except User.DoesNotExist:
+            return render(request, 'auth/password_reset.html', {'error': 'No account found for that email.'})
+
+        user.set_password(password)
+        user.save()
+
+        # automatically log the user in after resetting
+        auth_login(request, user)
+        return redirect('main_dashboard')
+
+    return render(request, 'auth/password_reset.html')
+
 def login_page(request):
     if request.method == 'POST':
         email = request.POST.get('email')
