@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/create.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="create-wrapper">
+
+    <h1 class="create-title">Create Your Habit</h1>
+
+    <div class="create-grid">
+
+        {% for name, sport in sports.items %}
+
+        <form method="POST" action="{% url 'save_habit' %}">
+            {% csrf_token %}
+            <input type="hidden" name="habit_name" value="{{ name }}">
+            <input type="hidden" name="duration" value="{{ sport.plan }}">
+
+            <div class="create-card"
+                 style="background-image: url('{% static sport.image %}')"
+                 onclick="this.closest('form').submit();">
+
+                <div class="card-overlay">
+                    <div class="card-content">
+                        <div class="card-icon">{{ sport.icon }}</div>
+                        <div class="card-name">{{ name }}</div>
+                        <div class="card-type">{{ sport.type }}</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+{% if duplicate %}
+<div id="duplicateModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Habit Already Exists</h3>
+        <p>You are already tracking <strong>{{ duplicate_name }}</strong>.</p>
+        <p>Do you want to create another one?</p>
+
+        <div class="modal-buttons">
+
+            <form method="POST" action="{% url 'save_habit' %}">
+                {% csrf_token %}
+                <input type="hidden" name="habit_name" value="{{ duplicate_name }}">
+                <input type="hidden" name="duration" value="30 mins / session">
+                <input type="hidden" name="force_create" value="true">
+                <button type="submit" class="btn-confirm">Yes</button>
+            </form>
+
+            <button onclick="closeModal()" class="btn-cancel">No</button>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+function closeModal() {
+    document.getElementById("duplicateModal").style.display = "none";
+}
+</script>
+
+{% endblock %}

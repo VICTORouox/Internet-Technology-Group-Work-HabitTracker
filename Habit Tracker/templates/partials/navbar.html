@@ -1,20 +1,22 @@
 <nav class="nav-bar-pill">
-    
-    <a href="{% url 'main_dashboard' %}" 
-       class="nav-link {% if request.resolver_match.url_name == 'main_dashboard' %}
-                           active
-                        {% else %}
-                           inactive
-                        {% endif %}">
+
+    <a href="{% url 'main_dashboard' %}"
+       class="nav-link 
+       {% if request.resolver_match.url_name == 'main_dashboard' or request.resolver_match.url_name == 'recommend' or request.resolver_match.url_name == 'create_page' %}
+            active
+       {% else %}
+            inactive
+       {% endif %}">
        Explore
     </a>
-    
-    <a href="{% url 'my_habits' %}" 
-       class="nav-link {% if request.resolver_match.url_name == 'my_habits' %}
-                           active
-                        {% else %}
-                           inactive
-                        {% endif %}">
+
+    <a href="{% url 'my_habits' %}"
+       class="nav-link 
+       {% if request.resolver_match.url_name == 'my_habits' %}
+            active
+       {% else %}
+            inactive
+       {% endif %}">
        My Habits
     </a>
 
