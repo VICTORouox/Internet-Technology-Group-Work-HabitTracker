@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
 {% block body_class %}no-scroll{% endblock %}
@@ -38,12 +38,11 @@
                 <div class="input-container">
                     <div class="flex justify-between items-center">
                         <label class="input-label">Password</label>
-<<<<<<< HEAD
-                    
-=======
-                        <a href="{% url 'password_reset' %}" class="text-[10px] text-gray-400 hover:text-black transition-colors">forget?</a>
->>>>>>> origin/JIAMING-LI
+                        <a href="{% url 'password_reset' %}" class="text-[10px] text-gray-400 hover:text-black transition-colors">
+                            Forgot?
+                        </a>
                     </div>
+
                     <div class="input-group-aura">
                         <i data-lucide="key-round" class="w-4 h-4 text-gray-300 mr-3"></i>
                         <input type="password" name="password" placeholder="••••••••" required>
@@ -65,6 +64,7 @@
                         <i data-lucide="user-plus" class="w-3 h-3 ml-2 opacity-60"></i>
                     </a>
                 </div>
+
             </form>
         </div>
     </div>
