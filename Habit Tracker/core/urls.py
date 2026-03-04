@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from apps.habits.views import login_page, register_page, history_page, main_dashboard, logout_view, recommend_view
+from apps.habits.views import login_page, register_page, history_page, main_dashboard, logout_view, recommend_view, password_reset_page
 from apps.habits import views
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     path('history/', history_page, name='habit_history'),
     path('register/', register_page, name='register'),
-    path('password-reset/', login_page, name='password_reset'),
+    path('password-reset/', password_reset_page, name='password_reset'),
     path('dashboard/', main_dashboard, name='main_dashboard'),
     path('logout/', logout_view, name='logout'),
     path('recommend/', recommend_view, name='recommend'),
