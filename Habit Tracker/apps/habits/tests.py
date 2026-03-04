@@ -21,3 +21,27 @@ class AuthViewTests(TestCase):
         response = self.client.post(reverse("login"), {})
         # Django 默认会在表单无效时重新渲染当前页
         self.assertEqual(response.status_code, 200)
+
+    def test_password_reset_page(self):
+        """页面应该可以访问并包含正确的标题"""
+        response = self.client.get(reverse("password_reset"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Reset Password")
+
+    def test_password_reset_flow(self):
+        """重置密码后用户应被自动登录并重定向"""
+        # create a dummy user
+        from django.contrib.auth.models import User
+        user = User.objects.create_user(username="foo@example.com", email="foo@example.com", password="oldpass")
+
+        response = self.client.post(reverse("password_reset"), {
+            "email": "foo@example.com",
+            "password": "newpass",
+        })
+        # should redirect to dashboard
+        self.assertRedirects(response, reverse("main_dashboard"))
+
+        # logging out and trying to login with new password should work
+        self.client.logout()
+        login = self.client.login(username="foo@example.com", password="newpass")
+        self.assertTrue(login)
