@@ -87,59 +87,66 @@ SPORT_LIBRARY = {
         "icon": "🏃",
         "type": "Endurance",
         "plan": "30 mins / session",
-        "upgrade": "Increase distance by 10% weekly."
+        "upgrade": "Increase distance by 10% weekly.",
+        "image": "images/running.jpg"
     },
 
     "Cycling": {
         "icon": "🚴",
         "type": "Cardio",
         "plan": "45 mins / session",
-        "upgrade": "Add uphill routes."
+        "upgrade": "Add uphill routes.",
+        "image": "images/cycling.jpg"
     },
 
     "Swimming": {
         "icon": "🏊",
         "type": "Full Body",
         "plan": "40 mins / session",
-        "upgrade": "Reduce rest time gradually."
+        "upgrade": "Reduce rest time gradually.",
+        "image": "images/swimming.jpg"
     },
 
     "Yoga": {
         "icon": "🧘",
         "type": "Flexibility",
         "plan": "30 mins / session",
-        "upgrade": "Try advanced poses."
+        "upgrade": "Try advanced poses.",
+        "image": "images/yoga.jpg"
     },
 
     "Rope Skipping": {
         "icon": "🪢",
         "type": "Fat Burning",
         "plan": "20 mins / session",
-        "upgrade": "Increase interval intensity."
+        "upgrade": "Increase interval intensity.",
+        "image": "images/ropeskipping.jpg"
     },
 
     "Strength Training": {
         "icon": "🏋️",
         "type": "Muscle Building",
         "plan": "45 mins / session",
-        "upgrade": "Progressively increase weights."
+        "upgrade": "Progressively increase weights.",
+        "image": "images/strength.jpg"
     },
 
     "HIIT": {
         "icon": "🔥",
         "type": "High Intensity",
         "plan": "20–30 mins / session",
-        "upgrade": "Increase interval intensity."
+        "upgrade": "Increase interval intensity.",
+        "image": "images/hiit.jpg"
     },
 
     "Brisk Walking": {
         "icon": "🚶",
         "type": "Low Impact",
         "plan": "30 mins / session",
-        "upgrade": "Increase pace gradually."
+        "upgrade": "Increase pace gradually.",
+        "image": "images/walking.jpg"
     }
 }
-
 # =========================
 # Recommendation arithmetic
 # =========================
@@ -278,14 +285,32 @@ def generate_plan(request):
 @login_required
 def save_habit(request):
     if request.method == "POST":
+
         habit_name = request.POST.get("habit_name")
         duration = request.POST.get("duration")
+        force_create = request.POST.get("force_create")
 
-        duration_minutes = int(duration.split()[0])  # extract number
+        duration_minutes = int(duration.split()[0])
 
+        # 检查是否已存在
+        exists = UserHabit.objects.filter(
+            user=request.user,
+            sport_name=habit_name
+        ).exists()
+
+        # 如果已存在且不是强制创建
+        if exists and not force_create:
+            return render(request, "habits/create.html", {
+                "sports": SPORT_LIBRARY,
+                "duplicate": True,
+                "duplicate_name": habit_name
+            })
+
+        # 正常创建
         UserHabit.objects.create(
             user=request.user,
-            sport_name=habit_name,
+            sport_name=custom_name,
+            sport_type=sport_type,
             duration_each_time=duration_minutes,
             intensity_level=1
         )
@@ -413,3 +438,7 @@ def checkin_date(request, habit_id):
         habit.save()
 
         return JsonResponse({"status": "success"})
+def create_page(request):
+    return render(request, "habits/create.html", {
+        "sports": SPORT_LIBRARY
+    })

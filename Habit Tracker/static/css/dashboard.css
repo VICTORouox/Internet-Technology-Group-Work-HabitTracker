@@ -1,3 +1,63 @@
+/* ============================= */
+/* CREATE HERO SECTION */
+/* ============================= */
+
+.create-top-bar {
+    position: relative;
+    width: 100%;
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.create-top-bar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('/static/images/create.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 0;
+    transition: transform 0.8s ease;
+}
+
+.create-top-bar:hover::before {
+    transform: scale(1.08);
+}
+
+.create-bar-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    width: 100%;
+}
+
+.create-bar-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.create-bar-text h2 {
+    font-size: 3rem;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.create-bar-text p {
+    font-size: 1.2rem;
+    color: #e5e7eb;
+    max-width: 500px;
+}
+
 /* --- Global layout container --- */
 .aura-page-wrapper {
     width: 100%;
@@ -28,7 +88,7 @@
 .recommend-banner {
     position: relative;
     width: 100%;
-    min-height: 750px;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
