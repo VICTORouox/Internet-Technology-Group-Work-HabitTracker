@@ -2,97 +2,200 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
+
 <!-- CREATE TOP BAR -->
 <section class="create-top-bar">
-    <div class="create-bar-inner">
-        <div class="create-bar-text">
-            <h2>Start Tracking Your Own Habit</h2>
-            <p>Build a custom habit and monitor your progress.</p>
-        </div>
+<div class="create-bar-inner">
 
-        <a href="{% url 'create_page' %}" class="recommend-btn">
-            CREATE HABIT
-        </a>
-    </div>
+<div class="create-bar-text">
+<h2>Start Tracking Your Own Habit</h2>
+<p>Create your own habit of checking in for various sports.</p>
+
+<a href="{% url 'create_page' %}" class="recommend-btn">
+CREATE HABIT
+</a>
+
+</div>
+</div>
 </section>
+
+
 <div class="aura-page-wrapper">
-    
-    <header class="aura-header">
-        <a href="{% url 'logout' %}" class="nav-logout-link">
-            <i data-lucide="arrow-left"></i>
-            <span>Log out</span>
-        </a>
 
-        {% include 'partials/navbar.html' %}
-    </header>
 
-    <section class="recommend-banner">
-        <div class="recommend-text-block">
-            <div class="problem-lines">
-                <p class="recommend-word">Don't know which exercise is best for you?</p>
-                <p class="recommend-word">Don't know how to schedule your self-discipline plan?</p>
-            </div>
-            <p class="recommend-solution">Let me solve it for you!</p>
-        </div>
-        <a href="{% url 'recommend' %}" class="recommend-btn">
-            Recommend for me
-        </a>
-    </section>
+<!-- RECOMMEND MODULE -->
+<section class="recommend-banner">
 
-    <section class="habit-section">
-        <h2 class="habit-title serif">Habit Types</h2>
-        
-        <div class="habit-slider-wrapper">
-            <button class="slider-arrow left-arrow" onclick="scrollHabits('left')">
-                <i data-lucide="chevron-left"></i>
-            </button>
+<div class="recommend-text-block">
 
-            <div class="habit-cards-container" id="habitContainer">
-                <div class="habit-card">
-                    <div class="habit-image-placeholder">
-                        <span>Yoga & Zen</span>
-                    </div>
-                </div>
-                
-                <div class="habit-card">
-                    <div class="habit-image-placeholder">
-                        <span>Strength</span>
-                    </div>
-                </div>
-                
-                <div class="habit-card">
-                    <div class="habit-image-placeholder">
-                        <span>Cardio</span>
-                    </div>
-                </div>
-
-                <div class="habit-card">
-                    <div class="habit-image-placeholder">
-                        <span>Meditation</span>
-                    </div>
-                </div>
-            </div>
-
-            <button class="slider-arrow right-arrow" onclick="scrollHabits('right')">
-                <i data-lucide="chevron-right"></i>
-            </button>
-        </div>
-    </section>
+<div class="problem-lines">
+<p class="recommend-word">Don't know which exercise is best for you?</p>
+<p class="recommend-word">Don't know how to schedule your self-discipline plan?</p>
 </div>
 
+<p class="recommend-solution">
+Let me solve it for you!
+</p>
+
+</div>
+
+<a href="{% url 'recommend' %}" class="recommend-btn">
+Recommend for me
+</a>
+
+</section>
+
+
+
+<!-- HABIT TYPES -->
+<section class="habit-section">
+
+<h2 class="habit-title serif">Habit Types</h2>
+
+
+<div class="habit-slider-wrapper">
+
+
+<button class="slider-arrow left-arrow" onclick="scrollHabits('left')">
+<i data-lucide="chevron-left"></i>
+</button>
+
+
+<div class="habit-cards-container" id="habitContainer">
+
+
+<!-- Running -->
+<div class="habit-card">
+<img src="{% static 'images/running.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Running</h3>
+<p>Boost endurance, improve cardiovascular health, and strengthen your overall stamina through consistent outdoor running.</p>
+</div>
+</div>
+
+
+
+<!-- Cycling -->
+<div class="habit-card">
+<img src="{% static 'images/cycling.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Cycling</h3>
+<p>An excellent outdoor cardio workout that builds leg strength while improving endurance and aerobic capacity.</p>
+</div>
+</div>
+
+
+
+<!-- Swimming -->
+<div class="habit-card">
+<img src="{% static 'images/swimming.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Swimming</h3>
+<p>A low-impact full-body workout that improves lung capacity, builds muscle endurance, and protects your joints.</p>
+</div>
+</div>
+
+
+
+<!-- Yoga -->
+<div class="habit-card">
+<img src="{% static 'images/yoga.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Yoga</h3>
+<p>Enhance flexibility, reduce stress, and improve balance through mindful breathing and controlled body movement.</p>
+</div>
+</div>
+
+
+
+<!-- Rope Skipping -->
+<div class="habit-card">
+<img src="{% static 'images/ropeskipping.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Rope Skipping</h3>
+<p>A fast and efficient cardio exercise that burns calories, improves coordination, and strengthens the lower body.</p>
+</div>
+</div>
+
+
+
+<!-- Strength -->
+<div class="habit-card">
+<img src="{% static 'images/strength.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Strength Training</h3>
+<p>Develop muscle strength, improve metabolism, and build a powerful physique through progressive resistance training.</p>
+</div>
+</div>
+
+
+
+<!-- HIIT -->
+<div class="habit-card">
+<img src="{% static 'images/hiit.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>HIIT</h3>
+<p>High-intensity interval training designed to maximize fat burning and improve overall fitness quickly.</p>
+</div>
+</div>
+
+
+
+<!-- Walking -->
+<div class="habit-card">
+<img src="{% static 'images/walking.jpg' %}" class="habit-img">
+
+<div class="habit-overlay">
+<h3>Brisk Walking</h3>
+<p>A simple and sustainable exercise that improves cardiovascular health while remaining gentle on the joints.</p>
+</div>
+</div>
+
+
+</div>
+
+
+<button class="slider-arrow right-arrow" onclick="scrollHabits('right')">
+<i data-lucide="chevron-right"></i>
+</button>
+
+
+</div>
+
+</section>
+
+</div>
+
+
 <script>
-    function scrollHabits(direction) {
-        const container = document.getElementById('habitContainer');
-        const scrollAmount = 400; 
-        if (direction === 'left') {
-            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        } else {
-            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-    }
+
+function scrollHabits(direction){
+
+const container = document.getElementById("habitContainer")
+
+const scrollAmount = 400
+
+if(direction === "left"){
+container.scrollBy({left:-scrollAmount,behavior:"smooth"})
+}
+else{
+container.scrollBy({left:scrollAmount,behavior:"smooth"})
+}
+
+}
+
 </script>
+
+
 {% endblock %}

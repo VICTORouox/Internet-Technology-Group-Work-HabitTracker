@@ -2,306 +2,333 @@
 /* CREATE HERO SECTION */
 /* ============================= */
 
-.create-top-bar {
-    position: relative;
-    width: 100%;
-    min-height: 75vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    background-color: #000;
+.create-top-bar{
+position:relative;
+width:100%;
+min-height:75vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+overflow:hidden;
+background-color:#000;
 }
 
-.create-top-bar::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('/static/images/create.jpg');
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: overlay;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 0;
-    transition: transform 0.8s ease;
+.create-top-bar::before{
+content:"";
+position:absolute;
+inset:0;
+background-image:url('/static/images/create.jpg');
+background-size:cover;
+background-position:center;
+background-blend-mode:overlay;
+background-color:rgba(0,0,0,0.5);
+z-index:0;
+transition:transform .8s ease;
 }
 
-.create-top-bar:hover::before {
-    transform: scale(1.08);
+.create-top-bar:hover::before{
+transform:scale(1.08);
 }
 
-.create-bar-inner {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
-    width: 100%;
+.create-bar-inner{
+position:relative;
+z-index:1;
+max-width:700px;
+width:100%;
 }
 
-.create-bar-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
+.create-bar-text{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:25px;
 }
 
-.create-bar-text h2 {
-    font-size: 3rem;
-    color: #ffffff;
-    font-weight: 700;
-    letter-spacing: 0.05em;
+.create-bar-text h2{
+font-size:3rem;
+color:#fff;
+font-weight:700;
+letter-spacing:.05em;
 }
 
-.create-bar-text p {
-    font-size: 1.2rem;
-    color: #e5e7eb;
-    max-width: 500px;
+.create-bar-text p{
+font-size:1.2rem;
+color:#e5e7eb;
+max-width:500px;
 }
 
-/* --- Global layout container --- */
-.aura-page-wrapper {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+/* ============================= */
+/* GLOBAL LAYOUT */
+/* ============================= */
+
+.aura-page-wrapper{
+width:100%;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
-/* --- Fixed header with glassmorphism effect --- */
-.aura-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.6);
-    /* Glassmorphism - blurs the content behind the element */
-    backdrop-filter: blur(15px);
-    padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.aura-header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:1000;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(15px);
+padding:1.5rem 3rem;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-sizing:border-box;
+border-bottom:1px solid rgba(255,255,255,.3);
 }
 
-/* --- Hero banner base styles --- */
-.recommend-banner {
-    position: relative;
-    width: 100%;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    overflow: hidden; 
-    background-color: #000;
+
+/* ============================= */
+/* RECOMMEND BANNER */
+/* ============================= */
+
+.recommend-banner{
+position:relative;
+width:100%;
+min-height:500px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:2rem;
+overflow:hidden;
+background-color:#000;
 }
 
-/* --- Pseudo-element as the background layer to allow independent zooming --- */
-.recommend-banner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Keep the background at the bottom layer */
-    z-index: 0; 
-    
-    /* Background properties moved here */
-    background-image: url('https://cdn.stocksnap.io/img-thumbs/960w/man-ready_LUUN7W5K8P.jpg');
-    background-size: cover;
-    background-position: 45% 68%;
-    background-blend-mode: overlay;
-    background-color: rgba(0, 0, 0, 0.4); 
-    
-    transition: transform 0.8s ease-out, filter 0.8s ease-out;
-    transform: scale(1);
-    filter: brightness(1);
+.recommend-banner::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+
+background-image:url('https://cdn.stocksnap.io/img-thumbs/960w/man-ready_LUUN7W5K8P.jpg');
+background-size:cover;
+background-position:45% 68%;
+background-blend-mode:overlay;
+background-color:rgba(0,0,0,0.4);
+
+transition:transform .8s ease-out, filter .8s ease-out;
 }
 
-/* --- Inner background zoom on hover --- */
-.recommend-banner:hover::before {
-    /* Only the background layer zooms in, the container stays the same size */
-    transform: scale(1.1);
-    filter: brightness(1.2);
+.recommend-banner:hover::before{
+transform:scale(1.1);
+filter:brightness(1.2);
 }
 
-/* --- Banner hover interaction --- */
-.recommend-banner:hover {
-    /* \Visual Filter - dynamically adjusts brightness on interaction */
-    filter: brightness(1.1);
+.recommend-text-block,
+.recommend-btn{
+position:relative;
+z-index:1;
 }
 
-/* --- Banner text and button (Ensured to stay on top and static) --- */
-.recommend-text-block, 
-.recommend-btn {
-    position: relative;
-    z-index: 1; /* Lifted above the zooming background layer */
-    transform: none !important;
+.recommend-text-block{
+text-align:center;
+max-width:600px;
+transition:transform .6s ease-out;
 }
 
-/* --- Banner text container --- */
-.recommend-text-block {
-    text-align: center;
-    max-width: 600px;
-    z-index: 1;
-    position: relative;
-
-    transition: transform 0.6s ease-out;
-    transform: scale(1);
+.recommend-banner:hover .recommend-text-block{
+transform:scale(1.05);
 }
 
-.recommend-banner:hover .recommend-text-block {
-    transform: scale(1.05);
+.problem-lines{
+margin-top:30px;
 }
 
-/* --- Top spacing for banner text --- */
-.problem-lines {
-    margin-top: 30px; 
+.recommend-word{
+font-size:1.1rem;
+color:#e5e7eb;
+font-weight:400;
+line-height:2;
+margin-bottom:.5rem;
 }
 
-/* --- Banner subtitle typography --- */
-.recommend-word {
-    font-size: 1.1rem;
-    color: #e5e7eb;
-    font-weight: 400;
-    line-height: 2;
-    margin-bottom: 0.5rem;
+.recommend-solution{
+font-size:2rem;
+color:#fff;
+font-weight:700;
+margin-top:10px;
+letter-spacing:.05em;
 }
 
-/* --- Banner main heading typography --- */
-.recommend-solution {
-    font-size: 2rem;
-    color: #ffffff;
-    font-weight: 700;
-    margin-top: 10px;
-    letter-spacing: 0.05em;
+
+/* BUTTON */
+
+.recommend-btn{
+padding:16px 40px;
+font-size:1.1rem;
+background:#4ade80;
+color:#111827;
+border:none;
+border-radius:9999px;
+font-weight:700;
+text-transform:uppercase;
+letter-spacing:.05em;
+cursor:pointer;
+margin-top:30px;
+transition:all .3s ease;
+display:inline-block;
 }
 
-/* --- Primary action button --- */
-.recommend-btn {
-    position: relative;
-    padding: 16px 40px;
-    font-size: 1.1rem;
-    background-color: #4ade80;
-    color: #111827;
-    border: none;
-    border-radius: 9999px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: all 0.3s ease-out; 
-    display: inline-block;
+.recommend-btn:hover{
+transform:scale(1.1);
+background:#22c55e;
+box-shadow:0 10px 15px -3px rgba(0,0,0,.2),
+           0 4px 6px -2px rgba(0,0,0,.1);
 }
 
-/* --- Button hover state --- */
-.recommend-btn:hover {
-    transform: scale(1.1); 
-    background-color: #22c55e;
-    /* Layered Box Shadow - creates a "floating" lift effect */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+
+/* ============================= */
+/* HABIT TYPES SECTION */
+/* ============================= */
+
+.habit-section{
+padding:80px 3rem;
+max-width:1400px;
+margin:auto;
 }
 
-/* --- Main content section padding --- */
-.habit-section {
-    padding: 80px 3rem;
-    max-width: 1400px;
-    margin: 0 auto;
+.habit-title{
+font-family:'Inter',sans-serif;
+font-size:2.5rem;
+color:#1a1c19;
+margin-bottom:40px;
+font-weight:500;
+padding-left:8px;
 }
 
-/* --- Section title typography --- */
-.habit-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 2.5rem;
-    color: #1a1c19;
-    margin-bottom: 40px;
-    text-align: left;
-    font-weight: 500;
-    padding-left: 8px;
+
+/* ============================= */
+/* SLIDER LAYOUT */
+/* ============================= */
+
+.habit-slider-wrapper{
+position:relative;
+max-width:1200px;
+margin:auto;
 }
 
-/* --- Slider positioning context --- */
-.habit-slider-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
+.habit-cards-container{
+display:flex;
+gap:40px;
+overflow-x:auto;
+scroll-behavior:smooth;
+padding:20px;
 }
 
-/* --- Horizontal scroll container --- */
-.habit-cards-container {
-    display: flex;
-    gap: 2rem;
-    overflow-x: hidden;
-    /* Smooth Scrolling - ensures JS-triggered scrolling is fluid */
-    scroll-behavior: smooth;
-    padding: 10px 5px;
-    width: 100%;
+.habit-cards-container::-webkit-scrollbar{
+display:none;
 }
 
-/* --- Individual habit card base --- */
-.habit-card {
-    min-width: calc(33.333% - 1.4rem);
-    /* Aspect Ratio - maintains card proportions regardless of screen width */
-    aspect-ratio: 4 / 5;
-    background: #e5e7eb;
-    border-radius: 2rem;
-    overflow: hidden;
-    /* Cubic Bezier - a custom timing function for a more smooth feeling */
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    cursor: pointer;
-    position: relative;
+
+/* ============================= */
+/* HABIT CARD */
+/* ============================= */
+
+.habit-card{
+flex:0 0 320px;
+height:420px;
+border-radius:24px;
+overflow:hidden;
+position:relative;
+cursor:pointer;
+transition:transform .35s ease, box-shadow .35s ease;
 }
 
-/* --- Card hover animation --- */
-.habit-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    background: #d1d5db;
+.habit-card:hover{
+transform:translateY(-10px);
+box-shadow:0 25px 50px rgba(0,0,0,.2);
 }
 
-/* --- Placeholder for card content --- */
-.habit-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eeeeee;
-    color: #9ca3af;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+.habit-card img{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-/* --- Circular slider arrow buttons --- */
-.slider-arrow {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: white;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    color: #111;
+
+/* ============================= */
+/* CARD OVERLAY */
+/* ============================= */
+
+.habit-overlay{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+padding:30px;
+
+background:linear-gradient(
+to top,
+rgba(0,0,0,.7),
+rgba(0,0,0,.3),
+transparent
+);
 }
 
-/* --- Arrow hover state --- */
-.slider-arrow:hover {
-    background: #111;
-    color: white;
-    transform: scale(1.1);
+.habit-overlay h3{
+font-size:26px;
+font-weight:700;
+margin-bottom:10px;
 }
 
-/* --- Arrow offset positioning --- */
-.left-arrow { left: -25px; }
-.right-arrow { right: -25px; }
+.habit-overlay p{
+font-size:14px;
+line-height:1.5;
+opacity:.9;
+}
+
+
+/* ============================= */
+/* SLIDER ARROWS */
+/* ============================= */
+
+.slider-arrow{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:50px;
+height:50px;
+background:white;
+border:none;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+cursor:pointer;
+z-index:10;
+transition:all .3s ease;
+color:#111;
+}
+
+.slider-arrow:hover{
+background:#111;
+color:white;
+transform:translateY(-50%) scale(1.1);
+}
+
+.left-arrow{ left:-25px; }
+.right-arrow{ right:-25px; }

@@ -1,76 +1,100 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Create Habit{% endblock %}
+
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/create.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="create-wrapper">
+<div class="create-page">
 
-    <h1 class="create-title">Create Your Habit</h1>
+    <div class="create-card">
 
-    <div class="create-grid">
-
-        {% for name, sport in sports.items %}
+        <h1>Create New Habit</h1>
+        <p>Choose your sport and intensity level to start building consistency.</p>
 
         <form method="POST" action="{% url 'save_habit' %}">
             {% csrf_token %}
-            <input type="hidden" name="habit_name" value="{{ name }}">
-            <input type="hidden" name="duration" value="{{ sport.plan }}">
 
-            <div class="create-card"
-                 style="background-image: url('{% static sport.image %}')"
-                 onclick="this.closest('form').submit();">
+            <div class="form-group">
+                <label>Habit Name</label>
 
-                <div class="card-overlay">
-                    <div class="card-content">
-                        <div class="card-icon">{{ sport.icon }}</div>
-                        <div class="card-name">{{ name }}</div>
-                        <div class="card-type">{{ sport.type }}</div>
-                    </div>
+                <div class="habit-combined">
+                    <input type="text"
+                           name="habit_name"
+                           placeholder="Enter your habit name"
+                           class="habit-input"
+                           required>
+
+                    <select name="sport_type"
+                            class="habit-select"
+                            required>
+
+                        <option value="">Select</option>
+                        <option value="Running">Running</option>
+                        <option value="Cycling">Cycling</option>
+                        <option value="Swimming">Swimming</option>
+                        <option value="Yoga">Yoga</option>
+                        <option value="Rope Skipping">Rope Skipping</option>
+                        <option value="Strength Training">Strength Training</option>
+                        <option value="HIIT">HIIT</option>
+                        <option value="Brisk Walking">Brisk Walking</option>
+
+                    </select>
                 </div>
-
             </div>
+
+            <div class="form-group">
+                <label>Intensity Level</label>
+
+                <select name="duration" class="intensity-select">
+                    <option value="30 mins">Level 1 (30 mins)</option>
+                    <option value="40 mins">Level 2 (40 mins)</option>
+                    <option value="50 mins">Level 3 (50 mins)</option>
+                    <option value="60 mins">Level 4 (60 mins)</option>
+                    <option value="70 mins">Level 5 (70 mins)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="create-btn">
+                Create Habit
+            </button>
 
         </form>
 
-        {% endfor %}
-
     </div>
 
 </div>
 
-
+<!-- 重复检测弹窗 -->
 {% if duplicate %}
-<div id="duplicateModal" class="modal-overlay">
-    <div class="modal-box">
-        <h3>Habit Already Exists</h3>
-        <p>You are already tracking <strong>{{ duplicate_name }}</strong>.</p>
-        <p>Do you want to create another one?</p>
+<script>
 
-        <div class="modal-buttons">
+let message = "";
 
-            <form method="POST" action="{% url 'save_habit' %}">
-                {% csrf_token %}
-                <input type="hidden" name="habit_name" value="{{ duplicate_name }}">
-                <input type="hidden" name="duration" value="30 mins / session">
-                <input type="hidden" name="force_create" value="true">
-                <button type="submit" class="btn-confirm">Yes</button>
-            </form>
-
-            <button onclick="closeModal()" class="btn-cancel">No</button>
-
-        </div>
-    </div>
-</div>
+{% if duplicate_type == "name" %}
+message = "This habit name already exists. Create anyway?";
+{% else %}
+message = "You already have another habit for this sport. Create anyway?";
 {% endif %}
 
-<script>
-function closeModal() {
-    document.getElementById("duplicateModal").style.display = "none";
+if(confirm(message)){
+
+    const form = document.querySelector("form");
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "force_create";
+    input.value = "true";
+
+    form.appendChild(input);
+    form.submit();
 }
+
 </script>
+{% endif %}
 
 {% endblock %}

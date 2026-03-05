@@ -208,3 +208,7 @@ body.no-scroll {
     position: fixed;
     width: 100%;
 }
+
+.page-content{
+    padding-top:70px;
+}

@@ -1,219 +1,142 @@
+.create-page {
 
-body {
-    background: transparent !important;
-}
-
-
-.create-wrapper {
     min-height: 100vh;
 
+    margin-top: -72px;
+    padding-top: 120px;
+
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
 
-    padding-top: 100px;
-}
-/* =========================
-   TITLE
-   ========================= */
-
-.create-title {
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 80px;
-
-    background: linear-gradient(90deg, #111827, #a092b6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* =========================
-   GRID
-   ========================= */
-
-.create-grid {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px;
-}
-/* =========================
-   CARD
-   ========================= */
-
-.create-card {
-    position: relative;
-    height: 360px;
-
-    border-radius: 24px;
-    overflow: hidden;
-    cursor: pointer;
+    background-image:
+    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+    url("../images/bg.jpg");
 
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-
-    transition: all 0.35s ease;
+}
+.create-page {
+    padding-top: 120px;
 }
 
-/* 浮动感 */
-.create-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-}
+/* 卡片 */
+.create-card {
 
-/* 渐变遮罩 */
-.card-overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 32px;
+    width: 420px;
 
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.85),
-        rgba(0,0,0,0.45),
-        transparent
-    );
-}
+    background: rgba(255,255,255,0.85);
 
-/* 文本 */
-.card-content {
-    color: white;
-}
+    backdrop-filter: blur(10px);
 
-.card-icon {
-    font-size: 24px;
-    margin-bottom: 12px;
-}
+    border-radius: 16px;
 
-.card-name {
-    font-size: 22px;
-    font-weight: 600;
-}
+    padding: 40px;
 
-.card-type {
-    font-size: 15px;
-    opacity: 0.85;
-}
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 
-/* =========================
-   MODAL
-   ========================= */
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(6px);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-}
-
-.modal-box {
-    background: white;
-    width: 460px;
-    padding: 50px 40px;
-    border-radius: 20px;
     text-align: center;
-
-    box-shadow: 0 40px 80px rgba(0,0,0,0.3);
-
-    animation: modalPop 0.25s ease-out;
 }
 
-@keyframes modalPop {
-    from {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+/* 标题 */
+.create-card h1 {
 
-.modal-box h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.modal-box p {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-.modal-buttons {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-}
-
-.btn-confirm {
-    background: linear-gradient(90deg, #111827, #4f46e5);
-    color: white;
-    padding: 12px 28px;
-    border-radius: 10px;
-    border: none;
+    font-size: 28px;
     font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s;
+
+    margin-bottom: 10px;
 }
 
-.btn-confirm:hover {
-    opacity: 0.85;
+/* 副标题 */
+.create-card p {
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+    margin-bottom: 25px;
 }
 
-.btn-cancel {
-    background: #e5e7eb;
-    padding: 12px 28px;
-    border-radius: 10px;
+/* 表单布局 */
+.form-group {
+
+    text-align: left;
+
+    margin-bottom: 20px;
+}
+
+/* 输入框组合 */
+.habit-combined {
+
+    display: flex;
+}
+
+/* 输入框 */
+.habit-input {
+
+    flex: 1;
+
+    padding: 10px;
+
+    border: 1px solid #d1d5db;
+
+    border-right: none;
+
+    border-radius: 8px 0 0 8px;
+}
+
+/* 下拉框 */
+.habit-select {
+
+    width: 120px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 0 8px 8px 0;
+
+    padding: 10px;
+
+    background: white;
+}
+
+/* 强度选择 */
+.intensity-select {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: 1px solid #d1d5db;
+
+    background: white;
+}
+
+/* 创建按钮 */
+.create-btn {
+
+    width: 100%;
+
+    padding: 12px;
+
     border: none;
+
+    border-radius: 999px;
+
+    background: linear-gradient(90deg,#66bb6a,#4caf50);
+
+    color: white;
+
+    font-weight: 600;
+
     cursor: pointer;
-    transition: 0.25s;
+
+    margin-top: 10px;
 }
 
-.btn-cancel:hover {
-    background: #d1d5db;
-}
+/* hover */
+.create-btn:hover {
 
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 1200px) {
-    .create-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 900px) {
-    .create-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .create-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .create-wrapper {
-        padding: 80px 30px;
-    }
-
-    .create-title {
-        font-size: 36px;
-    }
+    opacity: 0.9;
 }
