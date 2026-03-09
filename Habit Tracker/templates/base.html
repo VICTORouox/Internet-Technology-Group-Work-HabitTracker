@@ -17,21 +17,20 @@
     {% block extra_head %}{% endblock %}
 </head>
 
-<body class="bg-[#F7F8F6] text-[#1A1C19] min-h-screen overflow-x-hidden {% block body_class %}{% endblock %}">
+<body class="h-screen w-screen overflow-hidden bg-[#F7F8F6] text-[#1A1C19]">
 
 <div class="aura-ambient-glow"></div>
 
 <!-- 全站统一导航栏 -->
-<header class="aura-header">
-
-    <a href="{% url 'logout' %}" class="nav-logout-link">
-        <i data-lucide="arrow-left"></i>
-        <span>Log out</span>
-    </a>
-
-    {% include "partials/navbar.html" %}
-
-</header>
+{% if request.path != '/login/' and request.path != '/register/' %}
+    <header class="aura-header">
+        <a href="{% url 'logout' %}" class="nav-logout-link">
+            <i data-lucide="arrow-left"></i>
+            <span>Log out</span>
+        </a>
+        {% include "partials/navbar.html" %}
+    </header>
+{% endif %}
 
 <main>
     {% block content %}{% endblock %}

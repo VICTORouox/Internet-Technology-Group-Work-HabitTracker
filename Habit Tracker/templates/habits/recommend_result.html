@@ -54,6 +54,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="habit_name" id="hiddenHabitName">
                 <input type="hidden" name="duration" id="hiddenDuration">
+                <input type="hidden" name="sport_type" id="hiddenSportType">
                 <button type="submit" class="btn-primary">
                     Start This Habit
                 </button>
@@ -88,6 +89,7 @@
         document.getElementById('upgradeDesc').innerText = data.upgrade;
         document.getElementById('hiddenHabitName').value = data.name;
         document.getElementById('hiddenDuration').value = data.plan;
+        document.getElementById('hiddenSportType').value = data.type;
     }
 
     function switchHabit() {

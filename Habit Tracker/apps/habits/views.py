@@ -92,7 +92,7 @@ SPORT_LIBRARY = {
 
     "Running": {
         "icon": "🏃",
-        "type": "Endurance",
+        "type": "Cardio",
         "plan": "30 mins / session",
         "upgrade": "Increase distance by 10% weekly.",
     },
@@ -106,7 +106,7 @@ SPORT_LIBRARY = {
 
     "Swimming": {
         "icon": "🏊",
-        "type": "Full Body",
+        "type": "Cardio",
         "plan": "40 mins / session",
         "upgrade": "Reduce rest time gradually.",
     },
@@ -127,14 +127,14 @@ SPORT_LIBRARY = {
 
     "Strength Training": {
         "icon": "🏋️",
-        "type": "Muscle Building",
+        "type": "Strength",
         "plan": "45 mins / session",
         "upgrade": "Progressively increase weights.",
     },
 
     "HIIT": {
         "icon": "🔥",
-        "type": "High Intensity",
+        "type": "Fat Burning",
         "plan": "20–30 mins / session",
         "upgrade": "Increase interval intensity.",
     },

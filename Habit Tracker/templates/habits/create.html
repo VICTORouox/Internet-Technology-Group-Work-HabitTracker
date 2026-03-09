@@ -11,65 +11,96 @@
 
 <div class="create-page">
 
-    <div class="create-card">
+    <!-- 左侧运动背景 -->
+    <div class="hero-side">
+        <div class="hero-text">
+            Start To Be Yourself
+        </div>
+    </div>
 
-        <h1>Create New Habit</h1>
-        <p>Choose your sport and intensity level to start building consistency.</p>
 
-        <form method="POST" action="{% url 'save_habit' %}">
-            {% csrf_token %}
+    <!-- 右侧终极白卡表单 -->
+    <div class="form-side">
 
-            <div class="form-group">
-                <label>Habit Name</label>
+        <div class="create-card">
 
-                <div class="habit-combined">
-                    <input type="text"
-                           name="habit_name"
-                           placeholder="Enter your habit name"
-                           class="habit-input"
-                           required>
+            <div class="create-header">
+                <h1>🏆 Create New Habit</h1>
+                <p>Start small. Build consistency. Become unstoppable.</p>
+            </div>
 
-                    <select name="sport_type"
-                            class="habit-select"
-                            required>
 
-                        <option value="">Select</option>
-                        <option value="Running">Running</option>
-                        <option value="Cycling">Cycling</option>
-                        <option value="Swimming">Swimming</option>
-                        <option value="Yoga">Yoga</option>
-                        <option value="Rope Skipping">Rope Skipping</option>
-                        <option value="Strength Training">Strength Training</option>
-                        <option value="HIIT">HIIT</option>
-                        <option value="Brisk Walking">Brisk Walking</option>
+            <form method="POST" action="{% url 'save_habit' %}">
+                {% csrf_token %}
 
-                    </select>
+                <div class="form-group">
+                    <label>Habit Name</label>
+
+                    <input
+                        type="text"
+                        name="habit_name"
+                        placeholder="Enter or choose a habit"
+                        class="habit-input"
+                        list="habit-options"
+                        required
+                    >
+
+                    <datalist id="habit-options">
+                        <option value="Running">
+                        <option value="Cycling">
+                        <option value="Swimming">
+                        <option value="Yoga">
+                        <option value="Rope Skipping">
+                        <option value="Strength Training">
+                        <option value="HIIT">
+                        <option value="Brisk Walking">
+                    </datalist>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Intensity Level</label>
 
-                <select name="duration" class="intensity-select">
-                    <option value="30 mins">Level 1 (30 mins)</option>
-                    <option value="40 mins">Level 2 (40 mins)</option>
-                    <option value="50 mins">Level 3 (50 mins)</option>
-                    <option value="60 mins">Level 4 (60 mins)</option>
-                    <option value="70 mins">Level 5 (70 mins)</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Sport Type</label>
 
-            <button type="submit" class="create-btn">
-                Create Habit
-            </button>
+                    <select name="sport_type" class="sport-select" required>
+                        <option value="">Select sport category</option>
+                        <option value="Cardio">🏃 Cardio / Endurance</option>
+                        <option value="Strength">🏋️ Strength Training</option>
+                        <option value="Flexibility">🧘 Flexibility & Mobility</option>
+                        <option value="Fat Burning">🔥 Fat Burning</option>
+                        <option value="Relaxation">🌿 Stress Relief</option>
+                        <option value="Low Impact">🚶 Low Impact Exercise</option>
+                    </select>
 
-        </form>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Intensity Level</label>
+
+                    <select name="duration" class="intensity-select">
+                        <option value="30 mins">Level 1 (30 mins)</option>
+                        <option value="40 mins">Level 2 (40 mins)</option>
+                        <option value="50 mins">Level 3 (50 mins)</option>
+                        <option value="60 mins">Level 4 (60 mins)</option>
+                        <option value="70 mins">Level 5 (70 mins)</option>
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="create-btn">
+                    Create Habit
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
 
 </div>
 
-<!-- 重复检测弹窗 -->
+
 {% if duplicate %}
 <script>
 
@@ -81,18 +112,22 @@ message = "This habit name already exists. Create anyway?";
 message = "You already have another habit for this sport. Create anyway?";
 {% endif %}
 
-if(confirm(message)){
+setTimeout(() => {
 
-    const form = document.querySelector("form");
+    if(confirm(message)){
 
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "force_create";
-    input.value = "true";
+        const form = document.querySelector("form");
 
-    form.appendChild(input);
-    form.submit();
-}
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "force_create";
+        input.value = "true";
+
+        form.appendChild(input);
+        form.submit();
+    }
+
+}, 100);
 
 </script>
 {% endif %}

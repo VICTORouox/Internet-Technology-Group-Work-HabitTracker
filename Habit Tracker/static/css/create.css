@@ -1,142 +1,261 @@
-.create-page {
+/* ===== 页面布局 ===== */
 
-    min-height: 100vh;
+.create-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding-right:8%;
 
-    margin-top: -72px;
-    padding-top: 120px;
+    background:
+    linear-gradient(
+        to right,
+        rgba(255,255,255,0) 40%,
+        rgba(255,255,255,0.6) 65%,
+        rgba(255,255,255,1) 85%
+    ),
+    url("/static/images/create_image.jpg");
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-image:
-    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
-    url("../images/bg.jpg");
-
-    background-size: cover;
-    background-position: center;
-}
-.create-page {
-    padding-top: 120px;
-}
-
-/* 卡片 */
-.create-card {
-
-    width: 420px;
-
-    background: rgba(255,255,255,0.85);
-
-    backdrop-filter: blur(10px);
-
-    border-radius: 16px;
-
-    padding: 40px;
-
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-
-    text-align: center;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
 }
 
-/* 标题 */
-.create-card h1 {
 
-    font-size: 28px;
-    font-weight: 600;
+/* ===== 左侧背景图终极优化 ===== */
 
-    margin-bottom: 10px;
+.hero-side{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    /* 终极渐变融合 */
+    background:
+    linear-gradient(to right,
+    rgba(0,0,0,.5),
+    rgba(248,250,252,.95)),
+    url("/static/images/create_image.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+    position:relative;
 }
 
-/* 副标题 */
-.create-card p {
 
-    font-size: 13px;
+/* ===== 左侧大标题 ===== */
 
-    color: #6b7280;
+.hero-text{
+    color:white;
+    font-size:48px;
+    font-weight:700;
+    line-height:1.15;
+    max-width:420px;
+    padding:50px;
 
-    margin-bottom: 25px;
+    text-shadow:
+    0 8px 30px rgba(0,0,0,.35);
 }
 
-/* 表单布局 */
-.form-group {
 
-    text-align: left;
+/* ===== 右侧终极卡片区 ===== */
 
-    margin-bottom: 20px;
+.form-side{
+    width:480px;
+    display:flex;
+    justify-content:center;
 }
 
-/* 输入框组合 */
-.habit-combined {
 
-    display: flex;
+/* ===== 终极白卡（核心） ===== */
+
+.create-card{
+    width:420px;
+
+    padding:48px;
+
+    border-radius:26px;
+
+    /* 轻玻璃高级感 */
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    box-shadow:
+    0 35px 90px rgba(0,0,0,.08);
+
+    transition:.35s;
+    animation:fadeUp .8s ease;
 }
 
-/* 输入框 */
-.habit-input {
-
-    flex: 1;
-
-    padding: 10px;
-
-    border: 1px solid #d1d5db;
-
-    border-right: none;
-
-    border-radius: 8px 0 0 8px;
+.create-card:hover{
+    transform:translateY(-4px);
+    box-shadow:
+    0 45px 110px rgba(0,0,0,.12);
 }
 
-/* 下拉框 */
-.habit-select {
 
-    width: 120px;
+/* ===== Header ===== */
 
-    border: 1px solid #d1d5db;
-
-    border-radius: 0 8px 8px 0;
-
-    padding: 10px;
-
-    background: white;
+.create-header{
+    margin-bottom:40px;
+    text-align:center;
 }
 
-/* 强度选择 */
-.intensity-select {
-
-    width: 100%;
-
-    padding: 10px;
-
-    border-radius: 8px;
-
-    border: 1px solid #d1d5db;
-
-    background: white;
+.create-header h1{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:10px;
 }
 
-/* 创建按钮 */
-.create-btn {
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: none;
-
-    border-radius: 999px;
-
-    background: linear-gradient(90deg,#66bb6a,#4caf50);
-
-    color: white;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    margin-top: 10px;
+.create-header p{
+    font-size:14px;
+    color:#6b7280;
 }
 
-/* hover */
-.create-btn:hover {
 
-    opacity: 0.9;
+/* ===== 表单 ===== */
+
+.form-group{
+    margin-bottom:26px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:500;
+    color:#374151;
+}
+
+
+/* ===== 输入框终极版 ===== */
+
+.habit-input,
+.sport-select,
+.intensity-select{
+
+    width:100%;
+    height:50px;
+
+    padding:0 16px;
+
+    font-size:14px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(0,0,0,.08);
+
+    background:white;
+
+    transition:.25s;
+
+    box-sizing:border-box;
+}
+
+
+/* focus状态 */
+
+.habit-input:focus,
+.sport-select:focus,
+.intensity-select:focus{
+
+    outline:none;
+
+    border:1px solid #6366f1;
+
+    box-shadow:
+    0 0 0 4px rgba(99,102,241,.18);
+}
+
+
+/* select箭头 */
+
+.sport-select,
+.intensity-select{
+
+    appearance:none;
+
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 8 10 12 14 8'/%3E%3C/svg%3E");
+
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    background-size:16px;
+
+    padding-right:42px;
+}
+
+
+/* ===== 终极按钮 ===== */
+
+.create-btn{
+    width:100%;
+
+    margin-top:10px;
+
+    padding:17px;
+
+    border:none;
+    border-radius:16px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    cursor:pointer;
+
+    transition:.35s;
+}
+
+.create-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 18px 45px rgba(99,102,241,.35);
+}
+
+.create-btn:active{
+    transform:scale(.97);
+}
+
+
+/* ===== 动画 ===== */
+
+@keyframes fadeUp{
+from{
+    opacity:0;
+    transform:translateY(40px);
+}
+
+to{
+    opacity:1;
+    transform:translateY(0);
+}
+}
+
+
+/* ===== 手机端 ===== */
+
+@media (max-width:900px){
+
+.create-page{
+    flex-direction:column;
+}
+
+.hero-side{
+    display:none;
+}
+
+.form-side{
+    padding:40px 20px;
+}
+
+.create-card{
+    width:100%;
+}
+
 }
