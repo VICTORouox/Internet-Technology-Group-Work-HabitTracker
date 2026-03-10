@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block content %}
+<a href="{% url 'main_dashboard' %}" class="back-button">
+    <i data-lucide="arrow-left"></i>
+    <span>Back</span>
+</a>
+
 <div class="recommend-container">
     <div class="stepper-wrapper">
         <div class="step-item active" id="step-dot-1">1<span class="step-title">Direction</span></div>
