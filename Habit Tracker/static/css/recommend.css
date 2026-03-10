@@ -100,13 +100,17 @@
     margin-bottom: 15px;
 }
 
+.question-group {
+    margin-bottom: 25px;
+}
+
 .preference-group {
     display: block;
     font-size: 14px;
     font-weight: 600;
     color: #64748b;
     margin-top: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .input-field {
@@ -135,6 +139,44 @@
 
 .input-field::placeholder {
     color: #9aa3b2;
+}
+
+/* 错误状态样式 */
+.input-field.input-error {
+    border-color: #dc2626;
+    background-color: #fef2f2;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-field.input-error:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* 修改后的错误消息样式 */
+.error-message {
+    display: block;
+    font-family: inherit;      /* 1. 强制继承父级字体，确保字体统一 */
+    font-size: 14px;
+    font-weight: 600;          /* 加粗一点更醒目 */
+    color: #dc2626;            /* 2. 文字颜色改为红色 */
+    
+    /* 3. 去掉背景色和边框，改回简洁的文字模式 */
+    background-color: transparent; 
+    padding: 4px 0;
+    margin-top: 8px;
+    border-left: none;
+    box-shadow: none;
+    
+    /* 保持你的动画效果 */
+    animation: shake 0.3s ease;
+    min-height: 1.2em;         /* 防止没文字时布局塌陷 */
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
 }
 
 /* --- 卡片式单选/多选 (Option Grid) --- */
@@ -230,3 +272,4 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+

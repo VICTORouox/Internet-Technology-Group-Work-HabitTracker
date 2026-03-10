@@ -34,15 +34,17 @@
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label>Habit Name</label>
+                    <label for="habit-name">Habit Name</label>
 
                     <input
                         type="text"
+                        id="habit-name"
                         name="habit_name"
                         placeholder="Enter or choose a habit"
                         class="habit-input"
                         list="habit-options"
                         required
+                        aria-required="true"
                     >
 
                     <datalist id="habit-options">
@@ -59,9 +61,9 @@
 
 
                 <div class="form-group">
-                    <label>Sport Type</label>
+                    <label for="sport-type">Sport Type</label>
 
-                    <select name="sport_type" class="sport-select" required>
+                    <select id="sport-type" name="sport_type" class="sport-select" required aria-required="true">
                         <option value="">Select sport category</option>
                         <option value="Cardio">🏃 Cardio / Endurance</option>
                         <option value="Strength">🏋️ Strength Training</option>
@@ -75,9 +77,9 @@
 
 
                 <div class="form-group">
-                    <label>Intensity Level</label>
+                    <label for="intensity-level">Intensity Level</label>
 
-                    <select name="duration" class="intensity-select">
+                    <select id="intensity-level" name="duration" class="intensity-select">
                         <option value="30 mins">Level 1 (30 mins)</option>
                         <option value="40 mins">Level 2 (40 mins)</option>
                         <option value="50 mins">Level 3 (50 mins)</option>

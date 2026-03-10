@@ -20,6 +20,7 @@
         
         <div class="step-content active" id="step-1">
             <h2 class="section-title">Step 1: Understand your direction</h2>
+            
             <div class="question-group">
                 <label>Q1: What is your goal?</label>
                 <div class="option-grid">
@@ -28,7 +29,9 @@
                     <input type="radio" name="goal" value="Relieve stress" id="g3"><label for="g3">Relieve stress</label>
                     <input type="radio" name="goal" value="Develop long-term interests" id="g4"><label for="g4">Develop long-term interests</label>
                 </div>
+                <span id="goal-error" class="error-message" aria-live="polite"></span>
             </div>
+            
             <div class="preference-group">
                 <label>Q2: What type of exercise do you prefer?</label>
                 <div class="option-grid">
@@ -47,7 +50,9 @@
                     <input type="radio" name="preference" value="none" id="p5">
                     <label for="p5">No specific preference</label>
                 </div>
+                <span id="preference-error" class="error-message" aria-live="polite"></span>
             </div>
+            
             <div class="btn-group">
                 <button type="button" class="next-btn" onclick="nextStep(2)">Next</button>
             </div>
@@ -57,27 +62,31 @@
             <h2 class="section-title">Step 2: Tell us about your body</h2>
 
             <div class="question-group">
-                <label>Q1: Enter your height (cm)</label>
+                <label for="height-input">Q1: Enter your height (cm)</label>
                 <input 
                     type="number" 
+                    id="height-input"
                     name="height" 
                     class="input-field"
                     placeholder="e.g. 170"
                     min="100" 
                     max="250" 
                     required>
+                <span id="height-error" class="error-message" aria-live="polite"></span>
             </div>
 
             <div class="question-group">
-                <label>Q2: Enter your weight (kg)</label>
+                <label for="weight-input">Q2: Enter your weight (kg)</label>
                 <input 
                     type="number" 
+                    id="weight-input"
                     name="weight" 
                     class="input-field"
                     placeholder="e.g. 65"
                     min="30" 
                     max="200" 
                     required>
+                <span id="weight-error" class="error-message" aria-live="polite"></span>
             </div>
 
             <div class="btn-group">
@@ -102,7 +111,107 @@
 </div>
 
 <script>
+    function applyErrorStyle(element) {
+        element.style.setProperty("color", "#dc2626", "important");      
+        element.style.setProperty("font-family", "inherit", "important");
+        element.style.fontSize = "14px";
+        element.style.fontWeight = "600";
+        element.style.display = "block";
+        element.style.marginTop = "8px";
+        element.style.backgroundColor = "transparent"; 
+        element.style.border = "none";
+        element.style.boxShadow = "none";
+    }
+
+    function validateStep1() {
+        const goalChecked = document.querySelector('input[name="goal"]:checked');
+        const preferenceChecked = document.querySelector('input[name="preference"]:checked');
+        const goalError = document.getElementById('goal-error');
+        const preferenceError = document.getElementById('preference-error');
+        
+        let isValid = true;
+        
+        // 清除之前的错误消息
+        goalError.textContent = '';
+        preferenceError.textContent = '';
+        
+        // 验证目标
+        if (!goalChecked) {
+            goalError.textContent = '⚠ Please select a goal';
+            applyErrorStyle(goalError); 
+            isValid = false;
+        }
+        
+        // 验证运动偏好
+        if (!preferenceChecked) {
+            preferenceError.textContent = '⚠ Please select an exercise preference';
+            applyErrorStyle(preferenceError);
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    function validateStep2() {
+        const heightInput = document.getElementById('height-input');
+        const weightInput = document.getElementById('weight-input');
+        const heightError = document.getElementById('height-error');
+        const weightError = document.getElementById('weight-error');
+        
+        let isValid = true;
+        
+        // 清除之前的错误消息
+        heightError.textContent = '';
+        weightError.textContent = '';
+        heightInput.classList.remove('input-error');
+        weightInput.classList.remove('input-error');
+        
+        // 验证身高
+        const height = parseInt(heightInput.value);
+        if (!heightInput.value) {
+            heightError.textContent = '⚠ Height is required';
+            applyErrorStyle(heightError); 
+            heightInput.classList.add('input-error');
+            isValid = false;
+        } else if (height < 100 || height > 250) {
+            heightError.textContent = '⚠ Height must be between 100-250 cm';
+            applyErrorStyle(heightError); 
+            heightInput.classList.add('input-error');
+            isValid = false;
+        }
+        
+        // 验证体重
+        const weight = parseInt(weightInput.value);
+        if (!weightInput.value) {
+            weightError.textContent = '⚠ Weight is required';
+            applyErrorStyle(weightError);
+            weightInput.classList.add('input-error');
+            isValid = false;
+        } else if (weight < 30 || weight > 200) {
+            weightError.textContent = '⚠ Weight must be between 30-200 kg';
+            applyErrorStyle(weightError);
+            weightInput.classList.add('input-error');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
     function nextStep(stepNum) {
+        
+        // 如果要前进到第2步，先验证第1步的数据
+        if (stepNum === 2) {
+            if (!validateStep1()) {
+                return; // 验证失败，不进行下一步
+            }
+        }
+        
+        // 如果要前进到第3步，先验证第2步的数据
+        if (stepNum === 3) {
+            if (!validateStep2()) {
+                return; // 验证失败，不进行下一步
+            }
+        }
 
         // 1️⃣ 先隐藏所有步骤内容
         var contents = document.getElementsByClassName("step-content");
@@ -133,5 +242,41 @@
         var currentStep = document.getElementById("step-" + stepNum);
         currentStep.classList.add("active");
     }
+    
+    // 为输入框添加实时验证反馈
+    document.addEventListener('DOMContentLoaded', function() {
+        const heightInput = document.getElementById('height-input');
+        const weightInput = document.getElementById('weight-input');
+        
+        if (heightInput) {
+            heightInput.addEventListener('input', function() {
+                const height = parseInt(this.value);
+                const heightError = document.getElementById('height-error');
+                
+                if (this.value && (height < 100 || height > 250)) {
+                    heightError.textContent = '⚠ Height must be between 100-250 cm';
+                    this.classList.add('input-error');
+                } else {
+                    heightError.textContent = '';
+                    this.classList.remove('input-error');
+                }
+            });
+        }
+        
+        if (weightInput) {
+            weightInput.addEventListener('input', function() {
+                const weight = parseInt(this.value);
+                const weightError = document.getElementById('weight-error');
+                
+                if (this.value && (weight < 30 || weight > 200)) {
+                    weightError.textContent = '⚠ Weight must be between 30-200 kg';
+                    this.classList.add('input-error');
+                } else {
+                    weightError.textContent = '';
+                    this.classList.remove('input-error');
+                }
+            });
+        }
+    });
 </script>
 {% endblock %}

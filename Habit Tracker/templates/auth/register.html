@@ -10,40 +10,70 @@
 {% block title %}Join Aura | Start Your Journey{% endblock %}
 
 {% block content %}
-<div class="max-w-[460px] mx-auto p-6 pt-20 fade-up">
-    <div class="glass-panel !p-10 text-center">
-        <h2 class="serif text-3xl mb-2">Create Account</h2>
+<!-- Skip to main content link for keyboard users -->
+<a href="#registerForm" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:bg-green-700 focus:text-white focus:p-2 focus:z-50">
+    Skip to registration form
+</a>
+
+<main class="max-w-[460px] mx-auto p-6 pt-20 fade-up">
+    <article class="glass-panel !p-10 text-center">
+        <h1 class="serif text-3xl mb-2">Create Account</h1>
         <p class="branding-subtitle mb-10">Join our minimalist community</p>
 
         <form method="POST" id="registerForm" class="space-y-6 text-left">
             {% csrf_token %}
             
             <div class="input-container">
-                <label class="input-label ml-1">Email Address</label>
-                <input type="email" name="email" required class="input-field-aura">
+                <label for="email-reg" class="input-label ml-1">Email Address</label>
+                <input type="email" id="email-reg" name="email" required class="input-field-aura" aria-required="true">
             </div>
 
             <div class="input-container">
-                <label class="input-label ml-1">Set Password</label>
-                <input type="password" id="pw1" name="password" required class="input-field-aura">
+                <label for="pw1" class="input-label ml-1">Set Password</label>
+                <input type="password" id="pw1" name="password" required class="input-field-aura" aria-required="true">
             </div>
 
             <div class="input-container">
                 <div class="flex justify-between items-center ml-1">
-                    <label class="input-label">Confirm Password</label>
-                    <span id="msg" class="text-[10px] text-red-400 normal-case italic"></span>
+                    <label for="pw2" class="input-label">Confirm Password</label>
+                    <span id="msg" class="text-sm text-red-600 normal-case italic" aria-live="polite" aria-atomic="true"></span>
                 </div>
-                <input type="password" id="pw2" required class="input-field-aura">
+                <input type="password" id="pw2" required class="input-field-aura" aria-required="true" aria-describedby="msg">
             </div>
 
-            <button type="submit" id="regBtn" class="w-full btn-primary-aura !py-4 mt-4">Complete Registration</button>
+            <button type="submit" id="regBtn" class="w-full btn-primary-aura !py-4 mt-4" aria-label="Complete registration">Complete Registration</button>
             
             <p class="register-footer-text">
-                Already have an account? <a href="{% url 'login' %}">Sign In</a>
+                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-gray-900 hover:text-green-700 transition-colors">Sign In</a>
             </p>
         </form>
-    </div>
-</div>
+    </article>
+</main>
+
+<style>
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+    
+    .focus\:not-sr-only:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        padding: 8px 12px;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+</style>
 
 <script>
     const pw1 = document.getElementById('pw1');
@@ -54,18 +84,21 @@
     function validate() {
         if (pw2.value === "") {
             msg.innerText = "";
+            btn.style.opacity = "1";
+            btn.disabled = false;
         } else if (pw1.value !== pw2.value) {
             msg.innerText = "Passwords do not match";
+            msg.className = "text-sm text-red-600 normal-case italic";
             btn.style.opacity = "0.5";
             btn.disabled = true;
         } else {
-            msg.innerText = "✓ Match";
-            msg.className = "text-[10px] text-green-500 normal-case italic";
+            msg.innerText = "✓ Passwords match";
+            msg.className = "text-sm text-green-600 normal-case italic font-medium";
             btn.style.opacity = "1";
             btn.disabled = false;
         }
     }
-    pw1.oninput = validate;
-    pw2.oninput = validate;
+    pw1.addEventListener('input', validate);
+    pw2.addEventListener('input', validate);
 </script>
 {% endblock %}

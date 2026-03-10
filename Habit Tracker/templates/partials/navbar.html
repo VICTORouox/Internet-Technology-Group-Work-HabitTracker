@@ -1,4 +1,4 @@
-<nav class="nav-bar-pill">
+<nav class="nav-bar-pill" role="navigation" aria-label="Main navigation">
 
     <a href="{% url 'main_dashboard' %}"
        class="nav-link 
@@ -6,7 +6,9 @@
             active
        {% else %}
             inactive
-       {% endif %}">
+       {% endif %}"
+       aria-current="{% if request.resolver_match.url_name == 'main_dashboard' or request.resolver_match.url_name == 'recommend' %}page{% endif %}"
+       title="Explore habits and recommendations">
        Explore
     </a>
 
@@ -16,7 +18,9 @@
             active
        {% else %}
             inactive
-       {% endif %}">
+       {% endif %}"
+       aria-current="{% if request.resolver_match.url_name == 'create_page' %}page{% endif %}"
+       title="Create a new habit">
        Create
     </a>
 
@@ -26,7 +30,9 @@
             active
        {% else %}
             inactive
-       {% endif %}">
+       {% endif %}"
+       aria-current="{% if request.resolver_match.url_name == 'my_habits' %}page{% endif %}"
+       title="View and manage your habits">
        My Habits
     </a>
 

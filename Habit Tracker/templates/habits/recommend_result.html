@@ -50,11 +50,34 @@
         </div>
 
         <div class="action-group">
+            {% if error %}
+            <div class="error-message" role="alert">
+                <strong>Error:</strong> {{ error }}
+                {% if error_type == "name" %}
+                <p>Would you like to create it anyway?</p>
+                <form action="{% url 'save_habit' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="habit_name" value="{{ candidates.0.name }}">
+                    <input type="hidden" name="duration" value="{{ candidates.0.plan }}">
+                    <input type="hidden" name="sport_type" value="{{ candidates.0.type }}">
+                    <input type="hidden" name="from_recommend_page" value="true">
+                    <input type="hidden" name="force_create" value="true">
+                    <button type="submit" class="btn-secondary" style="margin-top: 10px;">
+                        Create Anyway
+                    </button>
+                </form>
+                {% elif error_type == "sport" %}
+                <p>You already have a habit for this sport type. Try exploring another option or create a different habit.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+            
             <form action="{% url 'save_habit' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="habit_name" id="hiddenHabitName">
                 <input type="hidden" name="duration" id="hiddenDuration">
                 <input type="hidden" name="sport_type" id="hiddenSportType">
+                <input type="hidden" name="from_recommend_page" value="true">
                 <button type="submit" class="btn-primary">
                     Start This Habit
                 </button>
@@ -98,6 +121,12 @@
         currentIndex = (currentIndex + 1) % candidates.length;
         renderHabit(currentIndex);
     }
+
+    // 初始化页面
+    if (candidates && candidates.length > 0) {
+        renderHabit(currentIndex);
+    }
+</script>
 
     if (candidates && candidates.length > 0) {
         renderHabit(0);

@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -249,6 +250,9 @@ def generate_plan(request):
     if request.method == "POST":
 
         candidates = recommendation_engine(request.POST)
+        
+        # 将候选习惯存储在session中，以便在创建失败时使用
+        request.session['recommendation_candidates'] = candidates
 
         return render(request, "habits/recommend_result.html", {
             "candidates": candidates
@@ -302,12 +306,28 @@ def save_habit(request):
         if force_create != "true":
 
             if name_exists:
+                # 如果是从推荐页面来的，返回到推荐结果页面显示错误
+                if request.POST.get("from_recommend_page") == "true":
+                    candidates = request.session.get('recommendation_candidates', [])
+                    return render(request, "habits/recommend_result.html", {
+                        "candidates": candidates,
+                        "error": "You already have a habit with this name and sport type.",
+                        "error_type": "name"
+                    })
                 return render(request, "habits/create.html", {
                     "duplicate": True,
                     "duplicate_type": "name"
                 })
 
             if sport_exists:
+                # 如果是从推荐页面来的，返回到推荐结果页面显示错误
+                if request.POST.get("from_recommend_page") == "true":
+                    candidates = request.session.get('recommendation_candidates', [])
+                    return render(request, "habits/recommend_result.html", {
+                        "candidates": candidates,
+                        "error": "You already have a habit for this sport type.",
+                        "error_type": "sport"
+                    })
                 return render(request, "habits/create.html", {
                     "duplicate": True,
                     "duplicate_type": "sport"
@@ -321,7 +341,9 @@ def save_habit(request):
             intensity_level=1
         )
 
-        return redirect("my_habits")
+
+        # return redirect("my_habits")
+        return redirect("/my-habits/?created=1")
 
     return redirect("create_page")
 

@@ -8,8 +8,7 @@
 
 {% block content %}
 
-<div class="aura-page-wrapper">
-    
+<div class="aura-page-wrapper"> 
     <header class="aura-header">
         <a href="{% url 'logout' %}" class="nav-logout-link">
             <i data-lucide="arrow-left"></i>
@@ -237,6 +236,20 @@ function nextMonth() {
 
     renderCalendar();
 }
+
+
+// Execute when the page has finished loading
+    window.onload = function() {
+        // Check if the URL query string contains 'created=1'
+        if (window.location.search.includes('created=1')) {
+            // Display a notification (using alert for testing; can be replaced with a custom div later)
+            alert("Habit created successfully!");
+            
+            // Optional: Clean up the URL by removing '?created=1' so the alert doesn't reappear on refresh
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
 </script>
 
 {% endblock %}

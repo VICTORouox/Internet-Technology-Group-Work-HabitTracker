@@ -13,6 +13,31 @@ body{
     overflow-x: hidden;
 }
 
+/* Accessibility: Screen reader only content and skip links */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 8px 12px;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    z-index: 50;
+}
+
 /* 衬线字体定义 */
 .serif { font-family: 'Playfair Display', serif; }
 
@@ -62,6 +87,8 @@ body{
     align-items: center;
     justify-content: center;
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
 }
 
 .flex-1 {
@@ -72,6 +99,17 @@ body{
     background: #2D5A27;
     transform: translateY(-2px);
     box-shadow: 0 15px 30px rgba(45, 90, 39, 0.15);
+}
+
+/* 键盘焦点指示 */
+.btn-primary-aura:focus {
+    outline: 2px solid #2D5A27;
+    outline-offset: 2px;
+}
+
+.btn-primary-aura:focus-visible {
+    outline: 2px solid #2D5A27;
+    outline-offset: 2px;
 }
 
 @keyframes slowBreathe {
