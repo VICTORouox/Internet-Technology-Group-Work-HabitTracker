@@ -107,9 +107,10 @@
                 <input type="checkbox" name="conditions" value="Weak heart and lungs" id="c2"><label for="c2">Weak heart and lungs</label>
                 <input type="checkbox" name="conditions" value="No adverse conditions" id="c3"><label for="c3">No adverse conditions</label>
             </div>
+            <span id="conditions-error" class="error-message" aria-live="polite"></span>
             <div class="btn-group">
                 <button type="button" class="back-btn" onclick="nextStep(2)">Back</button>
-                <button type="submit" class="submit-btn">Generate Recommendation</button>
+                <button type="submit" class="submit-btn" id="submit-btn">Generate Recommendation</button>
             </div>
         </div>
     </form>
@@ -202,6 +203,23 @@
         return isValid;
     }
 
+    function validateStep3() {
+        const conditionsChecked = document.querySelectorAll('input[name="conditions"]:checked');
+        const conditionsError = document.getElementById('conditions-error');
+        
+        // 清除之前的错误消息
+        conditionsError.textContent = '';
+        
+        // 验证是否选择了至少一个条件
+        if (conditionsChecked.length === 0) {
+            conditionsError.textContent = '⚠ Please select at least one option';
+            applyErrorStyle(conditionsError);
+            return false;
+        }
+        
+        return true;
+    }
+
     function nextStep(stepNum) {
         
         // 如果要前进到第2步，先验证第1步的数据
@@ -252,6 +270,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const heightInput = document.getElementById('height-input');
         const weightInput = document.getElementById('weight-input');
+        const form = document.getElementById('recommendForm');
         
         if (heightInput) {
             heightInput.addEventListener('input', function() {
@@ -282,6 +301,13 @@
                 }
             });
         }
+
+        // 表单提交时验证第3步
+        form.addEventListener('submit', function(e) {
+            if (!validateStep3()) {
+                e.preventDefault();
+            }
+        });
     });
 </script>
 {% endblock %}

@@ -251,8 +251,9 @@ def generate_plan(request):
 
         candidates = recommendation_engine(request.POST)
         
-        # 将候选习惯存储在session中，以便在创建失败时使用
-        request.session['recommendation_candidates'] = candidates
+        # 将原始查询字符串保存到 session，以便出现重复错误时能重新计算
+        # 使用 urlencode 可以保留重复字段（如 checkbox 列表）
+        request.session['recommendation_query'] = request.POST.urlencode()
 
         return render(request, "habits/recommend_result.html", {
             "candidates": candidates
@@ -308,7 +309,10 @@ def save_habit(request):
             if name_exists:
                 # 如果是从推荐页面来的，返回到推荐结果页面显示错误
                 if request.POST.get("from_recommend_page") == "true":
-                    candidates = request.session.get('recommendation_candidates', [])
+                    # 重新从先前保存的查询信息计算候选项，避免 session 中可能丢失的数据
+                    from django.http import QueryDict
+                    query = request.session.get('recommendation_query', '')
+                    candidates = recommendation_engine(QueryDict(query))
                     return render(request, "habits/recommend_result.html", {
                         "candidates": candidates,
                         "error": "You already have a habit with this name and sport type.",
@@ -322,7 +326,9 @@ def save_habit(request):
             if sport_exists:
                 # 如果是从推荐页面来的，返回到推荐结果页面显示错误
                 if request.POST.get("from_recommend_page") == "true":
-                    candidates = request.session.get('recommendation_candidates', [])
+                    from django.http import QueryDict
+                    query = request.session.get('recommendation_query', '')
+                    candidates = recommendation_engine(QueryDict(query))
                     return render(request, "habits/recommend_result.html", {
                         "candidates": candidates,
                         "error": "You already have a habit for this sport type.",

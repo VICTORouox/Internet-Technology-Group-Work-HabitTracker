@@ -50,28 +50,6 @@
         </div>
 
         <div class="action-group">
-            {% if error %}
-            <div class="error-message" role="alert">
-                <strong>Error:</strong> {{ error }}
-                {% if error_type == "name" %}
-                <p>Would you like to create it anyway?</p>
-                <form action="{% url 'save_habit' %}" method="POST" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="habit_name" value="{{ candidates.0.name }}">
-                    <input type="hidden" name="duration" value="{{ candidates.0.plan }}">
-                    <input type="hidden" name="sport_type" value="{{ candidates.0.type }}">
-                    <input type="hidden" name="from_recommend_page" value="true">
-                    <input type="hidden" name="force_create" value="true">
-                    <button type="submit" class="btn-secondary" style="margin-top: 10px;">
-                        Create Anyway
-                    </button>
-                </form>
-                {% elif error_type == "sport" %}
-                <p>You already have a habit for this sport type. Try exploring another option or create a different habit.</p>
-                {% endif %}
-            </div>
-            {% endif %}
-            
             <form action="{% url 'save_habit' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="habit_name" id="hiddenHabitName">
@@ -93,6 +71,29 @@
 </div>
 
 </section>
+
+{% if error %}
+<form id="forceCreateForm" action="{% url 'save_habit' %}" method="POST" style="display:none;">
+    {% csrf_token %}
+    <input type="hidden" name="habit_name" value="{{ candidates.0.name }}">
+    <input type="hidden" name="duration" value="{{ candidates.0.plan }}">
+    <input type="hidden" name="sport_type" value="{{ candidates.0.type }}">
+    <input type="hidden" name="from_recommend_page" value="true">
+    <input type="hidden" name="force_create" value="true">
+</form>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    var msg = '{{ error|escapejs }}';
+    {% if error_type == "name" %}
+        if (confirm(msg + '\nWould you like to create it anyway?')) {
+            document.getElementById('forceCreateForm').submit();
+        }
+    {% else %}
+        alert(msg);
+    {% endif %}
+});
+</script>
+{% endif %}
 
 <script>
     const candidates = {{ candidates|safe }};
