@@ -276,7 +276,6 @@ def save_habit(request):
         duration_minutes = int(duration.split()[0])
 
         from_recommend = request.POST.get("from_recommend")
-        force_create = request.POST.get("force_create")
 
         # 推荐创建：跳过重复检测
         if from_recommend == "true":
@@ -291,53 +290,29 @@ def save_habit(request):
 
             return redirect("my_habits")
 
-        # 同名同运动检测
+        # 检查是否已有相同名称和类型的习惯
         name_exists = UserHabit.objects.filter(
             user=request.user,
             habit_name=habit_name,
             sport_type=sport_type
         ).exists()
 
-        # 是否已有该运动
-        sport_exists = UserHabit.objects.filter(
-            user=request.user,
-            sport_type=sport_type
-        ).exists()
-
-        if force_create != "true":
-
-            if name_exists:
-                # 如果是从推荐页面来的，返回到推荐结果页面显示错误
-                if request.POST.get("from_recommend_page") == "true":
-                    # 重新从先前保存的查询信息计算候选项，避免 session 中可能丢失的数据
-                    from django.http import QueryDict
-                    query = request.session.get('recommendation_query', '')
-                    candidates = recommendation_engine(QueryDict(query))
-                    return render(request, "habits/recommend_result.html", {
-                        "candidates": candidates,
-                        "error": "You already have a habit with this name and sport type.",
-                        "error_type": "name"
-                    })
-                return render(request, "habits/create.html", {
-                    "duplicate": True,
-                    "duplicate_type": "name"
+        if name_exists:
+            # 如果是从推荐页面来的，返回到推荐结果页面显示错误
+            if request.POST.get("from_recommend_page") == "true":
+                # 重新从先前保存的查询信息计算候选项，避免 session 中可能丢失的数据
+                from django.http import QueryDict
+                query = request.session.get('recommendation_query', '')
+                candidates = recommendation_engine(QueryDict(query))
+                return render(request, "habits/recommend_result.html", {
+                    "candidates": candidates,
+                    "error": "You already have a habit with this name and sport type. This combination cannot be created again.",
+                    "error_type": "duplicate_exact"
                 })
-
-            if sport_exists:
-                # 如果是从推荐页面来的，返回到推荐结果页面显示错误
-                if request.POST.get("from_recommend_page") == "true":
-                    from django.http import QueryDict
-                    query = request.session.get('recommendation_query', '')
-                    candidates = recommendation_engine(QueryDict(query))
-                    return render(request, "habits/recommend_result.html", {
-                        "candidates": candidates,
-                        "error": "You already have a habit for this sport type.",
-                        "error_type": "sport"
-                    })
-                return render(request, "habits/create.html", {
-                    "duplicate": True,
-                    "duplicate_type": "sport"
-                })
+            return render(request, "habits/create.html", {
+                "duplicate": True,
+                "duplicate_type": "name"
+            })
 
         UserHabit.objects.create(
             user=request.user,
