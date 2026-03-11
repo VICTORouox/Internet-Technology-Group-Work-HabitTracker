@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.db.models import Sum
+from django.http import JsonResponse
 import json
 
 from .models import UserHabit, HabitCheckIn
@@ -407,7 +409,6 @@ def adjust_intensity(request, habit_id, action):
 
 @login_required
 def check_in(request, habit_id):
-
     habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
     today = timezone.now().date()
 
@@ -419,7 +420,8 @@ def check_in(request, habit_id):
     HabitCheckIn.objects.create(
         user_habit=habit,
         date=today,
-        xp_gained=xp_gained
+        xp_gained=xp_gained,
+        duration=habit.duration_each_time  # 保存当时 duration
     )
 
     habit.experience_points += xp_gained
@@ -458,14 +460,10 @@ def habit_calendar(request, habit_id):
 
 @login_required
 def checkin_date(request, habit_id):
-
     if request.method == "POST":
-
         habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
-
         data = json.loads(request.body)
         date_str = data.get("date")
-
         date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
 
         if HabitCheckIn.objects.filter(user_habit=habit, date=date_obj).exists():
@@ -476,7 +474,8 @@ def checkin_date(request, habit_id):
         HabitCheckIn.objects.create(
             user_habit=habit,
             date=date_obj,
-            xp_gained=xp_gain
+            xp_gained=xp_gain,
+            duration=habit.duration_each_time  # 保存当时 duration
         )
 
         habit.experience_points += xp_gain
@@ -496,10 +495,64 @@ def checkin_date(request, habit_id):
 
         return JsonResponse({"status": "success"})
 
-
 @login_required
 def create_page(request):
 
     return render(request, "habits/create.html", {
         "sports": SPORT_LIBRARY
     })
+
+@login_required
+def habit_analysis(request, habit_id):
+    habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
+    view = request.GET.get("view", "monthly")
+    month_param = request.GET.get("month")
+    current_year = datetime.now().year
+
+    if month_param is not None:
+        month_param = int(month_param) + 1  # 前端 0-11 转 Django 1-12
+
+    if view == "monthly":
+        if month_param:
+            # 返回指定月份的每日数据
+            from calendar import monthrange
+            days_in_month = monthrange(current_year, month_param)[1]
+            daily_data = [
+                sum(c.duration for c in HabitCheckIn.objects.filter(
+                    user_habit=habit,
+                    date__year=current_year,
+                    date__month=month_param,
+                    date__day=day
+                )) for day in range(1, days_in_month + 1)
+            ]
+            return JsonResponse({
+                "labels": [str(d) for d in range(1, days_in_month + 1)],
+                "data": daily_data
+            })
+
+        # 每月总和（1-12 月）
+        monthly_data = [
+            sum(c.duration for c in HabitCheckIn.objects.filter(
+                user_habit=habit,
+                date__year=current_year,
+                date__month=m
+            )) for m in range(1,13)
+        ]
+        return JsonResponse({
+            "labels": [str(m) for m in range(1,13)],
+            "data": monthly_data
+        })
+
+    elif view == "yearly":
+        # 返回一年内每个月的总 duration
+        monthly_data = [
+            sum(c.duration for c in HabitCheckIn.objects.filter(
+                user_habit=habit,
+                date__year=current_year,
+                date__month=m
+            )) for m in range(1,13)
+        ]
+        return JsonResponse({
+            "labels": [str(m) for m in range(1,13)],
+            "data": monthly_data
+        })

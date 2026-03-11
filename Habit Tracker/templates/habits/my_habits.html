@@ -4,6 +4,8 @@
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/my_habits.css' %}">
 <link rel="stylesheet" href="{% static 'css/calendar_modal.css' %}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -54,8 +56,14 @@
                     Check In
                 </button>
 
+                <button type="button"
+                        class="btn btn-info"
+                        onclick="openAnalysis({{ habit.id }});">
+                    Analysis
+                </button>
+
                 <a href="{% url 'adjust_intensity' habit.id 'increase' %}" class="btn btn-secondary">
-                    Increase 
+                    Increase
                 </a>
 
                 <a href="{% url 'adjust_intensity' habit.id 'decrease' %}" class="btn btn-secondary">
@@ -63,12 +71,12 @@
                 </a>
 
                 <form action="{% url 'delete_habit' habit.id %}" 
-                      method="POST" 
-                      style="flex:1;"
-                      onsubmit="return confirm('Are you sure you want to delete this habit?');">
+                    method="POST" 
+                    class="delete-form"
+                    onsubmit="return confirm('Are you sure you want to delete this habit?');">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger" style="width:100%;">
-                        Delete
+                    <button type="submit" class="btn btn-danger delete-btn" title="Delete Habit">
+                        🗑️
                     </button>
                 </form>
 
@@ -86,6 +94,7 @@
 
 </div>
 
+<!-- 日历弹窗 -->
 <div id="calendarOverlay" class="calendar-overlay">
 
     <div class="calendar-modal">
@@ -103,6 +112,55 @@
         </div>
 
         <div id="calendarGrid" class="calendar-grid"></div>
+
+    </div>
+
+</div>
+
+<!-- 图表弹窗 -->
+<div id="analysisOverlay" class="analysis-overlay">
+
+    <div class="analysis-modal">
+
+        <span class="analysis-close" onclick="closeAnalysis()">×</span>
+
+        <h2 class="analysis-title">Habit Analysis</h2>
+
+        <div class="analysis-body">
+
+            <!-- Chart.js 画布 -->
+            <div class="chart-container">
+                <canvas id="analysisChart"></canvas>
+            </div>
+
+            <!-- 右侧控制面板 -->
+            <div class="controls-panel">
+                <div class="control-group">
+                    <h4>X Axis</h4>
+                    <button class="view-btn active" type="button" data-view="monthly" onclick="switchView('monthly')">Monthly</button>
+                    <button class="view-btn" type="button" data-view="yearly" onclick="switchView('yearly')">Yearly</button>
+                </div>
+
+                <div class="control-group" id="monthFilter">
+                    <h4>Month</h4>
+                    <select id="monthSelect" onchange="loadMonthlyChart()">
+                        <option value="0">Jan</option>
+                        <option value="1">Feb</option>
+                        <option value="2">Mar</option>
+                        <option value="3">Apr</option>
+                        <option value="4">May</option>
+                        <option value="5">Jun</option>
+                        <option value="6">Jul</option>
+                        <option value="7">Aug</option>
+                        <option value="8">Sep</option>
+                        <option value="9">Oct</option>
+                        <option value="10">Nov</option>
+                        <option value="11">Dec</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
@@ -237,6 +295,92 @@ function nextMonth() {
     renderCalendar();
 }
 
+function openAnalysis(habitId) {
+
+    currentHabitId = habitId;
+
+    document.getElementById("analysisOverlay").style.display = "flex";
+
+}
+
+function closeAnalysis() {
+
+    document.getElementById("analysisOverlay").style.display = "none";
+
+}
+
+let analysisChart;
+let currentAnalysisView = "monthly";
+
+function loadAnalysisChart(habitId, view="monthly", month=null){
+
+    const url = new URL(`/analysis/${habitId}/`, window.location.origin);
+    url.searchParams.set("view", view);
+    if(month !== null) url.searchParams.set("month", month);
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            const ctx = document.getElementById("analysisChart");
+            if(analysisChart) analysisChart.destroy();
+
+            analysisChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: "Duration (minutes)",
+                        data: data.data,
+                        borderColor: "#6c5ce7",
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive:true,
+                    scales:{
+                        y:{
+                            beginAtZero:true
+                        }
+                    }
+                }
+            });
+        });
+
+}
+
+// 切换 X轴
+function switchView(view){
+    currentAnalysisView = view;
+
+    // 切换 Month filter 显示
+    document.getElementById("monthFilter").style.display = (view === "monthly") ? "block":"none";
+
+    // 更新按钮高亮
+    document.querySelectorAll(".view-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.view === view);
+    });
+
+    // 加载图表
+    const habitId = currentHabitId;
+    const month = (view==="monthly") ? document.getElementById("monthSelect").value : null;
+
+    loadAnalysisChart(habitId, view, month);
+}
+
+// 切换月份 filter
+function loadMonthlyChart(){
+    const habitId = currentHabitId;
+    const month = parseInt(document.getElementById("monthSelect").value);
+    loadAnalysisChart(habitId, "monthly", month);
+}
+
+// 打开 Analysis 弹窗时默认加载
+function openAnalysis(habitId){
+    currentHabitId = habitId;
+    document.getElementById("analysisOverlay").style.display = "flex";
+
+    switchView("monthly");
+}
 
 // Execute when the page has finished loading
     window.onload = function() {

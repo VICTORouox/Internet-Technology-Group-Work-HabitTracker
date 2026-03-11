@@ -41,13 +41,13 @@ class UserHabit(models.Model):
 
 
 class HabitCheckIn(models.Model):
-
     user_habit = models.ForeignKey(UserHabit, on_delete=models.CASCADE)
     date = models.DateField()
     xp_gained = models.IntegerField()
+    duration = models.IntegerField()
 
     class Meta:
         unique_together = ('user_habit', 'date')
 
     def __str__(self):
-        return f"{self.user_habit.display_name()} - {self.date}"
+        return f"{self.user_habit.display_name()} - {self.date} ({self.duration} mins)"

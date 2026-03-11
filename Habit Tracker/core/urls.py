@@ -53,4 +53,7 @@ urlpatterns = [
     # 日历
     path("calendar/<int:habit_id>/", views.habit_calendar, name="habit_calendar"),
     path("checkin/<int:habit_id>/", views.checkin_date, name="checkin_date"),
+
+    # 图表
+    path("analysis/<int:habit_id>/", views.habit_analysis, name="habit_analysis"),
 ]

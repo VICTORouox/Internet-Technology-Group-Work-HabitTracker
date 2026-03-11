@@ -102,3 +102,17 @@
 .nav-logout-link:hover i {
     transform: translateX(-2px);
 }
+
+@media (max-width: 480px) {
+
+    .nav-bar-pill {
+        gap: 4px;
+        padding: 3px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+
+}

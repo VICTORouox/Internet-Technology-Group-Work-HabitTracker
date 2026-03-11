@@ -10,14 +10,14 @@
     background:
     linear-gradient(
         to right,
-        rgba(255,255,255,0) 40%,
-        rgba(255,255,255,0.6) 65%,
-        rgba(255,255,255,1) 85%
+        rgba(255,255,255,0) 45%,
+        rgba(255,255,255,0.6) 70%,
+        #f3f5f2 90%
     ),
-    url("/static/images/create_image.jpg");
+    url("/static/images/pexels-cottonbro-5275668.jpg");
 
-    background-size:cover;
-    background-position:center;
+    background-size:60%;
+    background-position:left center;
     background-repeat:no-repeat;
 }
 
@@ -35,7 +35,7 @@
     linear-gradient(to right,
     rgba(0,0,0,.5),
     rgba(248,250,252,.95)),
-    url("/static/images/create_image.jpg");
+    url("/static/images/pexels-cottonbro-5275668.jpg");
 
     background-size:cover;
     background-position:center;
