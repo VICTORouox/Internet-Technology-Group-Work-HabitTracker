@@ -27,7 +27,7 @@
 </a>
 
 <!-- 全站统一导航栏 -->
-{% if request.path != '/login/' and request.path != '/register/' and request.path != '/recommend/' %}
+{% if request.path != '/login/' and request.path != '/register/' and request.path != '/password-reset/' and request.path != '/recommend/' %}
     <header class="aura-header" role="banner">
         <a href="{% url 'logout' %}" class="nav-logout-link" aria-label="Log out">
             <i data-lucide="arrow-left" aria-hidden="true"></i>

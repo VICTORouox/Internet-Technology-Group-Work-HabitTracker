@@ -2,44 +2,112 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/recommend.css' %}">
+<link rel="stylesheet" href="{% static 'css/recommend.css' %}">
 {% endblock %}
 
+
 {% block content %}
+
+<!-- ================================= -->
+<!-- Back Button -->
+<!-- ================================= -->
+
 <a href="{% url 'main_dashboard' %}" class="back-button">
     <i data-lucide="arrow-left"></i>
     <span>Back</span>
 </a>
 
+
+<!-- ================================= -->
+<!-- Main Recommendation Container -->
+<!-- ================================= -->
+
 <div class="recommend-container">
+
+
+    <!-- ============================= -->
+    <!-- Step Progress Indicator -->
+    <!-- ============================= -->
+
     <div class="stepper-wrapper">
-        <div class="step-item active" id="step-dot-1">1<span class="step-title">Direction</span></div>
+
+        <div class="step-item active" id="step-dot-1">
+            1
+            <span class="step-title">Direction</span>
+        </div>
+
         <div class="step-line"></div>
-        <div class="step-item" id="step-dot-2">2<span class="step-title">Time</span></div>
+
+        <div class="step-item" id="step-dot-2">
+            2
+            <span class="step-title">Time</span>
+        </div>
+
         <div class="step-line"></div>
-        <div class="step-item" id="step-dot-3">3<span class="step-title">Condition</span></div>
+
+        <div class="step-item" id="step-dot-3">
+            3
+            <span class="step-title">Condition</span>
+        </div>
+
     </div>
 
+
+    <!-- ============================= -->
+    <!-- Recommendation Form -->
+    <!-- ============================= -->
+
     <form id="recommendForm" method="POST" action="{% url 'generate_plan' %}">
+
         {% csrf_token %}
-        
+
+
+        <!-- ================================= -->
+        <!-- STEP 1 : Direction & Preference -->
+        <!-- ================================= -->
+
         <div class="step-content active" id="step-1">
-            <h2 class="section-title">Step 1: Understand your direction</h2>
-            
+
+            <h2 class="section-title">
+                Step 1: Understand your direction
+            </h2>
+
+
+            <!-- Question 1 -->
+
             <div class="question-group">
+
                 <label>Q1: What is your goal?</label>
+
                 <div class="option-grid">
-                    <input type="radio" name="goal" value="Improve physical fitness" id="g1" required><label for="g1">Improve physical fitness</label>
-                    <input type="radio" name="goal" value="Fat loss and body shaping" id="g2"><label for="g2">Fat loss and body shaping</label>
-                    <input type="radio" name="goal" value="Relieve stress" id="g3"><label for="g3">Relieve stress</label>
-                    <input type="radio" name="goal" value="Develop long-term interests" id="g4"><label for="g4">Develop long-term interests</label>
+
+                    <input type="radio" name="goal" value="Improve physical fitness" id="g1" required>
+                    <label for="g1">Improve physical fitness</label>
+
+                    <input type="radio" name="goal" value="Fat loss and body shaping" id="g2">
+                    <label for="g2">Fat loss and body shaping</label>
+
+                    <input type="radio" name="goal" value="Relieve stress" id="g3">
+                    <label for="g3">Relieve stress</label>
+
+                    <input type="radio" name="goal" value="Develop long-term interests" id="g4">
+                    <label for="g4">Develop long-term interests</label>
+
                 </div>
+
                 <span id="goal-error" class="error-message" aria-live="polite"></span>
+
             </div>
-            
+
+
+            <!-- Question 2 -->
+
             <div class="preference-group">
+
                 <label>Q2: What type of exercise do you prefer?</label>
+
                 <div class="option-grid">
+
                     <input type="radio" name="preference" value="cardio" id="p1" required>
                     <label for="p1">Cardio & Endurance</label>
 
@@ -54,260 +122,385 @@
 
                     <input type="radio" name="preference" value="none" id="p5">
                     <label for="p5">No specific preference</label>
+
                 </div>
+
                 <span id="preference-error" class="error-message" aria-live="polite"></span>
+
             </div>
-            
+
+
+            <!-- Navigation Buttons -->
+
             <div class="btn-group">
-                <button type="button" class="next-btn" onclick="nextStep(2)">Next</button>
+                <button type="button" class="next-btn" onclick="nextStep(2)">
+                    Next
+                </button>
             </div>
+
         </div>
+
+
+        <!-- ================================= -->
+        <!-- STEP 2 : Body Information -->
+        <!-- ================================= -->
 
         <div class="step-content" id="step-2">
-            <h2 class="section-title">Step 2: Tell us about your body</h2>
+
+            <h2 class="section-title">
+                Step 2: Tell us about your body
+            </h2>
+
+
+            <!-- Height -->
 
             <div class="question-group">
-                <label for="height-input">Q1: Enter your height (cm)</label>
-                <input 
-                    type="number" 
+
+                <label for="height-input">
+                    Q1: Enter your height (cm)
+                </label>
+
+                <input
+                    type="number"
                     id="height-input"
-                    name="height" 
+                    name="height"
                     class="input-field"
                     placeholder="e.g. 170"
-                    min="100" 
-                    max="250" 
-                    required>
+                    min="100"
+                    max="250"
+                    required
+                >
+
                 <span id="height-error" class="error-message" aria-live="polite"></span>
+
             </div>
+
+
+            <!-- Weight -->
 
             <div class="question-group">
-                <label for="weight-input">Q2: Enter your weight (kg)</label>
-                <input 
-                    type="number" 
+
+                <label for="weight-input">
+                    Q2: Enter your weight (kg)
+                </label>
+
+                <input
+                    type="number"
                     id="weight-input"
-                    name="weight" 
+                    name="weight"
                     class="input-field"
                     placeholder="e.g. 65"
-                    min="30" 
-                    max="200" 
-                    required>
+                    min="30"
+                    max="200"
+                    required
+                >
+
                 <span id="weight-error" class="error-message" aria-live="polite"></span>
+
             </div>
 
+
+            <!-- Navigation Buttons -->
+
             <div class="btn-group">
-                <button type="button" class="back-btn" onclick="nextStep(1)">Back</button>
-                <button type="button" class="next-btn" onclick="nextStep(3)">Next</button>
+
+                <button type="button" class="back-btn" onclick="nextStep(1)">
+                    Back
+                </button>
+
+                <button type="button" class="next-btn" onclick="nextStep(3)">
+                    Next
+                </button>
+
             </div>
+
         </div>
+
+
+        <!-- ================================= -->
+        <!-- STEP 3 : Health Conditions -->
+        <!-- ================================= -->
 
         <div class="step-content" id="step-3">
-            <h2 class="section-title">Step 3: Do you have any health problems?</h2>
+
+            <h2 class="section-title">
+                Step 3: Do you have any health problems?
+            </h2>
+
+
             <div class="option-grid">
-                <input type="checkbox" name="conditions" value="Weak knees" id="c1"><label for="c1">Weak knees</label>
-                <input type="checkbox" name="conditions" value="Weak heart and lungs" id="c2"><label for="c2">Weak heart and lungs</label>
-                <input type="checkbox" name="conditions" value="No adverse conditions" id="c3"><label for="c3">No adverse conditions</label>
+
+                <input type="checkbox" name="conditions" value="Weak knees" id="c1">
+                <label for="c1">Weak knees</label>
+
+                <input type="checkbox" name="conditions" value="Weak heart and lungs" id="c2">
+                <label for="c2">Weak heart and lungs</label>
+
+                <input type="checkbox" name="conditions" value="No adverse conditions" id="c3">
+                <label for="c3">No adverse conditions</label>
+
             </div>
+
             <span id="conditions-error" class="error-message" aria-live="polite"></span>
+
+
+            <!-- Submit Buttons -->
+
             <div class="btn-group">
-                <button type="button" class="back-btn" onclick="nextStep(2)">Back</button>
-                <button type="submit" class="submit-btn" id="submit-btn">Generate Recommendation</button>
+
+                <button type="button" class="back-btn" onclick="nextStep(2)">
+                    Back
+                </button>
+
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    Generate Recommendation
+                </button>
+
             </div>
+
         </div>
+
     </form>
+
 </div>
 
+
+<!-- ================================= -->
+<!-- Form Validation Scripts -->
+<!-- ================================= -->
+
 <script>
-    function applyErrorStyle(element) {
-        element.style.setProperty("color", "#dc2626", "important");      
-        element.style.setProperty("font-family", "inherit", "important");
-        element.style.fontSize = "14px";
-        element.style.fontWeight = "600";
-        element.style.display = "block";
-        element.style.marginTop = "8px";
-        element.style.backgroundColor = "transparent"; 
-        element.style.border = "none";
-        element.style.boxShadow = "none";
+
+/* Apply error style */
+
+function applyErrorStyle(element) {
+
+    element.style.setProperty("color", "#dc2626", "important");
+    element.style.setProperty("font-family", "inherit", "important");
+
+    element.style.fontSize = "14px";
+    element.style.fontWeight = "600";
+    element.style.display = "block";
+    element.style.marginTop = "8px";
+
+    element.style.backgroundColor = "transparent";
+    element.style.border = "none";
+    element.style.boxShadow = "none";
+
+}
+
+
+/* Step 1 Validation */
+
+function validateStep1() {
+
+    const goalChecked = document.querySelector('input[name="goal"]:checked');
+    const preferenceChecked = document.querySelector('input[name="preference"]:checked');
+
+    const goalError = document.getElementById('goal-error');
+    const preferenceError = document.getElementById('preference-error');
+
+    let isValid = true;
+
+    goalError.textContent = '';
+    preferenceError.textContent = '';
+
+    if (!goalChecked) {
+        goalError.textContent = '⚠ Please select a goal';
+        applyErrorStyle(goalError);
+        isValid = false;
     }
 
-    function validateStep1() {
-        const goalChecked = document.querySelector('input[name="goal"]:checked');
-        const preferenceChecked = document.querySelector('input[name="preference"]:checked');
-        const goalError = document.getElementById('goal-error');
-        const preferenceError = document.getElementById('preference-error');
-        
-        let isValid = true;
-        
-        // 清除之前的错误消息
-        goalError.textContent = '';
-        preferenceError.textContent = '';
-        
-        // 验证目标
-        if (!goalChecked) {
-            goalError.textContent = '⚠ Please select a goal';
-            applyErrorStyle(goalError); 
-            isValid = false;
-        }
-        
-        // 验证运动偏好
-        if (!preferenceChecked) {
-            preferenceError.textContent = '⚠ Please select an exercise preference';
-            applyErrorStyle(preferenceError);
-            isValid = false;
-        }
-        
-        return isValid;
+    if (!preferenceChecked) {
+        preferenceError.textContent = '⚠ Please select an exercise preference';
+        applyErrorStyle(preferenceError);
+        isValid = false;
     }
 
-    function validateStep2() {
-        const heightInput = document.getElementById('height-input');
-        const weightInput = document.getElementById('weight-input');
-        const heightError = document.getElementById('height-error');
-        const weightError = document.getElementById('weight-error');
-        
-        let isValid = true;
-        
-        // 清除之前的错误消息
-        heightError.textContent = '';
-        weightError.textContent = '';
-        heightInput.classList.remove('input-error');
-        weightInput.classList.remove('input-error');
-        
-        // 验证身高
-        const height = parseInt(heightInput.value);
-        if (!heightInput.value) {
-            heightError.textContent = '⚠ Height is required';
-            applyErrorStyle(heightError); 
-            heightInput.classList.add('input-error');
-            isValid = false;
-        } else if (height < 100 || height > 250) {
-            heightError.textContent = '⚠ Height must be between 100-250 cm';
-            applyErrorStyle(heightError); 
-            heightInput.classList.add('input-error');
-            isValid = false;
-        }
-        
-        // 验证体重
-        const weight = parseInt(weightInput.value);
-        if (!weightInput.value) {
-            weightError.textContent = '⚠ Weight is required';
-            applyErrorStyle(weightError);
-            weightInput.classList.add('input-error');
-            isValid = false;
-        } else if (weight < 30 || weight > 200) {
-            weightError.textContent = '⚠ Weight must be between 30-200 kg';
-            applyErrorStyle(weightError);
-            weightInput.classList.add('input-error');
-            isValid = false;
-        }
-        
-        return isValid;
+    return isValid;
+
+}
+
+
+/* Step 2 Validation */
+
+function validateStep2() {
+
+    const heightInput = document.getElementById('height-input');
+    const weightInput = document.getElementById('weight-input');
+
+    const heightError = document.getElementById('height-error');
+    const weightError = document.getElementById('weight-error');
+
+    let isValid = true;
+
+    heightError.textContent = '';
+    weightError.textContent = '';
+
+    heightInput.classList.remove('input-error');
+    weightInput.classList.remove('input-error');
+
+    const height = parseInt(heightInput.value);
+    const weight = parseInt(weightInput.value);
+
+    if (!heightInput.value) {
+        heightError.textContent = '⚠ Height is required';
+        applyErrorStyle(heightError);
+        heightInput.classList.add('input-error');
+        isValid = false;
     }
 
-    function validateStep3() {
-        const conditionsChecked = document.querySelectorAll('input[name="conditions"]:checked');
-        const conditionsError = document.getElementById('conditions-error');
-        
-        // 清除之前的错误消息
-        conditionsError.textContent = '';
-        
-        // 验证是否选择了至少一个条件
-        if (conditionsChecked.length === 0) {
-            conditionsError.textContent = '⚠ Please select at least one option';
-            applyErrorStyle(conditionsError);
-            return false;
-        }
-        
-        return true;
+    else if (height < 100 || height > 250) {
+        heightError.textContent = '⚠ Height must be between 100-250 cm';
+        applyErrorStyle(heightError);
+        heightInput.classList.add('input-error');
+        isValid = false;
     }
 
-    function nextStep(stepNum) {
-        
-        // 如果要前进到第2步，先验证第1步的数据
-        if (stepNum === 2) {
-            if (!validateStep1()) {
-                return; // 验证失败，不进行下一步
-            }
-        }
-        
-        // 如果要前进到第3步，先验证第2步的数据
-        if (stepNum === 3) {
-            if (!validateStep2()) {
-                return; // 验证失败，不进行下一步
-            }
-        }
-
-        // 1️⃣ 先隐藏所有步骤内容
-        var contents = document.getElementsByClassName("step-content");
-        for (var i = 0; i < contents.length; i++) {
-            contents[i].classList.remove("active");
-        }
-
-        // 2️⃣ 更新上面的步骤圆点状态
-        var steps = document.getElementsByClassName("step-item");
-        for (var j = 0; j < steps.length; j++) {
-
-            // 先清除状态
-            steps[j].classList.remove("active");
-            steps[j].classList.remove("completed");
-
-            // 如果在当前步骤之前 → 标记完成
-            if (j + 1 < stepNum) {
-                steps[j].classList.add("completed");
-            }
-
-            // 如果是当前步骤 → 标记为 active
-            if (j + 1 === stepNum) {
-                steps[j].classList.add("active");
-            }
-        }
-
-        // 3️⃣ 显示当前步骤内容
-        var currentStep = document.getElementById("step-" + stepNum);
-        currentStep.classList.add("active");
+    if (!weightInput.value) {
+        weightError.textContent = '⚠ Weight is required';
+        applyErrorStyle(weightError);
+        weightInput.classList.add('input-error');
+        isValid = false;
     }
-    
-    // 为输入框添加实时验证反馈
-    document.addEventListener('DOMContentLoaded', function() {
-        const heightInput = document.getElementById('height-input');
-        const weightInput = document.getElementById('weight-input');
-        const form = document.getElementById('recommendForm');
-        
-        if (heightInput) {
-            heightInput.addEventListener('input', function() {
-                const height = parseInt(this.value);
-                const heightError = document.getElementById('height-error');
-                
-                if (this.value && (height < 100 || height > 250)) {
-                    heightError.textContent = '⚠ Height must be between 100-250 cm';
-                    this.classList.add('input-error');
-                } else {
-                    heightError.textContent = '';
-                    this.classList.remove('input-error');
-                }
-            });
-        }
-        
-        if (weightInput) {
-            weightInput.addEventListener('input', function() {
-                const weight = parseInt(this.value);
-                const weightError = document.getElementById('weight-error');
-                
-                if (this.value && (weight < 30 || weight > 200)) {
-                    weightError.textContent = '⚠ Weight must be between 30-200 kg';
-                    this.classList.add('input-error');
-                } else {
-                    weightError.textContent = '';
-                    this.classList.remove('input-error');
-                }
-            });
+
+    else if (weight < 30 || weight > 200) {
+        weightError.textContent = '⚠ Weight must be between 30-200 kg';
+        applyErrorStyle(weightError);
+        weightInput.classList.add('input-error');
+        isValid = false;
+    }
+
+    return isValid;
+
+}
+
+
+/* Step 3 Validation */
+
+function validateStep3() {
+
+    const conditionsChecked = document.querySelectorAll('input[name="conditions"]:checked');
+    const conditionsError = document.getElementById('conditions-error');
+
+    conditionsError.textContent = '';
+
+    if (conditionsChecked.length === 0) {
+
+        conditionsError.textContent = '⚠ Please select at least one option';
+        applyErrorStyle(conditionsError);
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* Step Navigation */
+
+function nextStep(stepNum) {
+
+    if (stepNum === 2 && !validateStep1()) return;
+    if (stepNum === 3 && !validateStep2()) return;
+
+    var contents = document.getElementsByClassName("step-content");
+
+    for (var i = 0; i < contents.length; i++) {
+        contents[i].classList.remove("active");
+    }
+
+    var steps = document.getElementsByClassName("step-item");
+
+    for (var j = 0; j < steps.length; j++) {
+
+        steps[j].classList.remove("active");
+        steps[j].classList.remove("completed");
+
+        if (j + 1 < stepNum) {
+            steps[j].classList.add("completed");
         }
 
-        // 表单提交时验证第3步
-        form.addEventListener('submit', function(e) {
-            if (!validateStep3()) {
-                e.preventDefault();
+        if (j + 1 === stepNum) {
+            steps[j].classList.add("active");
+        }
+
+    }
+
+    document.getElementById("step-" + stepNum).classList.add("active");
+
+}
+
+
+/* Real-time input validation */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const heightInput = document.getElementById('height-input');
+    const weightInput = document.getElementById('weight-input');
+    const form = document.getElementById('recommendForm');
+
+
+    if (heightInput) {
+
+        heightInput.addEventListener('input', function() {
+
+            const height = parseInt(this.value);
+            const heightError = document.getElementById('height-error');
+
+            if (this.value && (height < 100 || height > 250)) {
+
+                heightError.textContent = '⚠ Height must be between 100-250 cm';
+                this.classList.add('input-error');
+
+            } else {
+
+                heightError.textContent = '';
+                this.classList.remove('input-error');
+
             }
+
         });
+
+    }
+
+
+    if (weightInput) {
+
+        weightInput.addEventListener('input', function() {
+
+            const weight = parseInt(this.value);
+            const weightError = document.getElementById('weight-error');
+
+            if (this.value && (weight < 30 || weight > 200)) {
+
+                weightError.textContent = '⚠ Weight must be between 30-200 kg';
+                this.classList.add('input-error');
+
+            } else {
+
+                weightError.textContent = '';
+                this.classList.remove('input-error');
+
+            }
+
+        });
+
+    }
+
+
+    form.addEventListener('submit', function(e) {
+
+        if (!validateStep3()) {
+            e.preventDefault();
+        }
+
     });
+
+});
+
 </script>
+
 {% endblock %}

@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -13,34 +12,51 @@ import json
 from .models import UserHabit, HabitCheckIn
 
 
-# =========================
-# Auth
-# =========================
+# =====================================================
+# Authentication Views
+# Handles user account actions such as register/login
+# =====================================================
 
 def register_page(request):
+    """
+    Render and handle the user registration page.
+    Creates a new user and logs them in immediately.
+    """
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
 
+        # Prevent duplicate accounts
         if User.objects.filter(username=email).exists():
             return render(request, 'auth/register.html', {
                 'error': 'This email has been registered.'
             })
 
+        # Create account
         user = User.objects.create_user(username=email, email=email, password=password)
+
+        # Automatically log in after registration
         auth_login(request, user)
+
         return redirect('main_dashboard')
 
     return render(request, 'auth/register.html')
 
 
 def password_reset_page(request):
+    """
+    Allows a user to reset their password by entering email and new password.
+    """
+
     if request.method == 'POST':
+
         email = request.POST.get('email')
         password = request.POST.get('password')
 
         try:
             user = User.objects.get(username=email)
+
         except User.DoesNotExist:
             return render(request, 'auth/password_reset.html', {
                 'error': 'No account found for that email.'
@@ -50,12 +66,17 @@ def password_reset_page(request):
         user.save()
 
         auth_login(request, user)
+
         return redirect('main_dashboard')
 
     return render(request, 'auth/password_reset.html')
 
 
 def login_page(request):
+    """
+    Handle user login authentication.
+    """
+
     if request.method == 'POST':
 
         email = request.POST.get('email')
@@ -75,21 +96,34 @@ def login_page(request):
 
 
 def logout_view(request):
+    """
+    Log the current user out and redirect to login page.
+    """
+
     auth_logout(request)
     return redirect('login')
 
 
 def main_dashboard(request):
+    """
+    Main dashboard page after login.
+    """
+
     return render(request, 'habits/dashboard.html')
 
 
 def history_page(request):
+    """
+    Display historical habit activity page.
+    """
+
     return render(request, 'habits/history.html')
 
 
-# =========================
-# Sport dataset
-# =========================
+# =====================================================
+# Sport Dataset
+# Static dataset used by the recommendation system
+# =====================================================
 
 SPORT_LIBRARY = {
 
@@ -151,11 +185,19 @@ SPORT_LIBRARY = {
 }
 
 
-# =========================
+# =====================================================
 # Recommendation Engine
-# =========================
+# Core algorithm used to suggest sports habits
+# =====================================================
 
 def recommendation_engine(data):
+    """
+    Generate sport recommendations based on:
+    - User goal
+    - Exercise preference
+    - BMI
+    - Health conditions
+    """
 
     goal = data.get("goal")
     preference = data.get("preference")
@@ -165,10 +207,13 @@ def recommendation_engine(data):
 
     conditions = data.getlist("conditions") if hasattr(data, "getlist") else []
 
+    # BMI calculation
     bmi = weight / ((height / 100) ** 2)
 
+    # Base score for all sports
     scores = {sport: 50 for sport in SPORT_LIBRARY}
 
+    # Goal based scoring
     if goal == "Improve physical fitness":
         scores["Running"] += 25
         scores["Cycling"] += 20
@@ -187,6 +232,7 @@ def recommendation_engine(data):
         scores["Strength Training"] += 40
         scores["HIIT"] += 20
 
+    # Preference scoring
     if preference == "cardio":
         scores["Running"] += 15
         scores["Cycling"] += 15
@@ -203,6 +249,7 @@ def recommendation_engine(data):
         scores["Running"] += 10
         scores["Cycling"] += 10
 
+    # BMI adjustments
     if bmi < 18.5:
         scores["Strength Training"] += 20
 
@@ -219,11 +266,13 @@ def recommendation_engine(data):
         scores["Swimming"] += 30
         scores["Running"] -= 20
 
+    # Sort by score and select top 3
     sorted_sports = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:3]
 
     candidates = []
 
     for name, score in sorted_sports:
+
         sport = SPORT_LIBRARY[name]
 
         candidates.append({
@@ -239,32 +288,40 @@ def recommendation_engine(data):
     return candidates
 
 
-# =========================
-# Recommendation pages
-# =========================
+# =====================================================
+# Recommendation Pages
+# UI pages that interact with the recommendation engine
+# =====================================================
 
 def recommend_view(request):
+    """
+    Display the recommendation questionnaire page.
+    """
+
     return render(request, 'habits/recommend.html')
 
 
 def generate_plan(request):
+    """
+    Process questionnaire results and generate sport recommendations.
+    """
 
     if request.method == "POST":
 
         candidates = recommendation_engine(request.POST)
-        
-        # 将原始查询字符串保存到 session，以便出现重复错误时能重新计算
-        # 使用 urlencode 可以保留重复字段（如 checkbox 列表）
+
+        # Store query in session for later reuse
         request.session['recommendation_query'] = request.POST.urlencode()
 
         return render(request, "habits/recommend_result.html", {
-            "candidates": candidates
+            "candidates": json.dumps(candidates)
         })
 
 
-# =========================
-# Habit creation
-# =========================
+# =====================================================
+# Habit Creation
+# Handles creation of habits from manual input or recommendation
+# =====================================================
 
 @login_required
 def save_habit(request):
@@ -279,7 +336,7 @@ def save_habit(request):
 
         from_recommend = request.POST.get("from_recommend")
 
-        # 推荐创建：跳过重复检测
+        # If created directly from recommendation system
         if from_recommend == "true":
 
             UserHabit.objects.create(
@@ -292,7 +349,7 @@ def save_habit(request):
 
             return redirect("my_habits")
 
-        # 检查是否已有相同名称和类型的习惯
+        # Check for duplicate habit name + type
         name_exists = UserHabit.objects.filter(
             user=request.user,
             habit_name=habit_name,
@@ -300,17 +357,20 @@ def save_habit(request):
         ).exists()
 
         if name_exists:
-            # 如果是从推荐页面来的，返回到推荐结果页面显示错误
+
             if request.POST.get("from_recommend_page") == "true":
-                # 重新从先前保存的查询信息计算候选项，避免 session 中可能丢失的数据
+
                 from django.http import QueryDict
                 query = request.session.get('recommendation_query', '')
+
                 candidates = recommendation_engine(QueryDict(query))
+
                 return render(request, "habits/recommend_result.html", {
                     "candidates": candidates,
                     "error": "You already have a habit with this name and sport type. This combination cannot be created again.",
                     "error_type": "duplicate_exact"
                 })
+
             return render(request, "habits/create.html", {
                 "duplicate": True,
                 "duplicate_type": "name"
@@ -324,16 +384,15 @@ def save_habit(request):
             intensity_level=1
         )
 
-
-        # return redirect("my_habits")
         return redirect("/my-habits/?created=1")
 
     return redirect("create_page")
 
 
-# =========================
-# Habit pages
-# =========================
+# =====================================================
+# Habit Management Pages
+# Display and manage user habits
+# =====================================================
 
 @login_required
 def my_habits(request):
@@ -378,12 +437,14 @@ def adjust_intensity(request, habit_id, action):
     return redirect("my_habits")
 
 
-# =========================
-# Check-in system
-# =========================
+# =====================================================
+# Habit Check-in System
+# Handles daily habit tracking and XP system
+# =====================================================
 
 @login_required
 def check_in(request, habit_id):
+
     habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
     today = timezone.now().date()
 
@@ -396,7 +457,7 @@ def check_in(request, habit_id):
         user_habit=habit,
         date=today,
         xp_gained=xp_gained,
-        duration=habit.duration_each_time  # 保存当时 duration
+        duration=habit.duration_each_time
     )
 
     habit.experience_points += xp_gained
@@ -435,9 +496,13 @@ def habit_calendar(request, habit_id):
 
 @login_required
 def checkin_date(request, habit_id):
+
     if request.method == "POST":
+
         habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
+
         data = json.loads(request.body)
+
         date_str = data.get("date")
         date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
 
@@ -450,7 +515,7 @@ def checkin_date(request, habit_id):
             user_habit=habit,
             date=date_obj,
             xp_gained=xp_gain,
-            duration=habit.duration_each_time  # 保存当时 duration
+            duration=habit.duration_each_time
         )
 
         habit.experience_points += xp_gain
@@ -470,6 +535,11 @@ def checkin_date(request, habit_id):
 
         return JsonResponse({"status": "success"})
 
+
+# =====================================================
+# Habit Creation Page
+# =====================================================
+
 @login_required
 def create_page(request):
 
@@ -477,21 +547,34 @@ def create_page(request):
         "sports": SPORT_LIBRARY
     })
 
+
+# =====================================================
+# Habit Data Analysis
+# Provides monthly/yearly statistics for charts
+# =====================================================
+
 @login_required
 def habit_analysis(request, habit_id):
+
     habit = get_object_or_404(UserHabit, id=habit_id, user=request.user)
+
     view = request.GET.get("view", "monthly")
+
     month_param = request.GET.get("month")
+
     current_year = datetime.now().year
 
     if month_param is not None:
-        month_param = int(month_param) + 1  # 前端 0-11 转 Django 1-12
+        month_param = int(month_param) + 1
 
     if view == "monthly":
+
         if month_param:
-            # 返回指定月份的每日数据
+
             from calendar import monthrange
+
             days_in_month = monthrange(current_year, month_param)[1]
+
             daily_data = [
                 sum(c.duration for c in HabitCheckIn.objects.filter(
                     user_habit=habit,
@@ -500,12 +583,12 @@ def habit_analysis(request, habit_id):
                     date__day=day
                 )) for day in range(1, days_in_month + 1)
             ]
+
             return JsonResponse({
                 "labels": [str(d) for d in range(1, days_in_month + 1)],
                 "data": daily_data
             })
 
-        # 每月总和（1-12 月）
         monthly_data = [
             sum(c.duration for c in HabitCheckIn.objects.filter(
                 user_habit=habit,
@@ -513,13 +596,14 @@ def habit_analysis(request, habit_id):
                 date__month=m
             )) for m in range(1,13)
         ]
+
         return JsonResponse({
             "labels": [str(m) for m in range(1,13)],
             "data": monthly_data
         })
 
     elif view == "yearly":
-        # 返回一年内每个月的总 duration
+
         monthly_data = [
             sum(c.duration for c in HabitCheckIn.objects.filter(
                 user_habit=habit,
@@ -527,6 +611,7 @@ def habit_analysis(request, habit_id):
                 date__month=m
             )) for m in range(1,13)
         ]
+
         return JsonResponse({
             "labels": [str(m) for m in range(1,13)],
             "data": monthly_data

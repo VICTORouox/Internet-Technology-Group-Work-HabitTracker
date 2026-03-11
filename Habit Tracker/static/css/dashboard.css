@@ -18,11 +18,13 @@
     content:"";
     position:absolute;
     inset:0;
+
     background-image:url('/static/images/create.jpg');
     background-size:cover;
     background-position:center;
     background-blend-mode:overlay;
     background-color:rgba(0,0,0,0.5);
+
     z-index:0;
     transition:transform .8s ease;
 }
@@ -80,16 +82,21 @@
     top:0;
     left:0;
     width:100%;
+
     z-index:1000;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(18px);
-    padding:1.5rem 3rem;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    padding:1.5rem 3rem;
     box-sizing:border-box;
+
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(18px);
     border-bottom:1px solid rgba(255,255,255,0.06);
-    transition: all .4s ease;
+
+    transition:all .4s ease;
 }
 
 
@@ -101,11 +108,13 @@
     position:relative;
     width:100%;
     min-height:100vh;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     gap:2rem;
+
     background-color:#000;
     overflow:hidden;
 }
@@ -113,10 +122,12 @@
 .recommend-banner::before{
     content:"";
     position:absolute;
+
     top:0;
     left:0;
     width:100%;
     height:100%;
+
     z-index:0;
 
     background-image:url('https://cdn.stocksnap.io/img-thumbs/960w/man-ready_LUUN7W5K8P.jpg');
@@ -170,20 +181,27 @@
 }
 
 
+/* ============================= */
 /* BUTTON */
+/* ============================= */
 
 .recommend-btn{
     padding:16px 40px;
     font-size:1.1rem;
+
     background:#4ade80;
     color:#111827;
+
     border:none;
     border-radius:9999px;
+
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:.05em;
+
     cursor:pointer;
     margin-top:30px;
+
     transition:all .3s ease;
     display:inline-block;
 }
@@ -191,8 +209,10 @@
 .recommend-btn:hover{
     transform:scale(1.1);
     background:#22c55e;
-    box-shadow:0 10px 15px -3px rgba(0,0,0,.2),
-            0 4px 6px -2px rgba(0,0,0,.1);
+
+    box-shadow:
+        0 10px 15px -3px rgba(0,0,0,.2),
+        0 4px 6px -2px rgba(0,0,0,.1);
 }
 
 
@@ -202,7 +222,7 @@
 
 .habit-section{
     padding:80px 0 130px 0;
-    width: 100%;
+    width:100%;
     margin:auto;
 }
 
@@ -210,6 +230,7 @@
     font-family:'Inter',sans-serif;
     font-size:2.5rem;
     color:#1a1c19;
+
     margin-bottom:40px;
     font-weight:500;
     padding-left:120px;
@@ -222,7 +243,7 @@
 
 .habit-slider-wrapper{
     position:relative;
-    width: 85%;
+    width:85%;
     margin:auto;
     padding-bottom:40px;
 }
@@ -230,9 +251,11 @@
 .habit-cards-container{
     display:flex;
     gap:40px;
+
     overflow-x:auto;
     overflow-y:visible;
     scroll-behavior:smooth;
+
     padding:20px;
 }
 
@@ -248,10 +271,13 @@
 .habit-card{
     flex:0 0 320px;
     height:420px;
+
     border-radius:24px;
     overflow:hidden;
+
     position:relative;
     cursor:pointer;
+
     transition:transform .35s ease, box-shadow .35s ease;
 }
 
@@ -267,31 +293,33 @@
     object-fit:cover;
 }
 
-.habit-img-Cycling{
+
+/* 保持你原来的图片焦点位置 */
+.habit-img-cycling{
     position:absolute;
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:90% center; 
+    object-position:90% center;
 }
 
-.habit-img-Swimming{
+.habit-img-swimming{
     position:absolute;
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:95% center; 
+    object-position:95% center;
 }
 
-.habit-img-Rope{
+.habit-img-rope{
     position:absolute;
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:95% center; 
+    object-position:95% center;
 }
 
-.habit-img-HIIT{
+.habit-img-hiit{
     position:absolute;
     width:100%;
     height:100%;
@@ -307,20 +335,23 @@
 .habit-overlay{
     position:absolute;
     inset:0;
+
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
     align-items:center;
+
     text-align:center;
     color:white;
     padding:30px;
 
     background:linear-gradient(
-    to top,
-    rgba(0,0,0,.7),
-    rgba(0,0,0,.3),
-    transparent
+        to top,
+        rgba(0,0,0,.7),
+        rgba(0,0,0,.3),
+        transparent
     );
+
     transition:background .4s ease;
 }
 
@@ -364,6 +395,7 @@
     opacity:1;
 }
 
+
 /* ============================= */
 /* SLIDER ARROWS */
 /* ============================= */
@@ -372,16 +404,21 @@
     position:absolute;
     top:50%;
     transform:translateY(-50%);
+
     width:50px;
     height:50px;
+
     background:white;
     border:none;
     border-radius:50%;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     box-shadow:0 4px 12px rgba(0,0,0,.1);
     cursor:pointer;
+
     z-index:10;
     transition:all .3s ease;
     color:#111;
@@ -393,5 +430,10 @@
     transform:translateY(-50%) scale(1.1);
 }
 
-.left-arrow{ left:-25px; }
-.right-arrow{ right:-25px; }
+.left-arrow{
+    left:-25px;
+}
+
+.right-arrow{
+    right:-25px;
+}

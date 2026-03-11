@@ -7,45 +7,74 @@
 <link rel="stylesheet" href="{% static 'css/create.css' %}">
 {% endblock %}
 
+
 {% block content %}
+
+<!-- ================= CREATE HABIT PAGE ================= -->
 
 <div class="create-page">
 
-    <!-- 左侧运动背景 -->
+
+    <!-- Left Side Hero Section -->
+
     <div class="hero-side">
+
         <div class="hero-text">
             Start To Be Yourself
         </div>
+
     </div>
 
 
-    <!-- 右侧终极白卡表单 -->
+
+    <!-- Right Side Form Section -->
+
     <div class="form-side">
 
         <div class="create-card">
 
+
+            <!-- Card Header -->
+
             <div class="create-header">
+
                 <h1>🏆 Create New Habit</h1>
-                <p>Start small. Build consistency. Become unstoppable.</p>
+
+                <p>
+                    Start small. Build consistency. Become unstoppable.
+                </p>
+
             </div>
 
 
+
+            <!-- Create Habit Form -->
+
             <form method="POST" action="{% url 'save_habit' %}">
+
                 {% csrf_token %}
 
+
+                <!-- Habit Name Input -->
+
                 <div class="form-group">
-                    <label for="habit-name">Habit Name</label>
+
+                    <label for="habit-name">
+                        Habit Name
+                    </label>
 
                     <input
                         type="text"
                         id="habit-name"
                         name="habit_name"
-                        placeholder="Enter or choose a habit"
                         class="habit-input"
+                        placeholder="Enter or choose a habit"
                         list="habit-options"
                         required
                         aria-required="true"
                     >
+
+                    <!-- Suggested Habit Options -->
 
                     <datalist id="habit-options">
                         <option value="Running">
@@ -57,42 +86,110 @@
                         <option value="HIIT">
                         <option value="Brisk Walking">
                     </datalist>
+
                 </div>
 
 
-                <div class="form-group">
-                    <label for="sport-type">Sport Type</label>
 
-                    <select id="sport-type" name="sport_type" class="sport-select" required aria-required="true">
-                        <option value="">Select sport category</option>
-                        <option value="Cardio">🏃 Cardio / Endurance</option>
-                        <option value="Strength">🏋️ Strength Training</option>
-                        <option value="Flexibility">🧘 Flexibility & Mobility</option>
-                        <option value="Fat Burning">🔥 Fat Burning</option>
-                        <option value="Relaxation">🌿 Stress Relief</option>
-                        <option value="Low Impact">🚶 Low Impact Exercise</option>
+                <!-- Sport Type Selection -->
+
+                <div class="form-group">
+
+                    <label for="sport-type">
+                        Sport Type
+                    </label>
+
+                    <select
+                        id="sport-type"
+                        name="sport_type"
+                        class="sport-select"
+                        required
+                        aria-required="true"
+                    >
+
+                        <option value="">
+                            Select sport category
+                        </option>
+
+                        <option value="Cardio">
+                            🏃 Cardio / Endurance
+                        </option>
+
+                        <option value="Strength">
+                            🏋️ Strength Training
+                        </option>
+
+                        <option value="Flexibility">
+                            🧘 Flexibility & Mobility
+                        </option>
+
+                        <option value="Fat Burning">
+                            🔥 Fat Burning
+                        </option>
+
+                        <option value="Relaxation">
+                            🌿 Stress Relief
+                        </option>
+
+                        <option value="Low Impact">
+                            🚶 Low Impact Exercise
+                        </option>
+
                     </select>
 
                 </div>
 
 
-                <div class="form-group">
-                    <label for="intensity-level">Intensity Level</label>
 
-                    <select id="intensity-level" name="duration" class="intensity-select">
-                        <option value="30 mins">Level 1 (30 mins)</option>
-                        <option value="40 mins">Level 2 (40 mins)</option>
-                        <option value="50 mins">Level 3 (50 mins)</option>
-                        <option value="60 mins">Level 4 (60 mins)</option>
-                        <option value="70 mins">Level 5 (70 mins)</option>
+                <!-- Intensity Level Selection -->
+
+                <div class="form-group">
+
+                    <label for="intensity-level">
+                        Intensity Level
+                    </label>
+
+                    <select
+                        id="intensity-level"
+                        name="duration"
+                        class="intensity-select"
+                    >
+
+                        <option value="30 mins">
+                            Level 1 (30 mins)
+                        </option>
+
+                        <option value="40 mins">
+                            Level 2 (40 mins)
+                        </option>
+
+                        <option value="50 mins">
+                            Level 3 (50 mins)
+                        </option>
+
+                        <option value="60 mins">
+                            Level 4 (60 mins)
+                        </option>
+
+                        <option value="70 mins">
+                            Level 5 (70 mins)
+                        </option>
+
                     </select>
 
                 </div>
 
 
-                <button type="submit" class="create-btn">
+
+                <!-- Submit Button -->
+
+                <button
+                    type="submit"
+                    class="create-btn"
+                >
                     Create Habit
                 </button>
+
 
             </form>
 
@@ -103,7 +200,11 @@
 </div>
 
 
+
+<!-- ================= DUPLICATE HABIT WARNING ================= -->
+
 {% if duplicate %}
+
 <script>
 
 let message = "This habit (name + type combination) already exists and cannot be created again.";
@@ -111,12 +212,14 @@ let message = "This habit (name + type combination) already exists and cannot be
 setTimeout(() => {
 
     alert(message);
-    // 返回到上一页
+
     window.history.back();
 
 }, 100);
 
 </script>
+
 {% endif %}
+
 
 {% endblock %}

@@ -1,37 +1,169 @@
-/* --- 注册页组件分离 (严格保持原有视觉) --- */
+/* ------------------------
+   Register Page Layout
+   (Styled similar to Login Page)
+------------------------- */
 
-/* 注册页专用的圆角输入框 */
-.input-field-aura {
+/* Container for the page */
+.register-container {
+    display: flex;
+    align-items: flex-start; /* Push content slightly down */
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    padding-top: 8rem; /* Offset page down */
+    animation: fade-up 0.6s ease;
+    overflow: hidden;
+}
+
+/* Panel wrapper */
+.register-panel {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.5); /* bg-white/50 */
-    border: 1px solid #F3F4F6; /* border-gray-100 */
-    border-radius: 1rem; /* rounded-2xl */
-    padding: 1rem 1.25rem; /* px-5 py-4 */
-    margin-top: 0.5rem; /* mt-2 */
+    max-width: 460px;
+    text-align: center;
+
+    /* rounded glass rectangle */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+/* ------------------------
+   Headers / Branding
+------------------------- */
+.register-title {
+    font-family: serif;
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.register-subtitle {
+    font-size: 1rem;
+    color: #4B5563;
+    margin-bottom: 2.5rem;
+}
+
+/* ------------------------
+   Form / Inputs
+------------------------- */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    color: #4B5563;
+}
+
+/* Input fields */
+.input-field {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid #F3F4F6;
+    background-color: rgba(255, 255, 255, 0.5);
     font-size: 0.875rem;
     transition: all 0.3s ease;
     outline: none;
 }
 
-.input-field-aura:focus {
-    border-color: #2D5A27; /* focus:border-[#2D5A27] */
+.input-field:focus {
+    border-color: #2D5A27;
 }
 
-/* 注册页底部链接文字 */
-.register-footer-text {
-    font-size: 10px;
-    color: #9CA3AF; /* text-gray-400 */
-    text-align: center;
-    margin-top: 1.5rem; /* mt-6 */
+/* Password match/error messages */
+.password-msg {
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+.password-msg.error {
+    color: #B91C1C;
+}
+
+.password-msg.success {
+    color: #22C55E;
+}
+
+/* ------------------------
+   Buttons
+------------------------- */
+.btn-primary {
+    width: 100%;
+    padding: 1rem 0;
+    border-radius: 1rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em; /* tracking-widest */
+    letter-spacing: 0.2em;
+    color: #fff;
+    background-color: #2D5A27;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.register-footer-text a {
+.btn-primary:hover {
+    background-color: #21441A;
+}
+
+/* ------------------------
+   Footer / Links
+------------------------- */
+.register-footer {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9CA3AF;
+}
+
+.register-footer a {
     color: #2D5A27;
+    font-weight: 600;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.register-footer-text a:hover {
+.register-footer a:hover {
+    color: #166534; /* dark green on hover */
     text-decoration: underline;
+}
+
+/* ------------------------
+   Accessibility
+------------------------- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background-color: #2D5A27;
+    color: #fff;
+    z-index: 50;
 }

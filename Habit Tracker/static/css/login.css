@@ -1,6 +1,28 @@
-/* --- 登录页组件分离 (不改变现有视觉) --- */
+/* ------------------------
+   Login Page Layout
+------------------------- */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    animation: fade-up 0.6s ease;
+}
 
-/* 品牌图标包装器 */
+.login-panel {
+    width: 100%;
+    max-width: 460px;
+}
+
+/* ------------------------
+   Header / Branding
+------------------------- */
+.login-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
 .brand-icon-wrapper {
     width: 64px;
     height: 64px;
@@ -13,87 +35,191 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.03);
 }
 
-.brand-icon-wrapper i {
+.brand-icon {
     width: 32px;
     height: 32px;
 }
 
-/* 输入框容器 */
+.login-title {
+    font-family: serif;
+    font-size: 3rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+}
+
+.branding-subtitle {
+    color: #4B5563;
+}
+
+/* ------------------------
+   Form / Inputs
+------------------------- */
+.glass-panel {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.login-subtitle {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    color: #1F2937;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
 .input-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-/* 标签样式 */
 .input-label {
-    font-size: 10px;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #4B5563; /* 改为深灰色提高对比度 */
     font-weight: 500;
+    color: #4B5563;
 }
 
-/* 输入框组合：底部边线效果 */
-.input-group-aura {
+.input-group {
     display: flex;
     align-items: center;
-    border-bottom: 2px solid #D1D5DB; /* border-gray-300 */
-    transition: all 0.3s ease;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #D1D5DB;
+    padding: 0.5rem 0;
+    transition: border-color 0.3s ease;
 }
 
-.input-group-aura:focus-within {
-    border-color: #2D5A27; /* 聚焦时的深绿 */
+.input-group:focus-within {
+    border-color: #2D5A27;
 }
 
-.input-group-aura input {
-    background: transparent;
-    width: 100%;
-    font-size: 0.875rem; /* text-sm */
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+.input-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.75rem;
+    color: #9CA3AF;
+}
+
+.input-group input {
+    flex: 1;
     border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    outline: none;
 }
 
-.input-group-aura input:focus {
-    outline: 2px solid #2D5A27;
-    outline-offset: 2px;
+/* Password header */
+.password-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* 次级按钮 (注册按钮) */
-.btn-secondary-aura {
+.forgot-link {
+    font-size: 0.625rem;
+    color: #374151;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    color: #000;
+}
+
+/* ------------------------
+   Error Message
+------------------------- */
+.error-message {
+    font-size: 0.875rem;
+    color: #B91C1C;
+    background-color: #FEF2F2;
+    padding: 0.75rem;
+    border-left: 4px solid #B91C1C;
+    border-radius: 0.25rem;
+    font-style: italic;
+}
+
+/* ------------------------
+   Buttons
+------------------------- */
+.login-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary,
+.btn-secondary {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    border-radius: 1rem; /* rounded-2xl */
-    border: 2px solid #D1D5DB;
-    font-size: 11px;
+    padding: 1rem 0;
+    border-radius: 1rem;
+    font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 600;
-    color: #1F2937; /* 更深的灰色提高对比度 */
-    transition: all 0.3s ease;
     text-decoration: none;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-.btn-secondary-aura:hover {
-    background-color: #F9FAFB; /* gray-50 */
-    border-color: #9CA3AF; /* gray-400 */
+.btn-primary {
+    background-color: #2D5A27;
+    color: #fff;
+    border: none;
 }
 
-.btn-secondary-aura:focus {
-    outline: 2px solid #2D5A27;
-    outline-offset: 2px;
+.btn-primary:hover {
+    background-color: #21441A;
 }
 
-.btn-secondary-aura:focus-visible {
-    outline: 2px solid #2D5A27;
-    outline-offset: 2px;
+.btn-secondary {
+    background-color: transparent;
+    color: #1F2937;
+    border: 2px solid #D1D5DB;
+}
+
+.btn-secondary:hover {
+    background-color: #F9FAFB;
+    border-color: #9CA3AF;
+}
+
+.btn-icon {
+    width: 12px;
+    height: 12px;
+    margin-left: 0.5rem;
+    opacity: 0.6;
+}
+
+/* ------------------------
+   Accessibility
+------------------------- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background-color: #2D5A27;
+    color: #fff;
+    z-index: 50;
 }

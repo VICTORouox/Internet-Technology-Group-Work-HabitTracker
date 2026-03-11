@@ -2,103 +2,88 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
 {% endblock %}
 
 {% block body_class %}no-scroll{% endblock %}
-
 {% block title %}Join Aura | Start Your Journey{% endblock %}
 
 {% block content %}
-<!-- Skip to main content link for keyboard users -->
-<a href="#registerForm" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:bg-green-700 focus:text-white focus:p-2 focus:z-50">
-    Skip to registration form
-</a>
+<!-- Skip link for keyboard navigation -->
+<a href="#registerForm" class="sr-only skip-link">Skip to registration form</a>
 
-<main class="max-w-[460px] mx-auto p-6 pt-20 fade-up">
-    <article class="glass-panel !p-10 text-center">
-        <h1 class="serif text-3xl mb-2">Create Account</h1>
-        <p class="branding-subtitle mb-10">Join our minimalist community</p>
+<main class="register-container">
+    <article class="register-panel">
 
-        <form method="POST" id="registerForm" class="space-y-6 text-left">
+        <!-- Page heading -->
+        <h1 class="register-title">Create Account</h1>
+        <p class="register-subtitle">Join our minimalist community</p>
+
+        <!-- Registration form -->
+        <form method="POST" id="registerForm" class="register-form">
             {% csrf_token %}
-            
-            <div class="input-container">
-                <label for="email-reg" class="input-label ml-1">Email Address</label>
-                <input type="email" id="email-reg" name="email" required class="input-field-aura" aria-required="true">
+
+            <!-- Email input -->
+            <div class="input-group">
+                <label for="email-reg" class="input-label">Email Address</label>
+                <input type="email" id="email-reg" name="email" required class="input-field" aria-required="true">
             </div>
 
-            <div class="input-container">
-                <label for="pw1" class="input-label ml-1">Set Password</label>
-                <input type="password" id="pw1" name="password" required class="input-field-aura" aria-required="true">
+            <!-- Password input -->
+            <div class="input-group">
+                <label for="pw1" class="input-label">Set Password</label>
+                <input type="password" id="pw1" name="password" required class="input-field" aria-required="true">
             </div>
 
-            <div class="input-container">
-                <div class="flex justify-between items-center ml-1">
+            <!-- Confirm password input -->
+            <div class="input-group">
+                <div class="password-header">
                     <label for="pw2" class="input-label">Confirm Password</label>
-                    <span id="msg" class="text-sm text-red-600 normal-case italic" aria-live="polite" aria-atomic="true"></span>
+                    <span id="msg" class="password-msg" aria-live="polite" aria-atomic="true"></span>
                 </div>
-                <input type="password" id="pw2" required class="input-field-aura" aria-required="true" aria-describedby="msg">
+                <input type="password" id="pw2" required class="input-field" aria-required="true" aria-describedby="msg">
             </div>
 
-            <button type="submit" id="regBtn" class="w-full btn-primary-aura !py-4 mt-4" aria-label="Complete registration">Complete Registration</button>
-            
-            <p class="register-footer-text">
-                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-gray-900 hover:text-green-700 transition-colors">Sign In</a>
+            <!-- Submit button -->
+            <button type="submit" id="regBtn" class="btn-primary">Complete Registration</button>
+
+            <!-- Footer link -->
+            <p class="register-footer">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="sign-in-link">Sign In</a>
             </p>
         </form>
     </article>
 </main>
 
-<style>
-    .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0;
-    }
-    
-    .focus\:not-sr-only:focus {
-        position: static;
-        width: auto;
-        height: auto;
-        padding: 8px 12px;
-        margin: 0;
-        overflow: visible;
-        clip: auto;
-        white-space: normal;
-    }
-</style>
+<!-- Accessibility helpers -->
+<a class="sr-only skip-link" href="#registerForm">Skip to registration form</a>
 
 <script>
-    const pw1 = document.getElementById('pw1');
-    const pw2 = document.getElementById('pw2');
-    const msg = document.getElementById('msg');
-    const btn = document.getElementById('regBtn');
+const pw1 = document.getElementById('pw1');
+const pw2 = document.getElementById('pw2');
+const msg = document.getElementById('msg');
+const btn = document.getElementById('regBtn');
 
-    function validate() {
-        if (pw2.value === "") {
-            msg.innerText = "";
-            btn.style.opacity = "1";
-            btn.disabled = false;
-        } else if (pw1.value !== pw2.value) {
-            msg.innerText = "Passwords do not match";
-            msg.className = "text-sm text-red-600 normal-case italic";
-            btn.style.opacity = "0.5";
-            btn.disabled = true;
-        } else {
-            msg.innerText = "✓ Passwords match";
-            msg.className = "text-sm text-green-600 normal-case italic font-medium";
-            btn.style.opacity = "1";
-            btn.disabled = false;
-        }
+function validate() {
+    if (pw2.value === "") {
+        msg.innerText = "";
+        btn.style.opacity = "1";
+        btn.disabled = false;
+    } else if (pw1.value !== pw2.value) {
+        msg.innerText = "Passwords do not match";
+        msg.className = "password-msg error";
+        btn.style.opacity = "0.5";
+        btn.disabled = true;
+    } else {
+        msg.innerText = "✓ Passwords match";
+        msg.className = "password-msg success";
+        btn.style.opacity = "1";
+        btn.disabled = false;
     }
-    pw1.addEventListener('input', validate);
-    pw2.addEventListener('input', validate);
+}
+
+pw1.addEventListener('input', validate);
+pw2.addEventListener('input', validate);
 </script>
 {% endblock %}
