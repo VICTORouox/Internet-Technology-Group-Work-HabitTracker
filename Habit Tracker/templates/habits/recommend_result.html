@@ -7,6 +7,12 @@
 
 {% block content %}
 
+<script>
+    // 确保 candidates 和 currentIndex 在所有脚本前被定义
+    const candidates = {{ candidates|safe }};
+    let currentIndex = 0;
+</script>
+
 <section class="result-hero">
 
     <!-- 左侧沉浸视觉区 -->
@@ -73,32 +79,17 @@
 </section>
 
 {% if error %}
-<form id="forceCreateForm" action="{% url 'save_habit' %}" method="POST" style="display:none;">
-    {% csrf_token %}
-    <input type="hidden" name="habit_name" value="{{ candidates.0.name }}">
-    <input type="hidden" name="duration" value="{{ candidates.0.plan }}">
-    <input type="hidden" name="sport_type" value="{{ candidates.0.type }}">
-    <input type="hidden" name="from_recommend_page" value="true">
-    <input type="hidden" name="force_create" value="true">
-</form>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
     var msg = '{{ error|escapejs }}';
-    {% if error_type == "name" %}
-        if (confirm(msg + '\nWould you like to create it anyway?')) {
-            document.getElementById('forceCreateForm').submit();
-        }
-    {% else %}
-        alert(msg);
-    {% endif %}
+    alert(msg);
+    // 返回上一页
+    window.history.back();
 });
 </script>
 {% endif %}
 
 <script>
-    const candidates = {{ candidates|safe }};
-    let currentIndex = 0;
-
     function renderHabit(index) {
         if (!candidates || candidates.length === 0) return;
 
@@ -127,10 +118,5 @@ window.addEventListener('DOMContentLoaded', function() {
     if (candidates && candidates.length > 0) {
         renderHabit(currentIndex);
     }
-
-    if (candidates && candidates.length > 0) {
-        renderHabit(0);
-    }
-</script>
 
 {% endblock %}
