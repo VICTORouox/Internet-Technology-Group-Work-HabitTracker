@@ -1,6 +1,6 @@
 /**
- * 身份验证交互处理器
- * 处理表单提交时的 UI 状态切换和可访问性反馈
+ * Authentication interaction handler
+ * Handle UI state switching and accessibility feedback during form submission
  */
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
@@ -8,22 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
-            // 在实际 Django 环境中，如果你想处理 AJAX 登录，会用到 preventDefault
-            // 这里我们仅展示高级感的加载反馈
             
-            // 为屏幕阅读器用户添加反馈
+            // Add feedback for screen reader users
             submitBtn.setAttribute('aria-busy', 'true');
             submitBtn.setAttribute('disabled', 'disabled');
             
             const originalText = submitBtn.querySelector('span').innerText;
             submitBtn.querySelector('span').innerText = 'Verifying credentials...';
             
-            // 重新渲染 Lucide 图标以处理动态内容
+            // Re-render Lucide icons to handle dynamic content
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
             
-            // 恢复原始状态的延时备份（以防提交失败）
+            // Delayed backup to restore original state (in case submission fails)
             setTimeout(() => {
                 submitBtn.removeAttribute('aria-busy');
                 submitBtn.removeAttribute('disabled');
@@ -35,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // 为所有表单添加验证反馈
+    // Add validation feedback for all forms
     const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
     inputs.forEach(input => {
         input.addEventListener('invalid', (e) => {

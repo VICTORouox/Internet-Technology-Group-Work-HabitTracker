@@ -84,7 +84,7 @@
     transition: color .25s ease;
 }
 
-/* icon */
+/* Icon styles */
 .nav-logout-link i {
     font-size: 22px !important;
     font-weight:600 !important;
@@ -93,12 +93,12 @@
     transition: transform 0.25s ease;
 }
 
-/* hover效果 */
+/* Hover effect */
 .nav-logout-link:hover {
     color: #ef4444;
 }
 
-/* hover时 icon 微动画 */
+/* Micro animation for icon on hover */
 .nav-logout-link:hover i {
     transform: translateX(-2px);
 }

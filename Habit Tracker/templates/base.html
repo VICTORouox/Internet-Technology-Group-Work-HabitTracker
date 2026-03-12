@@ -26,7 +26,7 @@
     Skip to main content
 </a>
 
-<!-- 全站统一导航栏 -->
+<!-- Global site-wide navigation bar -->
 {% if request.path != '/login/' and request.path != '/register/' and request.path != '/password-reset/' and request.path != '/recommend/' %}
     <header class="aura-header" role="banner">
         <a href="{% url 'logout' %}" class="nav-logout-link" aria-label="Log out">
@@ -41,25 +41,8 @@
     {% block content %}{% endblock %}
 </main>
 
-<script>
-    lucide.createIcons();
-</script>
-
 <script src="{% static 'js/auth-handler.js' %}"></script>
-
-<script>
-function scrollHabits(direction) {
-    const container = document.getElementById('habitContainer');
-    if (!container) return;
-    const scrollAmount = container.clientWidth / 3 + 20;
-
-    if (direction === 'left') {
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-}
-</script>
+<script src="{% static 'js/base-init.js' %}"></script>
 
 </body>
 </html>
