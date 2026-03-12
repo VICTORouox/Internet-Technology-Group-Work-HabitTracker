@@ -6,44 +6,32 @@
 <link rel="stylesheet" href="{% static 'css/my_habits.css' %}">
 <link rel="stylesheet" href="{% static 'css/calendar_modal.css' %}">
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 {% endblock %}
-
 
 {% block content %}
 
 <!-- ================= Main Application ================= -->
-
 <div class="app-container">
-
     <!-- Header -->
     <header class="site-header">
-
         <!-- Logout -->
         <a href="{% url 'logout' %}" class="nav-logout-link">
             <i data-lucide="arrow-left"></i>
             <span>Log out</span>
         </a>
-
         <!-- Navigation -->
         {% include 'partials/navbar.html' %}
-
     </header>
-
 
     <!-- Page Content -->
     <div class="page-wrapper">
-
         <h1 class="page-title">My Active Habits</h1>
 
         <!-- Habits Grid -->
         <div class="habits-grid">
-
             {% for habit in habits %}
-
             <div class="habit-card">
-
                 <!-- Habit Title -->
                 <div class="habit-title">
                     {{ habit.display_name }}
@@ -62,20 +50,20 @@
                     <div class="xp-fill" style="width: {{ habit.xp_percentage }}%;"></div>
                 </div>
 
-                <!-- Actions -->
                 <div class="button-group">
-
                     <button
                         type="button"
                         class="btn btn-primary"
-                        onclick="openCalendar({{ habit.id }});">
+                        data-habit-id="{{ habit.id }}"
+                        tabindex="0">
                         Check In
                     </button>
 
                     <button
                         type="button"
                         class="btn btn-info"
-                        onclick="openAnalysis({{ habit.id }});">
+                        data-habit-id="{{ habit.id }}"
+                        tabindex="0">
                         Analysis
                     </button>
 
@@ -94,105 +82,71 @@
                     <form
                         action="{% url 'delete_habit' habit.id %}"
                         method="POST"
-                        class="delete-form"
-                        onsubmit="return confirm('Are you sure you want to delete this habit?');">
-
+                        class="delete-form">
                         {% csrf_token %}
-
                         <button
                             type="submit"
                             class="btn btn-danger delete-btn"
-                            title="Delete Habit">
+                            title="Delete Habit"
+                            tabindex="0">
                             🗑️
                         </button>
-
                     </form>
-
                 </div>
-
             </div>
-
             {% empty %}
-
             <p>You have no active habits yet.</p>
-
             {% endfor %}
-
         </div>
-
     </div>
-
 </div>
-
 
 <!-- ================= Calendar Modal ================= -->
-
-<div id="calendarOverlay" class="calendar-overlay">
-
-    <div class="calendar-modal">
-
-        <span class="calendar-close" onclick="closeCalendar()">×</span>
-
+<div id="calendarOverlay" class="calendar-overlay" aria-hidden="true" aria-modal="true">
+    <div class="calendar-modal" role="dialog" aria-labelledby="calendarMonth">
+        <span class="calendar-close" tabindex="0" aria-label="Close calendar">×</span>
         <div class="calendar-header">
-            <button type="button" onclick="prevMonth()">◀</button>
+            <button type="button" tabindex="0" aria-label="Previous month">◀</button>
             <h3 id="calendarMonth"></h3>
-            <button type="button" onclick="nextMonth()">▶</button>
+            <button type="button" tabindex="0" aria-label="Next month">▶</button>
         </div>
-
-        <div id="calendarGrid" class="calendar-grid"></div>
-
+        <div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
     </div>
-
 </div>
 
-
 <!-- ================= Analysis Modal ================= -->
-
-<div id="analysisOverlay" class="analysis-overlay">
-
-    <div class="analysis-modal">
-
-        <span class="analysis-close" onclick="closeAnalysis()">×</span>
-
-        <h2 class="analysis-title">Habit Analysis</h2>
-
+<div id="analysisOverlay" class="analysis-overlay" aria-hidden="true" aria-modal="true">
+    <div class="analysis-modal" role="dialog" aria-labelledby="analysisTitle">
+        <span class="analysis-close" tabindex="0" aria-label="Close analysis">×</span>
+        <h2 class="analysis-title" id="analysisTitle">Habit Analysis</h2>
         <div class="analysis-body">
-
             <!-- Chart -->
-            <div class="chart-container">
+            <div class="chart-container" aria-live="polite"> <!-- Accessibility: Chart update prompt -->
                 <canvas id="analysisChart"></canvas>
             </div>
 
             <!-- Controls -->
             <div class="controls-panel">
-
                 <div class="control-group">
-
                     <h4>X Axis</h4>
-
                     <button
                         class="view-btn active"
                         type="button"
                         data-view="monthly"
-                        onclick="switchView('monthly')">
+                        tabindex="0">
                         Monthly
                     </button>
-
                     <button
                         class="view-btn"
                         type="button"
                         data-view="yearly"
-                        onclick="switchView('yearly')">
+                        tabindex="0">
                         Yearly
                     </button>
-
                 </div>
-
                 <div class="control-group" id="monthFilter">
-
                     <h4>Month</h4>
-
-                    <select id="monthSelect" onchange="loadMonthlyChart()">
+                    <select id="monthSelect" onchange="loadMonthlyChart()" tabindex="0">
                         <option value="0">Jan</option>
                         <option value="1">Feb</option>
                         <option value="2">Mar</option>
@@ -206,320 +160,12 @@
                         <option value="10">Nov</option>
                         <option value="11">Dec</option>
                     </select>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
-
-<!-- ================= Page Script ================= -->
-
-<script>
-
-/* ---------- Global State ---------- */
-
-let currentHabitId = null;
-let checkinSet = new Set();
-
-let currentYear = new Date().getFullYear();
-let currentMonth = new Date().getMonth();
-
-let analysisChart;
-let currentAnalysisView = "monthly";
-
-
-/* ---------- Utilities ---------- */
-
-function getCookie(name) {
-
-    let cookieValue = null;
-
-    if (document.cookie && document.cookie !== '') {
-
-        const cookies = document.cookie.split(';');
-
-        for (let i = 0; i < cookies.length; i++) {
-
-            const cookie = cookies[i].trim();
-
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-
-                cookieValue = decodeURIComponent(
-                    cookie.substring(name.length + 1)
-                );
-                break;
-
-            }
-        }
-    }
-
-    return cookieValue;
-
-}
-
-
-/* ---------- Calendar ---------- */
-
-async function openCalendar(habitId) {
-
-    currentHabitId = habitId;
-
-    const res = await fetch(`/calendar/${habitId}/`);
-    const data = await res.json();
-
-    checkinSet = new Set(data.checkins);
-
-    const today = new Date();
-    currentYear = today.getFullYear();
-    currentMonth = today.getMonth();
-
-    renderCalendar();
-
-    document.getElementById("calendarOverlay").style.display = "flex";
-
-}
-
-
-function closeCalendar() {
-    document.getElementById("calendarOverlay").style.display = "none";
-}
-
-
-function renderCalendar() {
-
-    const grid = document.getElementById("calendarGrid");
-    grid.innerHTML = "";
-
-    const daysInMonth = new Date(
-        currentYear,
-        currentMonth + 1,
-        0
-    ).getDate();
-
-    for (let i = 1; i <= daysInMonth; i++) {
-
-        const date = new Date(currentYear, currentMonth, i);
-        const dateStr = date.toISOString().split("T")[0];
-
-        const div = document.createElement("div");
-        div.className = "calendar-day";
-
-        if (checkinSet.has(dateStr)) {
-            div.classList.add("checked");
-        }
-
-        div.innerText = i;
-        div.onclick = () => checkInDate(dateStr);
-
-        grid.appendChild(div);
-
-    }
-
-    updateMonthTitle();
-
-}
-
-
-async function checkInDate(dateStr) {
-
-    const res = await fetch(`/checkin/${currentHabitId}/`, {
-
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        },
-
-        body: JSON.stringify({ date: dateStr })
-
-    });
-
-    const data = await res.json();
-
-    if (data.status === "success") {
-        checkinSet.add(dateStr);
-        renderCalendar();
-    }
-
-}
-
-
-function updateMonthTitle() {
-
-    const months = [
-        "January","February","March","April","May","June",
-        "July","August","September","October","November","December"
-    ];
-
-    document.getElementById("calendarMonth").innerText =
-        months[currentMonth] + " " + currentYear;
-
-}
-
-
-function prevMonth() {
-
-    currentMonth--;
-
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-
-    renderCalendar();
-
-}
-
-
-function nextMonth() {
-
-    currentMonth++;
-
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-
-    renderCalendar();
-
-}
-
-
-/* ---------- Analysis ---------- */
-
-function openAnalysis(habitId){
-
-    currentHabitId = habitId;
-
-    document.getElementById("analysisOverlay").style.display = "flex";
-
-    switchView("monthly");
-
-}
-
-
-function closeAnalysis(){
-    document.getElementById("analysisOverlay").style.display = "none";
-}
-
-
-function loadAnalysisChart(habitId, view="monthly", month=null){
-
-    const url = new URL(`/analysis/${habitId}/`, window.location.origin);
-
-    url.searchParams.set("view", view);
-
-    if(month !== null){
-        url.searchParams.set("month", month);
-    }
-
-    fetch(url)
-
-        .then(res => res.json())
-
-        .then(data => {
-
-            const ctx = document.getElementById("analysisChart");
-
-            if (analysisChart) {
-                analysisChart.destroy();
-            }
-
-            analysisChart = new Chart(ctx, {
-
-                type: "line",
-
-                data: {
-
-                    labels: data.labels,
-
-                    datasets: [{
-                        label: "Duration (minutes)",
-                        data: data.data,
-                        borderColor: "#6c5ce7",
-                        tension: 0.3
-                    }]
-
-                },
-
-                options: {
-
-                    responsive: true,
-
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
-
-                }
-
-            });
-
-        });
-
-}
-
-
-function switchView(view){
-
-    currentAnalysisView = view;
-
-    document.getElementById("monthFilter").style.display =
-        view === "monthly" ? "block" : "none";
-
-    document.querySelectorAll(".view-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.view === view);
-    });
-
-    const habitId = currentHabitId;
-
-    const month =
-        view === "monthly"
-        ? document.getElementById("monthSelect").value
-        : null;
-
-    loadAnalysisChart(habitId, view, month);
-
-}
-
-
-function loadMonthlyChart(){
-
-    const habitId = currentHabitId;
-
-    const month = parseInt(
-        document.getElementById("monthSelect").value
-    );
-
-    loadAnalysisChart(habitId, "monthly", month);
-
-}
-
-
-/* ---------- Page Init ---------- */
-
-window.onload = function(){
-
-    if (window.location.search.includes('created=1')) {
-
-        alert("Habit created successfully!");
-
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
-
-    }
-
-};
-
-</script>
+<script src="{% static 'js/my-habits.js' %}" defer></script>
 
 {% endblock %}

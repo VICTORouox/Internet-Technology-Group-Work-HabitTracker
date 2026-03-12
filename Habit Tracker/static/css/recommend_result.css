@@ -307,3 +307,16 @@ body {
     margin: 8px 0 0 0;
     color: #991b1b;
 }
+
+/* No recommended result style */
+.match-badge:empty, .sport-icon:empty, .display-title:empty {
+    color: #9ca3af;
+}
+.btn-secondary:disabled {
+    background-color: #e5e7eb;
+    cursor: not-allowed;
+}
+.btn-primary:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+}

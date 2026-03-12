@@ -9,15 +9,6 @@
 {% block content %}
 
 <!-- ================================= -->
-<!-- Inject recommendation data -->
-<!-- ================================= -->
-<script>
-    const candidates = {{ candidates|safe }};
-    let currentIndex = 0;
-</script>
-
-
-<!-- ================================= -->
 <!-- Result Hero Layout -->
 <!-- ================================= -->
 <section class="result-hero">
@@ -112,67 +103,27 @@
 </section>
 
 
-<!-- ================================= -->
-<!-- Error Handling -->
-<!-- ================================= -->
-{% if error %}
 <script>
-window.addEventListener('DOMContentLoaded', function () {
-
-    const msg = '{{ error|escapejs }}';
-    alert(msg);
-
-    // Return to previous page
-    window.history.back();
-
-});
+    window.candidatesData = {{ candidates|safe }};
+    {% if error %}
+    window.pageErrorMsg = '{{ error|escapejs }}';
+    {% endif %}
 </script>
-{% endif %}
-
 
 <!-- ================================= -->
-<!-- Recommendation Rendering Logic -->
+<!-- Introducing external JS -->
 <!-- ================================= -->
-<script>
+<script src="{% static 'js/recommend-result.js' %}" defer></script>
 
-function renderHabit(index) {
-
-    if (!candidates || candidates.length === 0) return;
-
-    const data = candidates[index];
-
-    document.getElementById('matchPercent').innerText = data.match;
-    document.getElementById('sportIcon').innerText = data.icon;
-    document.getElementById('sportName').innerText = data.name;
-    document.getElementById('typeTag').innerText = data.type;
-
-    document.getElementById('reasonText').innerText = data.reason;
-    document.getElementById('sessionTime').innerText = data.plan;
-    document.getElementById('upgradeDesc').innerText = data.upgrade;
-
-    document.getElementById('hiddenHabitName').value = data.name;
-    document.getElementById('hiddenDuration').value = data.plan;
-    document.getElementById('hiddenSportType').value = data.type;
-
-}
-
-
-function switchHabit() {
-
-    if (!candidates || candidates.length === 0) return;
-
-    currentIndex = (currentIndex + 1) % candidates.length;
-    renderHabit(currentIndex);
-
-}
-
-
-/* Initial page render */
-
-if (candidates && candidates.length > 0) {
-    renderHabit(currentIndex);
-}
-
+<!-- ================================= -->
+<!-- Initialization data -->
+<!-- ================================= -->
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof initCandidates === 'function') {
+            initCandidates(window.candidatesData);
+        }
+    });
 </script>
 
 {% endblock %}

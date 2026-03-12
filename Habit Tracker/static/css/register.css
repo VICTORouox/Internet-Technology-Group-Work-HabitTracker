@@ -282,3 +282,21 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Error display */
+.error-message-active {
+    color: #dc2626 !important;
+    font-family: inherit !important;
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-top: 8px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Error style of input box */
+.input-error {
+    border: 1px solid #dc2626 !important;
+}
