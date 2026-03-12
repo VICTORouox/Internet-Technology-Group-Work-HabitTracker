@@ -11,18 +11,18 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'css/aura-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
     {% block extra_head %}{% endblock %}
 </head>
 
-<body class="h-screen w-screen overflow-hidden bg-[#F7F8F6] text-[#1A1C19]{% block body_class %}{% endblock %}">
+<body class="aura-body {% block body_class %}{% endblock %}">
 
 <div class="aura-ambient-glow"></div>
 
 <!-- Skip to main content link for keyboard users -->
-<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:bg-green-700 focus:text-white focus:p-2 focus:z-50">
+<a href="#main-content" class="skip-link">
     Skip to main content
 </a>
 
