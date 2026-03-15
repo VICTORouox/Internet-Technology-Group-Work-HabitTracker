@@ -223,3 +223,25 @@
     color: #fff;
     z-index: 50;
 }
+
+/* ------------------------
+   Keyboard Focus (Accessibility)
+------------------------- */
+
+.btn-primary:focus,
+.btn-primary:focus-visible,
+.btn-secondary:focus,
+.btn-secondary:focus-visible {
+
+    outline: 3px solid #2CB67D;
+    outline-offset: 3px;
+
+}
+
+/* input focus visibility */
+
+.input-group input:focus-visible {
+    outline: 2px solid #2CB67D;
+    outline-offset: 2px;
+}
+

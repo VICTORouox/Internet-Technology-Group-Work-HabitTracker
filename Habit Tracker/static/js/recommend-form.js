@@ -94,6 +94,7 @@ function validateStep3() {
 
 /* Step Navigation */
 function nextStep(stepNum) {
+
     if (stepNum === 2 && !validateStep1()) return;
     if (stepNum === 3 && !validateStep2()) return;
 
@@ -104,27 +105,36 @@ function nextStep(stepNum) {
 
     var steps = document.getElementsByClassName("step-item");
     for (var j = 0; j < steps.length; j++) {
+
         steps[j].classList.remove("active");
         steps[j].classList.remove("completed");
+
         if (j + 1 < stepNum) {
             steps[j].classList.add("completed");
         }
+
         if (j + 1 === stepNum) {
             steps[j].classList.add("active");
         }
+
     }
 
     document.getElementById("step-" + stepNum).classList.add("active");
+
 }
 
-/* 页面加载后初始化实时验证 */
+/* 页面加载后初始化 */
 document.addEventListener('DOMContentLoaded', function() {
+
     const heightInput = document.getElementById('height-input');
     const weightInput = document.getElementById('weight-input');
     const form = document.getElementById('recommendForm');
 
+    /* Height validation */
     if (heightInput) {
+
         heightInput.addEventListener('input', function() {
+
             const height = parseInt(this.value);
             const heightError = document.getElementById('height-error');
             heightError.classList.remove('error-message-active');
@@ -137,11 +147,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 heightError.textContent = '';
                 this.classList.remove('input-error');
             }
+
         });
+
     }
 
+    /* Weight validation */
     if (weightInput) {
+
         weightInput.addEventListener('input', function() {
+
             const weight = parseInt(this.value);
             const weightError = document.getElementById('weight-error');
             weightError.classList.remove('error-message-active');
@@ -154,12 +169,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 weightError.textContent = '';
                 this.classList.remove('input-error');
             }
+
         });
+
     }
 
-    form.addEventListener('submit', function(e) {
-        if (!validateStep3()) {
-            e.preventDefault();
-        }
+    /* Submit validation */
+    if (form) {
+
+        form.addEventListener('submit', function(e) {
+
+            if (!validateStep3()) {
+                e.preventDefault();
+            }
+
+        });
+
+    }
+
+    /* =========================
+       Keyboard Accessibility
+       ========================= */
+
+    const labels = document.querySelectorAll('.option-grid label');
+
+    labels.forEach(label => {
+
+        label.addEventListener('keydown', function(e) {
+
+            if (e.key === 'Enter' || e.key === ' ') {
+
+                e.preventDefault();
+
+                const input = document.getElementById(label.getAttribute('for'));
+
+                if (input.type === 'radio') {
+                    input.checked = true;
+                }
+
+                if (input.type === 'checkbox') {
+                    input.checked = !input.checked;
+                }
+
+            }
+
+        });
+
     });
+
 });

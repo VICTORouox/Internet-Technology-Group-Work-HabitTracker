@@ -2,170 +2,196 @@
 {% load static %}
 
 {% block extra_head %}
-<!-- Page styles -->
 <link rel="stylesheet" href="{% static 'css/my_habits.css' %}">
 <link rel="stylesheet" href="{% static 'css/calendar_modal.css' %}">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 {% endblock %}
 
 {% block content %}
 
-<!-- ================= Main Application ================= -->
 <div class="app-container">
-    <!-- Header -->
-    <header class="site-header">
-        <!-- Logout -->
-        <a href="{% url 'logout' %}" class="nav-logout-link">
-            <i data-lucide="arrow-left"></i>
-            <span>Log out</span>
-        </a>
-        <!-- Navigation -->
-        {% include 'partials/navbar.html' %}
-    </header>
 
-    <!-- Page Content -->
-    <div class="page-wrapper">
-        <h1 class="page-title">My Active Habits</h1>
+<header class="site-header">
+<a href="{% url 'logout' %}" class="nav-logout-link">
+<i data-lucide="arrow-left"></i>
+<span>Log out</span>
+</a>
 
-        <!-- Habits Grid -->
-        <div class="habits-grid">
-            {% for habit in habits %}
-            <div class="habit-card">
-                <!-- Habit Title -->
-                <div class="habit-title">
-                    {{ habit.display_name }}
-                </div>
+{% include 'partials/navbar.html' %}
+</header>
 
-                <!-- Habit Stats -->
-                <div class="habit-stats">
-                    Level {{ habit.level }} <br>
-                    XP: {{ habit.experience_points }} / {{ habit.required_xp }} <br>
-                    Intensity Level: {{ habit.intensity_level }} <br>
-                    Duration: {{ habit.duration_each_time }} minutes
-                </div>
 
-                <!-- XP Progress -->
-                <div class="xp-bar">
-                    <div class="xp-fill" style="width: {{ habit.xp_percentage }}%;"></div>
-                </div>
+<div class="page-wrapper">
 
-                <div class="button-group">
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-habit-id="{{ habit.id }}"
-                        tabindex="0">
-                        Check In
-                    </button>
+<h1 class="page-title">My Active Habits</h1>
 
-                    <button
-                        type="button"
-                        class="btn btn-info"
-                        data-habit-id="{{ habit.id }}"
-                        tabindex="0">
-                        Analysis
-                    </button>
 
-                    <a
-                        href="{% url 'adjust_intensity' habit.id 'increase' %}"
-                        class="btn btn-secondary">
-                        Increase
-                    </a>
+<div class="habits-grid">
 
-                    <a
-                        href="{% url 'adjust_intensity' habit.id 'decrease' %}"
-                        class="btn btn-secondary">
-                        Decrease
-                    </a>
+{% for habit in habits %}
 
-                    <form
-                        action="{% url 'delete_habit' habit.id %}"
-                        method="POST"
-                        class="delete-form">
-                        {% csrf_token %}
-                        <button
-                            type="submit"
-                            class="btn btn-danger delete-btn"
-                            title="Delete Habit"
-                            tabindex="0">
-                            🗑️
-                        </button>
-                    </form>
-                </div>
-            </div>
-            {% empty %}
-            <p>You have no active habits yet.</p>
-            {% endfor %}
-        </div>
-    </div>
+<div class="habit-card">
+
+<div class="habit-title">
+{{ habit.display_name }}
 </div>
 
-<!-- ================= Calendar Modal ================= -->
+<div class="habit-stats">
+Level {{ habit.level }} <br>
+XP: {{ habit.experience_points }} / {{ habit.required_xp }} <br>
+Intensity Level: {{ habit.intensity_level }} <br>
+Duration: {{ habit.duration_each_time }} minutes
+</div>
+
+<div class="xp-bar">
+<div class="xp-fill" style="width: {{ habit.xp_percentage }}%;"></div>
+</div>
+
+
+<!-- ⭐ 关键修改在这里 -->
+<div class="button-group" data-card-actions>
+
+<button
+type="button"
+class="btn btn-primary"
+data-habit-id="{{ habit.id }}">
+Check In
+</button>
+
+<button
+type="button"
+class="btn btn-info"
+data-habit-id="{{ habit.id }}">
+Analysis
+</button>
+
+<a
+href="{% url 'adjust_intensity' habit.id 'increase' %}"
+class="btn btn-secondary">
+Increase
+</a>
+
+<a
+href="{% url 'adjust_intensity' habit.id 'decrease' %}"
+class="btn btn-secondary">
+Decrease
+</a>
+
+<form
+action="{% url 'delete_habit' habit.id %}"
+method="POST"
+class="delete-form">
+
+{% csrf_token %}
+
+<button
+type="submit"
+class="btn btn-danger delete-btn"
+title="Delete Habit">
+🗑️
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<p>You have no active habits yet.</p>
+
+{% endfor %}
+
+</div>
+</div>
+</div>
+
+
+<!-- Calendar Modal -->
 <div id="calendarOverlay" class="calendar-overlay" aria-hidden="true" aria-modal="true">
-    <div class="calendar-modal" role="dialog" aria-labelledby="calendarMonth">
-        <span class="calendar-close" tabindex="0" aria-label="Close calendar">×</span>
-        <div class="calendar-header">
-            <button type="button" tabindex="0" aria-label="Previous month">◀</button>
-            <h3 id="calendarMonth"></h3>
-            <button type="button" tabindex="0" aria-label="Next month">▶</button>
-        </div>
-        <div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
-    </div>
+<div class="calendar-modal" role="dialog" aria-labelledby="calendarMonth">
+
+<span class="calendar-close" tabindex="0" aria-label="Close calendar">×</span>
+
+<div class="calendar-header">
+
+<button type="button" tabindex="0" aria-label="Previous month">◀</button>
+
+<h3 id="calendarMonth"></h3>
+
+<button type="button" tabindex="0" aria-label="Next month">▶</button>
+
 </div>
 
-<!-- ================= Analysis Modal ================= -->
+<div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
+
+</div>
+</div>
+
+
+<!-- Analysis Modal -->
 <div id="analysisOverlay" class="analysis-overlay" aria-hidden="true" aria-modal="true">
-    <div class="analysis-modal" role="dialog" aria-labelledby="analysisTitle">
-        <span class="analysis-close" tabindex="0" aria-label="Close analysis">×</span>
-        <h2 class="analysis-title" id="analysisTitle">Habit Analysis</h2>
-        <div class="analysis-body">
-            <!-- Chart -->
-            <div class="chart-container" aria-live="polite"> <!-- Accessibility: Chart update prompt -->
-                <canvas id="analysisChart"></canvas>
-            </div>
 
-            <!-- Controls -->
-            <div class="controls-panel">
-                <div class="control-group">
-                    <h4>X Axis</h4>
-                    <button
-                        class="view-btn active"
-                        type="button"
-                        data-view="monthly"
-                        tabindex="0">
-                        Monthly
-                    </button>
-                    <button
-                        class="view-btn"
-                        type="button"
-                        data-view="yearly"
-                        tabindex="0">
-                        Yearly
-                    </button>
-                </div>
-                <div class="control-group" id="monthFilter">
-                    <h4>Month</h4>
-                    <select id="monthSelect" tabindex="0">
-                        <option value="0">Jan</option>
-                        <option value="1">Feb</option>
-                        <option value="2">Mar</option>
-                        <option value="3">Apr</option>
-                        <option value="4">May</option>
-                        <option value="5">Jun</option>
-                        <option value="6">Jul</option>
-                        <option value="7">Aug</option>
-                        <option value="8">Sep</option>
-                        <option value="9">Oct</option>
-                        <option value="10">Nov</option>
-                        <option value="11">Dec</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="analysis-modal" role="dialog" aria-labelledby="analysisTitle">
+
+<span class="analysis-close" tabindex="0" aria-label="Close analysis">×</span>
+
+<h2 class="analysis-title" id="analysisTitle">Habit Analysis</h2>
+
+<div class="analysis-body">
+
+<div class="chart-container" aria-live="polite">
+<canvas id="analysisChart"></canvas>
 </div>
+
+<div class="controls-panel">
+
+<div class="control-group">
+
+<h4>X Axis</h4>
+
+<button class="view-btn active" type="button" data-view="monthly" tabindex="0">
+Monthly
+</button>
+
+<button class="view-btn" type="button" data-view="yearly" tabindex="0">
+Yearly
+</button>
+
+</div>
+
+
+<div class="control-group" id="monthFilter">
+
+<h4>Month</h4>
+
+<select id="monthSelect" tabindex="0">
+
+<option value="0">Jan</option>
+<option value="1">Feb</option>
+<option value="2">Mar</option>
+<option value="3">Apr</option>
+<option value="4">May</option>
+<option value="5">Jun</option>
+<option value="6">Jul</option>
+<option value="7">Aug</option>
+<option value="8">Sep</option>
+<option value="9">Oct</option>
+<option value="10">Nov</option>
+<option value="11">Dec</option>
+
+</select>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
 
 <script src="{% static 'js/my-habits.js' %}" defer></script>
 <script src="{% static 'js/keyboard-accessibility.js' %}" defer></script>
+<script src="{% static 'js/habit-keyboard.js' %}" defer></script>
 {% endblock %}

@@ -461,3 +461,10 @@
     width: 20px;
     height: 20px;
 }
+
+/* Keyboard focus highlight */
+
+.option-grid label:focus {
+    outline: 2px solid #2CB67D;
+    outline-offset: 3px;
+}
