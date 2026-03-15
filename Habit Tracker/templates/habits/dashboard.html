@@ -67,7 +67,7 @@
 
     <div class="habit-slider-wrapper">
 
-        <button class="slider-arrow left-arrow" onclick="scrollHabits('left')">
+        <button class="slider-arrow left-arrow" aria-label="Scroll habit list left">
             <i data-lucide="chevron-left"></i>
         </button>
 
@@ -79,7 +79,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/running.jpg' %}" class="habit-img">
+                <img src="{% static 'images/running.jpg' %}" class="habit-img" alt="Running exercise">
 
                 <div class="habit-overlay">
                     <h3>Running</h3>
@@ -95,7 +95,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/cycling.jpg' %}" class="habit-img-cycling">
+                <img src="{% static 'images/cycling.jpg' %}" class="habit-img-cycling" alt="Cycling exercise">
 
                 <div class="habit-overlay">
                     <h3>Cycling</h3>
@@ -110,7 +110,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/swimming.jpg' %}" class="habit-img-swimming">
+                <img src="{% static 'images/swimming.jpg' %}" class="habit-img-swimming" alt="Swimming exercise">
 
                 <div class="habit-overlay">
                     <h3>Swimming</h3>
@@ -126,7 +126,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/yoga.jpg' %}" class="habit-img-yoga">
+                <img src="{% static 'images/yoga.jpg' %}" class="habit-img-yoga" alt="Yoga exercise">
 
                 <div class="habit-overlay">
                     <h3>Yoga</h3>
@@ -142,7 +142,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/ropeskipping.jpg' %}" class="habit-img-rope">
+                <img src="{% static 'images/ropeskipping.jpg' %}" class="habit-img-rope" alt="Rope skipping exercise">
 
                 <div class="habit-overlay">
                     <h3>Rope Skipping</h3>
@@ -158,7 +158,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/strength.jpg' %}" class="habit-img">
+                <img src="{% static 'images/strength.jpg' %}" class="habit-img" alt="Strength training">
 
                 <div class="habit-overlay">
                     <h3>Strength Training</h3>
@@ -174,7 +174,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/hiit.jpg' %}" class="habit-img-hiit">
+                <img src="{% static 'images/hiit.jpg' %}" class="habit-img-hiit" alt="HIIT workout">
 
                 <div class="habit-overlay">
                     <h3>HIIT</h3>
@@ -190,7 +190,7 @@
 
             <div class="habit-card">
 
-                <img src="{% static 'images/walking.jpg' %}" class="habit-img">
+                <img src="{% static 'images/walking.jpg' %}" class="habit-img" alt="Brisk walking exercise">
 
                 <div class="habit-overlay">
                     <h3>Brisk Walking</h3>
@@ -205,44 +205,13 @@
         </div>
 
 
-        <button class="slider-arrow right-arrow" onclick="scrollHabits('right')">
+        <button class="slider-arrow right-arrow" aria-label="Scroll habit list right">
             <i data-lucide="chevron-right"></i>
         </button>
 
     </div>
 
 </section>
-
-
 </div>
-
-
-<script>
-
-function scrollHabits(direction){
-
-    const container = document.getElementById("habitContainer")
-    const scrollAmount = 400
-
-    if(direction === "left"){
-
-        container.scrollBy({
-            left:-scrollAmount,
-            behavior:"smooth"
-        })
-
-    } else {
-
-        container.scrollBy({
-            left:scrollAmount,
-            behavior:"smooth"
-        })
-
-    }
-
-}
-
-</script>
-
-
+<script src="{% static 'js/habit-slider.js' %}"></script>
 {% endblock %}

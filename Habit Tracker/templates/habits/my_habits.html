@@ -146,7 +146,7 @@
                 </div>
                 <div class="control-group" id="monthFilter">
                     <h4>Month</h4>
-                    <select id="monthSelect" onchange="loadMonthlyChart()" tabindex="0">
+                    <select id="monthSelect" tabindex="0">
                         <option value="0">Jan</option>
                         <option value="1">Feb</option>
                         <option value="2">Mar</option>
@@ -167,5 +167,5 @@
 </div>
 
 <script src="{% static 'js/my-habits.js' %}" defer></script>
-
+<script src="{% static 'js/keyboard-accessibility.js' %}" defer></script>
 {% endblock %}
