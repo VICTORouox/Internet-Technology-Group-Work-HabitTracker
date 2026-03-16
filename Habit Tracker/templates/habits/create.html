@@ -1,76 +1,225 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Create Habit{% endblock %}
+
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/create.css' %}">
 {% endblock %}
 
+
 {% block content %}
 
-<div class="create-wrapper">
+<!-- ================= CREATE HABIT PAGE ================= -->
 
-    <h1 class="create-title">Create Your Habit</h1>
+<div class="create-page">
 
-    <div class="create-grid">
 
-        {% for name, sport in sports.items %}
+    <!-- Left Side Hero Section -->
 
-        <form method="POST" action="{% url 'save_habit' %}">
-            {% csrf_token %}
-            <input type="hidden" name="habit_name" value="{{ name }}">
-            <input type="hidden" name="duration" value="{{ sport.plan }}">
+    <div class="hero-side">
 
-            <div class="create-card"
-                 style="background-image: url('{% static sport.image %}')"
-                 onclick="this.closest('form').submit();">
+        <div class="hero-text">
+            Start To Be Yourself
+        </div>
 
-                <div class="card-overlay">
-                    <div class="card-content">
-                        <div class="card-icon">{{ sport.icon }}</div>
-                        <div class="card-name">{{ name }}</div>
-                        <div class="card-type">{{ sport.type }}</div>
-                    </div>
-                </div>
+    </div>
+
+
+
+    <!-- Right Side Form Section -->
+
+    <div class="form-side">
+
+        <div class="create-card">
+
+
+            <!-- Card Header -->
+
+            <div class="create-header">
+
+                <h1>🏆 Create New Habit</h1>
+
+                <p>
+                    Start small. Build consistency. Become unstoppable.
+                </p>
 
             </div>
 
-        </form>
-
-        {% endfor %}
-
-    </div>
-
-</div>
 
 
-{% if duplicate %}
-<div id="duplicateModal" class="modal-overlay">
-    <div class="modal-box">
-        <h3>Habit Already Exists</h3>
-        <p>You are already tracking <strong>{{ duplicate_name }}</strong>.</p>
-        <p>Do you want to create another one?</p>
-
-        <div class="modal-buttons">
+            <!-- Create Habit Form -->
 
             <form method="POST" action="{% url 'save_habit' %}">
+
                 {% csrf_token %}
-                <input type="hidden" name="habit_name" value="{{ duplicate_name }}">
-                <input type="hidden" name="duration" value="30 mins / session">
-                <input type="hidden" name="force_create" value="true">
-                <button type="submit" class="btn-confirm">Yes</button>
+
+
+                <!-- Habit Name Input -->
+
+                <div class="form-group">
+
+                    <label for="habit-name">
+                        Habit Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="habit-name"
+                        name="habit_name"
+                        class="habit-input"
+                        placeholder="Enter or choose a habit"
+                        list="habit-options"
+                        required
+                        aria-required="true"
+                    >
+
+                    <!-- Suggested Habit Options -->
+
+                    <datalist id="habit-options">
+                        <option value="Running">
+                        <option value="Cycling">
+                        <option value="Swimming">
+                        <option value="Yoga">
+                        <option value="Rope Skipping">
+                        <option value="Strength Training">
+                        <option value="HIIT">
+                        <option value="Brisk Walking">
+                    </datalist>
+
+                </div>
+
+
+
+                <!-- Sport Type Selection -->
+
+                <div class="form-group">
+
+                    <label for="sport-type">
+                        Sport Type
+                    </label>
+
+                    <select
+                        id="sport-type"
+                        name="sport_type"
+                        class="sport-select"
+                        required
+                        aria-required="true"
+                    >
+
+                        <option value="">
+                            Select sport category
+                        </option>
+
+                        <option value="Cardio">
+                            🏃 Cardio / Endurance
+                        </option>
+
+                        <option value="Strength">
+                            🏋️ Strength Training
+                        </option>
+
+                        <option value="Flexibility">
+                            🧘 Flexibility & Mobility
+                        </option>
+
+                        <option value="Fat Burning">
+                            🔥 Fat Burning
+                        </option>
+
+                        <option value="Relaxation">
+                            🌿 Stress Relief
+                        </option>
+
+                        <option value="Low Impact">
+                            🚶 Low Impact Exercise
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Intensity Level Selection -->
+
+                <div class="form-group">
+
+                    <label for="intensity-level">
+                        Intensity Level
+                    </label>
+
+                    <select
+                        id="intensity-level"
+                        name="duration"
+                        class="intensity-select"
+                    >
+
+                        <option value="30 mins">
+                            Level 1 (30 mins)
+                        </option>
+
+                        <option value="40 mins">
+                            Level 2 (40 mins)
+                        </option>
+
+                        <option value="50 mins">
+                            Level 3 (50 mins)
+                        </option>
+
+                        <option value="60 mins">
+                            Level 4 (60 mins)
+                        </option>
+
+                        <option value="70 mins">
+                            Level 5 (70 mins)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Submit Button -->
+
+                <button
+                    type="submit"
+                    class="create-btn"
+                >
+                    Create Habit
+                </button>
+
+
             </form>
 
-            <button onclick="closeModal()" class="btn-cancel">No</button>
-
         </div>
+
     </div>
+
 </div>
-{% endif %}
+
+
+
+<!-- ================= DUPLICATE HABIT WARNING ================= -->
+
+{% if duplicate %}
 
 <script>
-function closeModal() {
-    document.getElementById("duplicateModal").style.display = "none";
-}
+
+let message = "This habit (name + type combination) already exists and cannot be created again.";
+
+setTimeout(() => {
+
+    alert(message);
+
+    window.history.back();
+
+}, 100);
+
 </script>
+
+{% endif %}
+
 
 {% endblock %}

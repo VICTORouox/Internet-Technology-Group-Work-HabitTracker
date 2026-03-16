@@ -1,11 +1,16 @@
-/* ===== 基础重置 ===== */
+/* ================================= */
+/* Base Reset */
+/* ================================= */
 
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* ===== 主容器 ===== */
+
+/* ================================= */
+/* Result Hero Layout */
+/* ================================= */
 
 .result-hero {
     display: flex;
@@ -13,19 +18,26 @@ body {
     width: 100%;
 }
 
-/* ===== 左侧视觉区 ===== */
+
+/* ================================= */
+/* Left Visual Section */
+/* ================================= */
 
 .hero-left {
     flex: 0 0 45%;
     background: linear-gradient(135deg, #0f172a, #1e3a8a);
     color: white;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     padding: 60px;
     text-align: center;
 }
+
+/* Match percentage badge */
 
 .match-badge {
     font-size: 20px;
@@ -33,16 +45,22 @@ body {
     margin-bottom: 30px;
 }
 
+/* Sport icon */
+
 .sport-icon {
     font-size: 90px;
     margin-bottom: 30px;
 }
+
+/* Main title */
 
 .display-title {
     font-size: 48px;
     font-weight: 700;
     margin: 0;
 }
+
+/* Sport category tag */
 
 .category-tag {
     margin-top: 15px;
@@ -52,175 +70,143 @@ body {
     font-size: 14px;
 }
 
+/* Motivational quote */
+
 .encourage-quote {
     margin-top: 50px;
     font-size: 18px;
     opacity: 0.7;
 }
 
-/* ===== 右侧内容区 ===== */
+
+/* ================================= */
+/* Right Content Panel */
+/* ================================= */
+
 .hero-right {
     flex: 1;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     padding: 60px;
     background: linear-gradient(135deg, #f8f9fb, #ffffff);
 }
 
-/* 内容区域 */
+
+/* ================================= */
+/* Content Wrapper */
+/* ================================= */
+
 .content-wrapper {
     width: 100%;
     max-width: 560px;
+
     display: flex;
     flex-direction: column;
     gap: 28px;
 }
 
+
+/* ================================= */
+/* Information Cards */
+/* ================================= */
+
 .info-card {
     background: #ffffff;
     border-radius: 22px;
     padding: 32px 36px;
+
     box-shadow:
         0 1px 2px rgba(0,0,0,0.04),
         0 8px 24px rgba(0,0,0,0.06);
+
     transition: all 0.3s ease;
 }
 
-/* .info-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #22C55E, #06B6D4);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-} */
+/* Card hover effect */
 
 .info-card:hover {
     transform: translateY(-4px);
+
     box-shadow:
         0 4px 12px rgba(0,0,0,0.06),
         0 20px 40px rgba(0,0,0,0.08);
 }
 
-/* 标题 */
+
+/* ================================= */
+/* Card Typography */
+/* ================================= */
+
 .card-title {
     font-size: 19px;
     font-weight: 600;
-    color: #0F172A;   /* 深对比 */
+    color: #0F172A;
     margin-bottom: 12px;
 }
 
-/* 正文 */
 .card-text {
     font-size: 16px;
     line-height: 1.8;
-    color: #334155;   /* 清晰可读 */
+    color: #334155;
 }
 
-/* 强调文字 */
+/* Highlighted text */
+
 .emphasis-text {
     font-weight: 600;
     font-size: 17px;
-    color: #16A34A;   /* 活力绿 */
+    color: #16A34A;
 }
 
-/* 按钮组 */
+
+/* ================================= */
+/* Action Buttons */
+/* ================================= */
+
 .action-group {
-    margin-top: 10px;
+    margin-top: 40px;
     display: flex;
     gap: 16px;
 }
 
-/* 主按钮 */
-.btn-primary {
-    flex: 1;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    background: linear-gradient(135deg, #111, #333);
-    color: white;
-    transition: all 0.25s ease;
-}
+/* Shared button base */
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* 次按钮 */
-.btn-secondary {
-    flex: 1;
-    padding: 14px;
-    border-radius: 14px;
-    border: 1px solid #ddd;
-    background: white;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.btn-secondary:hover {
-    background: #f4f4f4;
-}
-
-.info-card h3 {
-    margin-top: 0;
-    font-size: 20px;
-}
-
-.highlight-text {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.sub-text {
-    color: #666;
-}
-
-/* ===== 按钮系统 ===== */
-
-.action-group {
-    margin-top: 40px;
-}
-
-/* 按钮基础统一样式 */
 .action-group button {
+    flex: 1;
     height: 70px;
     min-width: 180px;
+
     border-radius: 14px;
+
     font-size: 15px;
     font-weight: 500;
     letter-spacing: 0.2px;
+
     cursor: pointer;
     transition: all 0.25s ease;
 }
+
+/* Primary button */
 
 .btn-primary {
     background: linear-gradient(135deg, #111827, #374151);
     color: white;
     border: none;
-    transition: transform 0.2s ease;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #111827, #374151);
 }
+
+/* Secondary button */
 
 .btn-secondary {
     background: white;
     border: 1px solid #D1D5DB;
     color: #1f2937;
-    transition: transform 0.2s ease;
 }
 
 .btn-secondary:hover {
@@ -228,7 +214,12 @@ body {
     background: #f9fafb;
 }
 
-/* ===== 平板适配 ===== */
+
+/* ================================= */
+/* Responsive Design */
+/* ================================= */
+
+/* Tablet */
 
 @media (max-width: 1024px) {
 
@@ -239,9 +230,11 @@ body {
     .sport-icon {
         font-size: 70px;
     }
+
 }
 
-/* ===== 手机适配 ===== */
+
+/* Mobile */
 
 @media (max-width: 768px) {
 
@@ -262,4 +255,47 @@ body {
     .content-wrapper {
         width: 100%;
     }
+
+}
+
+
+/* ================================= */
+/* Error Message Styling */
+/* ================================= */
+
+.error-message {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+
+    padding: 16px 20px;
+    margin-bottom: 20px;
+
+    color: #dc2626;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.error-message strong {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.error-message p {
+    margin: 8px 0 0 0;
+    color: #991b1b;
+}
+
+/* No recommended result style */
+.match-badge:empty, .sport-icon:empty, .display-title:empty {
+    color: #9ca3af;
+}
+.btn-secondary:disabled {
+    background-color: #e5e7eb;
+    cursor: not-allowed;
+}
+.btn-primary:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
 }

@@ -2,70 +2,115 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
 {% endblock %}
 
 {% block body_class %}no-scroll{% endblock %}
-
 {% block title %}Join Aura | Start Your Journey{% endblock %}
 
 {% block content %}
-<div class="max-w-[460px] mx-auto p-6 pt-20 fade-up">
-    <div class="glass-panel !p-10 text-center">
-        <h2 class="serif text-3xl mb-2">Create Account</h2>
-        <p class="branding-subtitle mb-10">Join our minimalist community</p>
+<!-- Skip link for keyboard navigation -->
+<a href="#registerForm" class="sr-only skip-link">Skip to registration form</a>
 
-        <form method="POST" id="registerForm" class="space-y-6 text-left">
-            {% csrf_token %}
-            
-            <div class="input-container">
-                <label class="input-label ml-1">Email Address</label>
-                <input type="email" name="email" required class="input-field-aura">
+<main class="register-container">
+    <section class="login-panel">
+        <!-- Header / Branding  -->
+        <header class="login-header">
+
+            <div class="brand-icon-wrapper">
+                <img src="{% static 'images/favicon.ico' %}"
+                    alt="Habit Tracker logo"
+                    class="brand-icon">
             </div>
 
-            <div class="input-container">
-                <label class="input-label ml-1">Set Password</label>
-                <input type="password" id="pw1" name="password" required class="input-field-aura">
-            </div>
+            <h1 class="login-title">Habit Tracker</h1>
+            <p class="branding-subtitle">Architecture of the Self</p>
 
-            <div class="input-container">
-                <div class="flex justify-between items-center ml-1">
-                    <label class="input-label">Confirm Password</label>
-                    <span id="msg" class="text-[10px] text-red-400 normal-case italic"></span>
+        </header>
+
+        <!-- Form card -->
+        <article class="glass-panel">
+            <h2 class="login-subtitle">Create Account</h2>
+            <p class="register-subtitle">Join our minimalist community</p>
+
+            <form method="POST" id="registerForm" class="login-form">
+                {% csrf_token %}
+
+                <!-- Email input box -->
+                <div class="input-container">
+                    <label for="email-reg" class="input-label">Email Address</label>
+                    <div class="input-group">
+                        <i data-lucide="mail" class="input-icon" aria-hidden="true"></i>
+                        <input type="email" id="email-reg" name="email" required aria-required="true">
+                    </div>
                 </div>
-                <input type="password" id="pw2" required class="input-field-aura">
-            </div>
 
-            <button type="submit" id="regBtn" class="w-full btn-primary-aura !py-4 mt-4">Complete Registration</button>
-            
-            <p class="register-footer-text">
-                Already have an account? <a href="{% url 'login' %}">Sign In</a>
-            </p>
-        </form>
-    </div>
-</div>
+                <!-- Password input box -->
+                <div class="input-container">
+                    <label for="pw1" class="input-label">Set Password</label>
+                    <div class="input-group">
+                        <i data-lucide="key-round" class="input-icon" aria-hidden="true"></i>
+                        <input type="password" id="pw1" name="password" required aria-required="true">
+                    </div>
+                </div>
+
+                <!-- Confirm password input box -->
+                <div class="input-container">
+                    <div class="password-header">
+                        <label for="pw2" class="input-label">Confirm Password</label>
+                        <span id="msg" class="password-msg" aria-live="polite" aria-atomic="true"></span>
+                    </div>
+                    <div class="input-group">
+                        <i data-lucide="key-round" class="input-icon" aria-hidden="true"></i>
+                        <input type="password" id="pw2" required aria-required="true" aria-describedby="msg">
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="login-actions">
+                    <button type="submit" id="regBtn" class="btn-primary" aria-label="Complete registration">
+                        Complete Registration
+                        <i data-lucide="check-circle" class="btn-icon" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <!-- Bottom link -->
+                <p class="register-footer">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="sign-in-link">Sign In</a>
+                </p>
+            </form>
+        </article>
+    </section>
+</main>
+
+<!-- Accessibility helpers -->
 
 <script>
-    const pw1 = document.getElementById('pw1');
-    const pw2 = document.getElementById('pw2');
-    const msg = document.getElementById('msg');
-    const btn = document.getElementById('regBtn');
+const pw1 = document.getElementById('pw1');
+const pw2 = document.getElementById('pw2');
+const msg = document.getElementById('msg');
+const btn = document.getElementById('regBtn');
 
-    function validate() {
-        if (pw2.value === "") {
-            msg.innerText = "";
-        } else if (pw1.value !== pw2.value) {
-            msg.innerText = "Passwords do not match";
-            btn.style.opacity = "0.5";
-            btn.disabled = true;
-        } else {
-            msg.innerText = "✓ Match";
-            msg.className = "text-[10px] text-green-500 normal-case italic";
-            btn.style.opacity = "1";
-            btn.disabled = false;
-        }
+function validate() {
+    if (pw2.value === "") {
+        msg.innerText = "";
+        btn.style.opacity = "1";
+        btn.disabled = false;
+    } else if (pw1.value !== pw2.value) {
+        msg.innerText = "Passwords do not match";
+        msg.className = "password-msg error";
+        btn.style.opacity = "0.5";
+        btn.disabled = true;
+    } else {
+        msg.innerText = "✓ Passwords match";
+        msg.className = "password-msg success";
+        btn.style.opacity = "1";
+        btn.disabled = false;
     }
-    pw1.oninput = validate;
-    pw2.oninput = validate;
+}
+
+pw1.addEventListener('input', validate);
+pw2.addEventListener('input', validate);
 </script>
 {% endblock %}

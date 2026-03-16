@@ -23,34 +23,37 @@ from apps.habits.views import password_reset_page
 urlpatterns = [
     path("admin/", admin.site.urls),
 
-    # 首页
-    path("", views.main_dashboard, name="home"),
+    # Homepage
+    path("", views.login_page, name="login"),
 
-    # 登录系统
+    # Login system
     path("login/", views.login_page, name="login"),
     path("register/", views.register_page, name="register"),
     path("logout/", views.logout_view, name="logout"),
     path("password-reset/", password_reset_page, name="password_reset"),
 
-    # 主页面
+    # Dashboard
     path("dashboard/", views.main_dashboard, name="main_dashboard"),
     path("history/", views.history_page, name="habit_history"),
 
-    # 推荐系统
+    # Recommendation system
     path("recommend/", views.recommend_view, name="recommend"),
     path("recommend/generate/", views.generate_plan, name="generate_plan"),
     path("recommend/save/", views.save_habit, name="save_habit"),
 
-    # 创建页面
+    # Create page
     path("create/", views.create_page, name="create_page"),
 
-    # Habit 系统
+    # System of habits
     path("my-habits/", views.my_habits, name="my_habits"),
     path("check-in/<int:habit_id>/", views.check_in, name="check_in"),
     path("delete/<int:habit_id>/", views.delete_habit, name="delete_habit"),
     path("adjust/<int:habit_id>/<str:action>/", views.adjust_intensity, name="adjust_intensity"),
 
-    # 日历
+    # Calendar
     path("calendar/<int:habit_id>/", views.habit_calendar, name="habit_calendar"),
     path("checkin/<int:habit_id>/", views.checkin_date, name="checkin_date"),
+
+    # Diagram
+    path("analysis/<int:habit_id>/", views.habit_analysis, name="habit_analysis"),
 ]

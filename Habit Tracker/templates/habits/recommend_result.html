@@ -2,26 +2,37 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/recommend_result.css' %}">
+<link rel="stylesheet" href="{% static 'css/recommend_result.css' %}">
 {% endblock %}
+
 
 {% block content %}
 
+<!-- ================================= -->
+<!-- Result Hero Layout -->
+<!-- ================================= -->
 <section class="result-hero">
 
-    <!-- 左侧沉浸视觉区 -->
+    <!-- ============================= -->
+    <!-- Left Visual Highlight Area -->
+    <!-- ============================= -->
     <div class="hero-left">
 
+        <!-- Match percentage -->
         <div class="match-badge">
             <span id="matchPercent">0</span>% Match
         </div>
 
+        <!-- Sport icon -->
         <div id="sportIcon" class="sport-icon"></div>
 
+        <!-- Sport title -->
         <h1 id="sportName" class="display-title"></h1>
 
+        <!-- Sport category -->
         <span id="typeTag" class="category-tag"></span>
 
+        <!-- Motivational quote -->
         <p class="encourage-quote">
             Build discipline. Build identity.
         </p>
@@ -29,77 +40,90 @@
     </div>
 
 
-    <!-- 右侧内容区 -->
+    <!-- ============================= -->
+    <!-- Right Content Panel -->
+    <!-- ============================= -->
     <div class="hero-right">
 
-    <div class="content-wrapper">
+        <div class="content-wrapper">
 
-        <div class="info-card">
-            <h3 class="card-title">Why it fits you</h3>
-            <p id="reasonText" class="card-text"></p>
-        </div>
+            <!-- Recommendation reason -->
+            <div class="info-card">
+                <h3 class="card-title">Why it fits you</h3>
+                <p id="reasonText" class="card-text"></p>
+            </div>
 
-        <div class="info-card">
-            <h3 class="card-title">Your weekly structure</h3>
-            <p id="sessionTime" class="card-text emphasis-text"></p>
-        </div>
+            <!-- Weekly plan -->
+            <div class="info-card">
+                <h3 class="card-title">Your weekly structure</h3>
+                <p id="sessionTime" class="card-text emphasis-text"></p>
+            </div>
 
-        <div class="info-card">
-            <h3 class="card-title">Growth path</h3>
-            <p id="upgradeDesc" class="card-text"></p>
-        </div>
+            <!-- Growth path -->
+            <div class="info-card">
+                <h3 class="card-title">Growth path</h3>
+                <p id="upgradeDesc" class="card-text"></p>
+            </div>
 
-        <div class="action-group">
-            <form action="{% url 'save_habit' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="habit_name" id="hiddenHabitName">
-                <input type="hidden" name="duration" id="hiddenDuration">
-                <button type="submit" class="btn-primary">
-                    Start This Habit
+
+            <!-- Action buttons -->
+            <div class="action-group">
+
+                <!-- Save habit form -->
+                <form action="{% url 'save_habit' %}" method="POST">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="habit_name" id="hiddenHabitName">
+                    <input type="hidden" name="duration" id="hiddenDuration">
+                    <input type="hidden" name="sport_type" id="hiddenSportType">
+                    <input type="hidden" name="from_recommend_page" value="true">
+
+                    <button type="submit" class="btn-primary">
+                        Start This Habit
+                    </button>
+
+                </form>
+
+                <!-- Switch recommendation -->
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    onclick="switchHabit()">
+
+                    Explore Another Option
+
                 </button>
-            </form>
 
-            <button type="button" class="btn-secondary" onclick="switchHabit()">
-                Explore Another Option
-            </button>
+            </div>
+
         </div>
 
     </div>
 
-</div>
-
 </section>
 
+
 <script>
-    const candidates = {{ candidates|safe }};
-    let currentIndex = 0;
+    window.candidatesData = {{ candidates|safe }};
+    {% if error %}
+    window.pageErrorMsg = '{{ error|escapejs }}';
+    {% endif %}
+</script>
 
-    function renderHabit(index) {
-        if (!candidates || candidates.length === 0) return;
+<!-- ================================= -->
+<!-- Introducing external JS -->
+<!-- ================================= -->
+<script src="{% static 'js/recommend-result.js' %}" defer></script>
 
-        const data = candidates[index];
-
-        document.getElementById('matchPercent').innerText = data.match;
-        document.getElementById('sportIcon').innerText = data.icon;
-        document.getElementById('sportName').innerText = data.name;
-        document.getElementById('typeTag').innerText = data.type;
-        document.getElementById('reasonText').innerText = data.reason;
-        document.getElementById('sessionTime').innerText = data.plan;
-        document.getElementById('upgradeDesc').innerText = data.upgrade;
-        document.getElementById('hiddenHabitName').value = data.name;
-        document.getElementById('hiddenDuration').value = data.plan;
-    }
-
-    function switchHabit() {
-        if (!candidates || candidates.length === 0) return;
-
-        currentIndex = (currentIndex + 1) % candidates.length;
-        renderHabit(currentIndex);
-    }
-
-    if (candidates && candidates.length > 0) {
-        renderHabit(0);
-    }
+<!-- ================================= -->
+<!-- Initialization data -->
+<!-- ================================= -->
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof initCandidates === 'function') {
+            initCandidates(window.candidatesData);
+        }
+    });
 </script>
 
 {% endblock %}

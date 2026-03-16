@@ -1,41 +1,49 @@
-{% load static %}  <!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="zh" class="{% block html_class %}{% endblock %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Habit Tracker{% endblock %}</title>
-    
+    <meta name="description" content="Habit Tracker web application for tracking exercise habits, scheduling workouts, and building consistent healthy routines.">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="{% static 'css/aura-theme.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-    
+
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-[#F7F8F6] text-[#1A1C19] min-h-screen overflow-x-hidden {% block body_class %}{% endblock %}">
-    <div class="aura-ambient-glow"></div>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<body class="aura-body {% block body_class %}{% endblock %}">
 
-    <script>lucide.createIcons();</script>
-    <script src="/static/js/auth-handler.js"></script>
+<div class="aura-ambient-glow"></div>
 
-    <script>
-        function scrollHabits(direction) {
-            const container = document.getElementById('habitContainer');
-            if (!container) return; 
-            const scrollAmount = container.clientWidth / 3 + 20; 
-            if (direction === 'left') {
-                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            } else {
-                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
-        }
-    </script>
+<!-- Skip to main content link for keyboard users -->
+<a href="#main-content" class="skip-link">
+    Skip to main content
+</a>
+
+<!-- Global site-wide navigation bar -->
+{% if request.path != '/login/' and request.path != '/register/' and request.path != '/password-reset/' and request.path != '/recommend/' and request.path != '/'%}
+    <header class="aura-header" role="banner">
+        <a href="{% url 'logout' %}" class="nav-logout-link" aria-label="Log out">
+            <i data-lucide="arrow-left" aria-hidden="true"></i>
+            <span>Log out</span>
+        </a>
+        {% include "partials/navbar.html" %}
+    </header>
+{% endif %}
+
+<main id="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<script src="{% static 'js/auth-handler.js' %}"></script>
+<script src="{% static 'js/base-init.js' %}"></script>
 
 </body>
 </html>
