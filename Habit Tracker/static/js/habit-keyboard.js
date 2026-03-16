@@ -2,17 +2,17 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // 每张卡片的按钮容器
+    // The button container of each card
     const cardGroups = document.querySelectorAll("[data-card-actions]");
 
     cardGroups.forEach(group => {
 
-        // 获取当前卡片里的所有可操作控件
+        // Get all the actionable controls in the current card
         const buttons = group.querySelectorAll("button, a");
 
         if (!buttons.length) return;
 
-        // 初始化 roving tabindex：只允许第一个按钮 Tab 进入
+        // Initialize roving tabindex: Only allow the first button to be tabbed into
         buttons.forEach((btn, i) => {
             btn.setAttribute("tabindex", i === 0 ? "0" : "-1");
         });
@@ -23,19 +23,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let targetIndex = index;
 
-                // 右方向键
+                // Right arrow
                 if (e.key === "ArrowRight") {
                     e.preventDefault();
                     targetIndex = (index + 1) % buttons.length;
                 }
 
-                // 左方向键
+                // Left arrow
                 if (e.key === "ArrowLeft") {
                     e.preventDefault();
                     targetIndex = (index - 1 + buttons.length) % buttons.length;
                 }
 
-                // 更新 focus
+                // Update focus
                 if (targetIndex !== index) {
 
                     buttons.forEach(b => b.setAttribute("tabindex", "-1"));
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     target.focus();
                 }
 
-                // Enter 或 Space 触发按钮
+                // Press Enter or Space to trigger the button
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     btn.click();

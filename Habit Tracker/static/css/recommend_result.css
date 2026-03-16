@@ -125,27 +125,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Optional gradient border effect */
-
-/*
-.info-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    border-radius: 22px;
-
-    background: linear-gradient(135deg, #22C55E, #06B6D4);
-
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-}
-*/
-
 /* Card hover effect */
 
 .info-card:hover {

@@ -123,7 +123,7 @@ function nextStep(stepNum) {
 
 }
 
-/* 页面加载后初始化 */
+/* Initialize after page load */
 document.addEventListener('DOMContentLoaded', function() {
 
     const heightInput = document.getElementById('height-input');

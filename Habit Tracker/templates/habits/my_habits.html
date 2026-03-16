@@ -11,187 +11,180 @@
 
 <div class="app-container">
 
-<header class="site-header">
-<a href="{% url 'logout' %}" class="nav-logout-link">
-<i data-lucide="arrow-left"></i>
-<span>Log out</span>
-</a>
+    <header class="site-header">
+        <a href="{% url 'logout' %}" class="nav-logout-link">
+            <i data-lucide="arrow-left"></i>
+            <span>Log out</span>
+        </a>
 
-{% include 'partials/navbar.html' %}
-</header>
+        {% include 'partials/navbar.html' %}
+    </header>
 
+    <div class="page-wrapper">
 
-<div class="page-wrapper">
+        <h1 class="page-title">My Active Habits</h1>
 
-<h1 class="page-title">My Active Habits</h1>
+        <div class="habits-grid">
 
+            {% for habit in habits %}
 
-<div class="habits-grid">
+            <div class="habit-card">
 
-{% for habit in habits %}
+                <div class="habit-title">
+                    {{ habit.display_name }}
+                </div>
 
-<div class="habit-card">
+                <div class="habit-stats">
+                    Level {{ habit.level }} <br>
+                    XP: {{ habit.experience_points }} / {{ habit.required_xp }} <br>
+                    Intensity Level: {{ habit.intensity_level }} <br>
+                    Duration: {{ habit.duration_each_time }} minutes
+                </div>
 
-<div class="habit-title">
-{{ habit.display_name }}
+                <div class="xp-bar">
+                    <div class="xp-fill" style="width: {{ habit.xp_percentage }}%;"></div>
+                </div>
+
+                <div class="button-group" data-card-actions>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-habit-id="{{ habit.id }}">
+                        Check In
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-info"
+                        data-habit-id="{{ habit.id }}">
+                        Analysis
+                    </button>
+
+                    <a
+                        href="{% url 'adjust_intensity' habit.id 'increase' %}"
+                        class="btn btn-secondary">
+                        Increase
+                    </a>
+
+                    <a
+                        href="{% url 'adjust_intensity' habit.id 'decrease' %}"
+                        class="btn btn-secondary">
+                        Decrease
+                    </a>
+
+                    <form
+                        action="{% url 'delete_habit' habit.id %}"
+                        method="POST"
+                        class="delete-form">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger delete-btn"
+                            title="Delete Habit">
+                            🗑️
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>You have no active habits yet.</p>
+
+            {% endfor %}
+
+        </div>
+    </div>
 </div>
-
-<div class="habit-stats">
-Level {{ habit.level }} <br>
-XP: {{ habit.experience_points }} / {{ habit.required_xp }} <br>
-Intensity Level: {{ habit.intensity_level }} <br>
-Duration: {{ habit.duration_each_time }} minutes
-</div>
-
-<div class="xp-bar">
-<div class="xp-fill" style="width: {{ habit.xp_percentage }}%;"></div>
-</div>
-
-
-<!-- ⭐ 关键修改在这里 -->
-<div class="button-group" data-card-actions>
-
-<button
-type="button"
-class="btn btn-primary"
-data-habit-id="{{ habit.id }}">
-Check In
-</button>
-
-<button
-type="button"
-class="btn btn-info"
-data-habit-id="{{ habit.id }}">
-Analysis
-</button>
-
-<a
-href="{% url 'adjust_intensity' habit.id 'increase' %}"
-class="btn btn-secondary">
-Increase
-</a>
-
-<a
-href="{% url 'adjust_intensity' habit.id 'decrease' %}"
-class="btn btn-secondary">
-Decrease
-</a>
-
-<form
-action="{% url 'delete_habit' habit.id %}"
-method="POST"
-class="delete-form">
-
-{% csrf_token %}
-
-<button
-type="submit"
-class="btn btn-danger delete-btn"
-title="Delete Habit">
-🗑️
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-{% empty %}
-
-<p>You have no active habits yet.</p>
-
-{% endfor %}
-
-</div>
-</div>
-</div>
-
 
 <!-- Calendar Modal -->
 <div id="calendarOverlay" class="calendar-overlay" aria-hidden="true" aria-modal="true">
-<div class="calendar-modal" role="dialog" aria-labelledby="calendarMonth">
 
-<span class="calendar-close" tabindex="0" aria-label="Close calendar">×</span>
+    <div class="calendar-modal" role="dialog" aria-labelledby="calendarMonth">
 
-<div class="calendar-header">
+        <span class="calendar-close" tabindex="0" aria-label="Close calendar">×</span>
 
-<button type="button" tabindex="0" aria-label="Previous month">◀</button>
+        <div class="calendar-header">
 
-<h3 id="calendarMonth"></h3>
+            <button type="button" tabindex="0" aria-label="Previous month">◀</button>
 
-<button type="button" tabindex="0" aria-label="Next month">▶</button>
+            <h3 id="calendarMonth"></h3>
 
+            <button type="button" tabindex="0" aria-label="Next month">▶</button>
+
+        </div>
+
+        <div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
+
+    </div>
 </div>
-
-<div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
-
-</div>
-</div>
-
 
 <!-- Analysis Modal -->
 <div id="analysisOverlay" class="analysis-overlay" aria-hidden="true" aria-modal="true">
 
-<div class="analysis-modal" role="dialog" aria-labelledby="analysisTitle">
+    <div class="analysis-modal" role="dialog" aria-labelledby="analysisTitle">
 
-<span class="analysis-close" tabindex="0" aria-label="Close analysis">×</span>
+        <span class="analysis-close" tabindex="0" aria-label="Close analysis">×</span>
 
-<h2 class="analysis-title" id="analysisTitle">Habit Analysis</h2>
+        <h2 class="analysis-title" id="analysisTitle">Habit Analysis</h2>
 
-<div class="analysis-body">
+        <div class="analysis-body">
 
-<div class="chart-container" aria-live="polite">
-<canvas id="analysisChart"></canvas>
+            <div class="chart-container" aria-live="polite">
+                <canvas id="analysisChart"></canvas>
+            </div>
+
+            <div class="controls-panel">
+
+                <div class="control-group">
+                    <h4>X Axis</h4>
+
+                    <button class="view-btn active" type="button" data-view="monthly">
+                        Monthly
+                    </button>
+
+                    <button class="view-btn" type="button" data-view="yearly">
+                        Yearly
+                    </button>
+                </div>
+
+                <div class="control-group" id="monthFilter">
+
+                    <h4>Month</h4>
+
+                    <select id="monthSelect">
+
+                        <option value="0">Jan</option>
+                        <option value="1">Feb</option>
+                        <option value="2">Mar</option>
+                        <option value="3">Apr</option>
+                        <option value="4">May</option>
+                        <option value="5">Jun</option>
+                        <option value="6">Jul</option>
+                        <option value="7">Aug</option>
+                        <option value="8">Sep</option>
+                        <option value="9">Oct</option>
+                        <option value="10">Nov</option>
+                        <option value="11">Dec</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
-
-<div class="controls-panel">
-
-<div class="control-group">
-
-<h4>X Axis</h4>
-
-<button class="view-btn active" type="button" data-view="monthly" tabindex="0">
-Monthly
-</button>
-
-<button class="view-btn" type="button" data-view="yearly" tabindex="0">
-Yearly
-</button>
-
-</div>
-
-
-<div class="control-group" id="monthFilter">
-
-<h4>Month</h4>
-
-<select id="monthSelect" tabindex="0">
-
-<option value="0">Jan</option>
-<option value="1">Feb</option>
-<option value="2">Mar</option>
-<option value="3">Apr</option>
-<option value="4">May</option>
-<option value="5">Jun</option>
-<option value="6">Jul</option>
-<option value="7">Aug</option>
-<option value="8">Sep</option>
-<option value="9">Oct</option>
-<option value="10">Nov</option>
-<option value="11">Dec</option>
-
-</select>
-
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
 
 <script src="{% static 'js/my-habits.js' %}" defer></script>
 <script src="{% static 'js/keyboard-accessibility.js' %}" defer></script>
 <script src="{% static 'js/habit-keyboard.js' %}" defer></script>
+
 {% endblock %}

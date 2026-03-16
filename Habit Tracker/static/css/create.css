@@ -290,11 +290,12 @@
 /* ============================= */
 /* MOBILE RESPONSIVE */
 /* ============================= */
-
 @media (max-width:900px){
-
     .create-page{
         flex-direction:column;
+        background: #ffffff;
+        padding-right: 0;
+        justify-content: center;
     }
 
     .hero-side{
@@ -302,11 +303,15 @@
     }
 
     .form-side{
-        padding:40px 20px;
+        width: 100%;
+        padding: 40px 0;
+        display:flex;
+        justify-content: center;
     }
 
     .create-card{
-        width:100%;
+        width: 90%;
+        max-width: 420px; 
+        margin-top: 70px;
     }
-
 }

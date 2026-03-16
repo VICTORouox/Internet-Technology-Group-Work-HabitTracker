@@ -293,8 +293,6 @@
     object-fit:cover;
 }
 
-
-/* 保持你原来的图片焦点位置 */
 .habit-img-cycling{
     position:absolute;
     width:100%;

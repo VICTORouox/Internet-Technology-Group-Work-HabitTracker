@@ -66,7 +66,7 @@ function handlePageError(errorMsg) {
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            window.location.href = "/dashboard/"; // 替换成你项目中main_dashboard对应的实际URL
+            window.location.href = "/dashboard/";
         }
     }
 }
@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (switchBtn) {
         switchBtn.addEventListener('click', switchHabit);
         switchBtn.addEventListener('keydown', function(e) {
-            // 【修改点3】Tab键改为Enter键（Tab是切换焦点，不该触发点击）
             if (e.key === 'Enter' || e.key === ' ') {
                 switchHabit();
                 e.preventDefault();

@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     # Homepage
-    path("", views.main_dashboard, name="home"),
+    path("", views.login_page, name="login"),
 
     # Login system
     path("login/", views.login_page, name="login"),
