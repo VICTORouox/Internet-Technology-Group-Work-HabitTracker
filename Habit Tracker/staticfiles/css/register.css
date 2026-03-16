@@ -1,0 +1,322 @@
+/* ------------------------
+   Register Page Layout (Responsive + Larger Container/Input)
+------------------------- */
+
+/* Core: viewport adaptation, no horizontal scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Page container */
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  animation: fade-up 0.6s ease;
+  box-sizing: border-box;
+}
+
+/* Panel wrapper */
+.login-panel {
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+/* Header / Branding */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+}
+
+.brand-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: white;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.login-title {
+  font-family: serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.branding-subtitle {
+  color: #4B5563;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+}
+
+/* Glass Panel */
+.glass-panel {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-subtitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #1F2937;
+  text-align: center;
+}
+
+.register-subtitle {
+  font-size: 1rem;
+  color: #4B5563;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Form / Inputs */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #D1D5DB;
+  padding: 0.75rem 0;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-group:focus-within {
+  border-color: #2D5A27;
+}
+
+.input-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.75rem;
+  color: #9CA3AF;
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  outline: none;
+  width: calc(100% - 24px);
+}
+
+/* Password messages */
+.password-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password-msg {
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.password-msg.error {
+  color: #B91C1C;
+}
+
+.password-msg.success {
+  color: #22C55E;
+}
+
+/* Actions / Buttons */
+.login-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.btn-primary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  border-radius: 1rem;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #2D5A27;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #21441A;
+}
+
+.btn-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 0.5rem;
+  opacity: 0.6;
+}
+
+/* Footer / Links */
+.register-footer {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9CA3AF;
+}
+
+.register-footer a {
+  color: #2D5A27;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-footer a:hover {
+  color: #166534;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 0.5rem;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+  }
+
+  .login-panel {
+    max-width: 95%;
+  }
+
+  .login-header {
+    margin-bottom: 1.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .login-title {
+    font-size: 2rem;
+  }
+
+  .glass-panel {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-form {
+    gap: 1.5rem;
+  }
+
+  .register-footer {
+    font-size: 0.7rem;
+  }
+}
+
+/* Accessibility / Animations */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background-color: #2D5A27;
+  color: #fff;
+  z-index: 50;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Error display */
+.error-message-active {
+    color: #dc2626 !important;
+    font-family: inherit !important;
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-top: 8px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Error style of input box */
+.input-error {
+    border: 1px solid #dc2626 !important;
+}
+
+/* ------------------------
+   Keyboard Focus (Accessibility)
+------------------------- */
+
+.btn-primary:focus,
+.btn-primary:focus-visible {
+
+    outline: 3px solid #2CB67D;
+    outline-offset: 3px;
+
+}
+
+.input-group input:focus-visible {
+
+    outline: 2px solid #2CB67D;
+    outline-offset: 2px;
+
+}
+

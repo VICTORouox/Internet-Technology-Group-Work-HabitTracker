@@ -1,0 +1,482 @@
+/* ================================= */
+/* Main Container */
+/* ================================= */
+
+.recommend-container {
+    max-width: 520px;
+    margin: 40px auto;
+
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+
+    border-radius: 32px;
+    padding: 40px;
+    padding-top: 120px;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    position: relative;
+}
+
+
+/* ================================= */
+/* Stepper Navigation */
+/* ================================= */
+
+.stepper-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 50px;
+    position: relative;
+}
+
+
+/* Step circle */
+
+.step-item {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    border: 2px solid #e2e8f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+    font-weight: 600;
+    color: #94a3b8;
+
+    position: relative;
+    z-index: 2;
+
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* Active step */
+
+.step-item.active {
+    background: #2CB67D;
+    border-color: #2CB67D;
+    color: #fff;
+
+    box-shadow: 0 0 15px rgba(44, 182, 125, 0.3);
+}
+
+
+/* Completed step */
+
+.step-item.completed {
+    background: #D1FAE5;
+    border-color: #2CB67D;
+    color: #2CB67D;
+}
+
+
+/* Step connecting line */
+
+.step-line {
+    flex: 0 0 60px;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 -2px;
+    z-index: 1;
+}
+
+
+/* Step label */
+
+.step-title {
+    position: absolute;
+    bottom: -28px;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+    color: #94a3b8;
+}
+
+.step-item.active .step-title {
+    color: #2CB67D;
+    font-weight: 700;
+}
+
+
+/* ================================= */
+/* Form Step Content */
+/* ================================= */
+
+.step-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.step-content.active {
+    display: block;
+}
+
+
+/* Section title */
+
+.section-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 26px;
+    color: #1a1c1e;
+
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+
+/* ================================= */
+/* Question Layout */
+/* ================================= */
+
+.question-group {
+    margin-bottom: 25px;
+}
+
+.question-group label {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+
+    margin-bottom: 15px;
+}
+
+
+/* Preference group */
+
+.preference-group {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+
+/* ================================= */
+/* Input Fields */
+/* ================================= */
+
+.input-field {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    margin-top: 12px;
+    padding: 12px 14px;
+
+    font-size: 16px;
+
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+
+    background-color: #f9fafc;
+
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.input-field:focus {
+    outline: none;
+
+    border-color: #5b8def;
+    background-color: #ffffff;
+
+    box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.15);
+}
+
+.input-field::placeholder {
+    color: #9aa3b2;
+}
+
+
+/* Error input state */
+
+.input-field.input-error {
+    border-color: #dc2626;
+    background-color: #fef2f2;
+
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-field.input-error:focus {
+    border-color: #dc2626;
+
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+
+/* ================================= */
+/* Error Message */
+/* ================================= */
+
+.error-message {
+    display: block;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #dc2626;
+
+    background-color: transparent;
+    padding: 4px 0;
+
+    margin-top: 8px;
+
+    border-left: none;
+    box-shadow: none;
+
+    animation: shake 0.3s ease;
+
+    min-height: 1.2em;
+}
+
+
+/* Error animation */
+
+@keyframes shake {
+
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    75% {
+        transform: translateX(3px);
+    }
+
+}
+
+
+/* ================================= */
+/* Option Grid (Card-style Options) */
+/* ================================= */
+
+.option-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* Hide default radio/checkbox */
+
+.option-grid input[type="radio"],
+.option-grid input[type="checkbox"] {
+    display: none;
+}
+
+
+/* Option card */
+
+.option-grid label {
+    display: block;
+
+    padding: 16px 20px;
+
+    background: #f8fafc;
+    border: 2px solid transparent;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    color: #475569;
+    font-weight: 500;
+
+    margin-bottom: 0;
+}
+
+.option-grid label:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+
+/* Selected state */
+
+.option-grid input:checked + label {
+    border-color: #2CB67D;
+    background: #EFFFF8;
+    color: #059669;
+}
+
+
+/* ================================= */
+/* Number Input (Legacy Style) */
+/* ================================= */
+
+.num-input {
+    width: 100%;
+    padding: 15px;
+
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    color: #1a1c1e;
+
+    text-align: center;
+}
+
+
+/* ================================= */
+/* Button Group */
+/* ================================= */
+
+.btn-group {
+    margin-top: 40px;
+
+    display: flex;
+    gap: 15px;
+}
+
+
+/* Primary buttons */
+
+.next-btn,
+.submit-btn {
+    flex: 2;
+
+    background: #2CB67D;
+    color: white;
+
+    border: none;
+
+    padding: 16px;
+
+    border-radius: 16px;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Back button */
+
+.back-btn {
+    flex: 1;
+
+    background: #fff;
+    color: #94a3b8;
+
+    border: 1px solid #e2e8f0;
+
+    padding: 16px;
+
+    border-radius: 16px;
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* Button hover */
+
+.next-btn:hover,
+.submit-btn:hover {
+    background: #239465;
+
+    box-shadow: 0 10px 20px rgba(44, 182, 125, 0.2);
+    transform: translateY(-2px);
+}
+
+
+/* ================================= */
+/* Page Animations */
+/* ================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* ================================= */
+/* Back Button */
+/* ================================= */
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: #374151;
+
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-bottom: 20px;
+
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    color: #111827;
+    transform: translateX(-4px);
+}
+
+.back-button i {
+    width: 20px;
+    height: 20px;
+}
+
+/* Keyboard focus highlight */
+
+.option-grid label:focus {
+    outline: 2px solid #2CB67D;
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+
+    .back-button {
+        top: 70px;
+        left: 20px;
+    }
+
+    .recommend-container {
+        padding-top: 120px;
+    }
+}

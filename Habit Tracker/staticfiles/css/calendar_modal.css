@@ -1,0 +1,122 @@
+/* =====================================================
+   Calendar Overlay
+   Full-screen dark background when calendar opens
+===================================================== */
+.calendar-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(14px);
+
+    z-index: 999;
+}
+
+
+/* =====================================================
+   Calendar Modal
+   Main popup container
+===================================================== */
+.calendar-modal {
+    position: relative;
+
+    width: 420px;
+    max-width: 92%;
+
+    padding: 26px;
+    border-radius: 26px;
+
+    background: #0f172a;
+    color: white;
+
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+
+    animation: calendar-modal-fade 0.25s ease;
+}
+
+
+/* =====================================================
+   Close Button
+===================================================== */
+.calendar-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.calendar-close:hover {
+    opacity: 1;
+}
+
+
+/* =====================================================
+   Calendar Grid Layout
+   7 columns (days of week)
+===================================================== */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+/* =====================================================
+   Calendar Day Cell
+===================================================== */
+.calendar-day {
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+
+/* Hover state */
+.calendar-day:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    transform: translateY(-2px);
+}
+
+
+/* Checked / completed state */
+.calendar-day.checked {
+    background: #22c55e;
+}
+
+
+/* =====================================================
+   Modal Animation
+===================================================== */
+@keyframes calendar-modal-fade {
+
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}

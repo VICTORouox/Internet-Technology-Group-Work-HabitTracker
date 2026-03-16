@@ -1,0 +1,437 @@
+/* ============================= */
+/* CREATE HERO SECTION */
+/* ============================= */
+
+.create-top-bar{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background-color:#000;
+    overflow:hidden;
+}
+
+.create-top-bar::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background-image:url('/static/images/create.jpg');
+    background-size:cover;
+    background-position:center;
+    background-blend-mode:overlay;
+    background-color:rgba(0,0,0,0.5);
+
+    z-index:0;
+    transition:transform .8s ease;
+}
+
+.create-top-bar:hover::before{
+    transform:scale(1.08);
+}
+
+.create-bar-inner{
+    position:relative;
+    z-index:1;
+    max-width:700px;
+    width:100%;
+}
+
+.create-bar-text{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:25px;
+}
+
+.create-bar-text h2{
+    font-size:3rem;
+    color:#fff;
+    font-weight:700;
+    letter-spacing:.05em;
+}
+
+.create-bar-text p{
+    font-size:1.2rem;
+    color:#e5e7eb;
+    max-width:500px;
+}
+
+
+/* ============================= */
+/* GLOBAL LAYOUT */
+/* ============================= */
+
+.aura-page-wrapper{
+    width:100%;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.aura-header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:1.5rem 3rem;
+    box-sizing:border-box;
+
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+
+    transition:all .4s ease;
+}
+
+
+/* ============================= */
+/* RECOMMEND BANNER */
+/* ============================= */
+
+.recommend-banner{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:2rem;
+
+    background-color:#000;
+    overflow:hidden;
+}
+
+.recommend-banner::before{
+    content:"";
+    position:absolute;
+
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    z-index:0;
+
+    background-image:url('https://cdn.stocksnap.io/img-thumbs/960w/man-ready_LUUN7W5K8P.jpg');
+    background-size:cover;
+    background-position:45% 68%;
+    background-blend-mode:overlay;
+    background-color:rgba(0,0,0,0.4);
+
+    transition:transform .8s ease-out, filter .8s ease-out;
+}
+
+.recommend-banner:hover::before{
+    transform:scale(1.1);
+    filter:brightness(1.2);
+}
+
+.recommend-text-block,
+.recommend-btn{
+    position:relative;
+    z-index:1;
+}
+
+.recommend-text-block{
+    text-align:center;
+    max-width:600px;
+    transition:transform .6s ease-out;
+}
+
+.recommend-banner:hover .recommend-text-block{
+    transform:scale(1.05);
+}
+
+.problem-lines{
+    margin-top:30px;
+}
+
+.recommend-word{
+    font-size:1.1rem;
+    color:#e5e7eb;
+    font-weight:400;
+    line-height:2;
+    margin-bottom:.5rem;
+}
+
+.recommend-solution{
+    font-size:2rem;
+    color:#fff;
+    font-weight:700;
+    margin-top:10px;
+    letter-spacing:.05em;
+}
+
+
+/* ============================= */
+/* BUTTON */
+/* ============================= */
+
+.recommend-btn{
+    padding:16px 40px;
+    font-size:1.1rem;
+
+    background:#4ade80;
+    color:#111827;
+
+    border:none;
+    border-radius:9999px;
+
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+
+    cursor:pointer;
+    margin-top:30px;
+
+    transition:all .3s ease;
+    display:inline-block;
+}
+
+.recommend-btn:hover{
+    transform:scale(1.1);
+    background:#22c55e;
+
+    box-shadow:
+        0 10px 15px -3px rgba(0,0,0,.2),
+        0 4px 6px -2px rgba(0,0,0,.1);
+}
+
+
+/* ============================= */
+/* HABIT TYPES SECTION */
+/* ============================= */
+
+.habit-section{
+    padding:80px 0 130px 0;
+    width:100%;
+    margin:auto;
+}
+
+.habit-title{
+    font-family:'Inter',sans-serif;
+    font-size:2.5rem;
+    color:#1a1c19;
+
+    margin-bottom:40px;
+    font-weight:500;
+    padding-left:120px;
+}
+
+
+/* ============================= */
+/* SLIDER LAYOUT */
+/* ============================= */
+
+.habit-slider-wrapper{
+    position:relative;
+    width:85%;
+    margin:auto;
+    padding-bottom:40px;
+}
+
+.habit-cards-container{
+    display:flex;
+    gap:40px;
+
+    overflow-x:auto;
+    overflow-y:visible;
+    scroll-behavior:smooth;
+
+    padding:20px;
+}
+
+.habit-cards-container::-webkit-scrollbar{
+    display:none;
+}
+
+
+/* ============================= */
+/* HABIT CARD */
+/* ============================= */
+
+.habit-card{
+    flex:0 0 320px;
+    height:420px;
+
+    border-radius:24px;
+    overflow:hidden;
+
+    position:relative;
+    cursor:pointer;
+
+    transition:transform .35s ease, box-shadow .35s ease;
+}
+
+.habit-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 50px rgba(0,0,0,.2);
+}
+
+.habit-card img{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.habit-img-cycling{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:90% center;
+}
+
+.habit-img-swimming{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:95% center;
+}
+
+.habit-img-rope{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:95% center;
+}
+
+.habit-img-hiit{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:15% center;
+}
+
+
+/* ============================= */
+/* CARD OVERLAY */
+/* ============================= */
+
+.habit-overlay{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+
+    text-align:center;
+    color:white;
+    padding:30px;
+
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.7),
+        rgba(0,0,0,.3),
+        transparent
+    );
+
+    transition:background .4s ease;
+}
+
+.habit-overlay h3{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:8px;
+    transition:all .4s ease;
+}
+
+.habit-overlay p{
+    font-size:13px;
+    line-height:1.5;
+    opacity:.9;
+    transition:all .4s ease;
+}
+
+.habit-overlay h3,
+.habit-overlay p{
+    transform:translateY(30px);
+    opacity:0;
+    transition:transform .5s ease, opacity .5s ease;
+}
+
+.habit-card:hover .habit-overlay{
+    justify-content:center;
+    background:rgba(0,0,0,.55);
+}
+
+.habit-card:hover .habit-overlay h3{
+    font-size:28px;
+}
+
+.habit-card:hover .habit-overlay p{
+    font-size:15px;
+}
+
+.habit-card:hover .habit-overlay h3,
+.habit-card:hover .habit-overlay p{
+    transform:translateY(-40px);
+    opacity:1;
+}
+
+
+/* ============================= */
+/* SLIDER ARROWS */
+/* ============================= */
+
+.slider-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:50px;
+    height:50px;
+
+    background:white;
+    border:none;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    cursor:pointer;
+
+    z-index:10;
+    transition:all .3s ease;
+    color:#111;
+}
+
+.slider-arrow:hover{
+    background:#111;
+    color:white;
+    transform:translateY(-50%) scale(1.1);
+}
+
+.left-arrow{
+    left:-25px;
+}
+
+.right-arrow{
+    right:-25px;
+}
